@@ -1,0 +1,6 @@
+
+[HKCR\keyvalue\val]
+@ = "default"
+"dword-opt" = dword:567843
+"strig-opt" = "test text \nstring value\0"
+

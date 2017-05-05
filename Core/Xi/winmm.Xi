@@ -1,0 +1,1 @@
+timeGetTime,DWORD

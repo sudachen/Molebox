@@ -1,0 +1,75 @@
+
+all: _all_ALL
+.SUFFIXES: .Xi .S .c .cpp
+
+#default CPU is X86
+#default BUILD configuration is RELEASE
+
+!if "$(CPU)"==""
+CPU=X86
+!endif
+
+!if "$(BUILD)" == ""
+BUILD=RELEASE
+!endif
+
+!if "$(BUILD)" == "DEBUG"
+DBGSFX=_Dbg
+DLLSFX=dbg
+DNAME=~Debug
+!else
+DBGSFX=
+DLLSFX=rel
+DNAME=~Release
+!endif
+
+!if "$(TEMP_BUILD)"==""
+TEMP_BUILD=$(TEMP)
+!endif
+
+TMPDIR = $(TEMP_BUILD)\molebox_sdk_COREv1\$(CPU)$(DBGSFX)
+OBJDIR = $(TMPDIR)\obj\$(PROJECT)
+LIBDIR=$(BASEDIR)\..\$(DNAME)\.lib
+OUTDIR=$(BASEDIR)\..\$(DNAME)
+BINDIR=$(OUTDIR)
+
+$(TMPDIR) $(LIBDIR) $(OUTDIR) $(OBJDIR):
+    @md $@
+
+# C definitins
+
+!if "$(CPU)"=="X64"
+WINDEF=-D_WIN64
+!else
+WINDEF=-D_WIN32
+!endif
+
+CFLAGS= -nologo -FC -GS- -Gs- -EHs-c- -GR- -GF -Gy -Z7 $(WINDEF)
+CCFLAGS= -nologo -FC -GS- -Gs- -EHs-c- -GR- -GF -Gy -Z7 $(WINDEF)
+
+INCL=-I$(BASEDIR)\include -I$(BASEDIR)\classes -I$(BASEDIR)\classes\RSA512.SRC -I$(XTERNAL)\include
+LIB=$(LIB);$(XTERNAL)\~Release\.lib;$(XTERNAL)\~Debug\.lib
+
+!if "$(BUILD)" == "DEBUG"
+LIBSFX=_32r10d-mt
+CFLAGS = $(CFLAGS) -MTd -Od -DDEBUG -D_DEBUG 
+!else
+LIBSFX=_32r10-mt
+CCFLAGS = $(CCFLAGS) -MT -Ox -Oi -Oy- -FD -DRELEASE -D_RELEASE 
+!endif
+
+#assembler definitions
+
+AS=$(XTERNAL)\Env\gnu\GNU_as.exe
+
+_all_ALL: $(TMPDIR) $(LIBDIR) $(OUTDIR) _all
+
+{$(SRCDIR)}.c{$(OBJDIR)}.obj:
+	@$(CC) -c $(CFLAGS) $(INCL) -Fo$@ $<
+    
+{$(SRCDIR)}.cpp{$(OBJDIR)}.obj:
+	@$(CC) -c $(CCFLAGS) $(INCL) -Fo$@ $<
+
+{$(SRCDIR)}.S{$(OBJDIR)}.obj:
+	@echo $(*F)
+	@$(AS) $(M64) $< -o$(OBJDIR)\$(*F).obj 

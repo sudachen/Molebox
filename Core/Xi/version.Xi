@@ -1,0 +1,3 @@
+VerQueryValueW,BOOL,const void *,LPWSTR,LPVOID,PUINT
+GetFileVersionInfoW,BOOL,LPWSTR,DWORD,DWORD,LPVOID
+GetFileVersionInfoSizeW,DWORD,LPWSTR,LPDWORD

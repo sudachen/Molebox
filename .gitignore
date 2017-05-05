@@ -27,3 +27,14 @@
 *.exe
 *.out
 *.app
+
+
+*.pyc
+
+~*
+.*
+*.pyd
+*.lib
+*.exp
+*.pdb
+*.idb
