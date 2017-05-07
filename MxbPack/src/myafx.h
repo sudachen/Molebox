@@ -37,7 +37,6 @@ bool RscFixup(byte_t *rsrc,unsigned rsrc_rva );
 bool TakeOriginalResources(byte_t *mapped, IMAGE_NT_HEADERS *nth, BufferT<byte_t> &data);
 
 extern "C" int _MAJOR_VERSION;
-//extern "C" int _MINOR_VERSION;
 extern "C" int _BUILD_NUMBER;     
 extern "C" time_t _BUILD_TIME;
 

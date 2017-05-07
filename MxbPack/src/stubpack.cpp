@@ -429,7 +429,6 @@ bool StubbedFileContainer::AddOrignSections(byte_t *mapped, byte_t *orign, EhFil
 
 	info->zip.offset = file_length;
 	info->zip.count  = sizeof(ZIPPED_HEADER)+(nth->FileHeader.NumberOfSections-1)*sizeof(ZIPPED_SECTION);//area_offs;
-	//printf("%d\n",info->zip.count);
 	file_length += area_offs;
 	info->zip.crc = Crc32(0,zh,info->zip.count);
 	cipher.DoCipherCBCI(zh,info->zip.count/8);
@@ -456,23 +455,6 @@ bool StubbedFileContainer::AddCore(byte_t *mapped ,EhFilter ehf)
 	}
 	return true;
 }
-
-struct WATERMARK
-{
-	byte_t signature[4];      // 4  MBOX
-	byte_t original_hash[16]; // 16
-	unsigned original_length; // 4
-	unsigned boxed_exe_crc32; // 4
-	unsigned boxed_exe_length;// 4
-	unsigned license_ID;      // 4
-	unsigned date;            // 4
-	unsigned molebox_version; // 4
-};
-
-typedef u32_t RAS_VALUE_TYPE[512/(4*8)];
-extern RAS_VALUE_TYPE partner_keys_E[];
-extern RAS_VALUE_TYPE partner_keys_N[];
-extern unsigned COUNT_OF_PARTNERS;  
 
 bool StubbedFileContainer::Open(StringParam original,StringParam target, StringParam stub, unsigned flags, unsigned minSize, unsigned minTls, EhFilter ehf)
 { 
@@ -596,10 +578,6 @@ bool StubbedFileContainer::Open(StringParam original,StringParam target, StringP
 
 	if ( !(flags & PEWRAP_SELFCONTAINS) )
 		AddOrignSections(mapped,orignMapped,ehf);   
-
-	//Xoln|_S*"file_lengh : %08x, %d" %file_length %file_length;        
-
-	//*(unsigned*)((IMAGE_DOS_HEADER*)mapped)->e_res = info_offs-8;
 
 	info->oep = orignHdrs.OptionalHeader.AddressOfEntryPoint;
 	info->hwid = QuerySystemHWID();

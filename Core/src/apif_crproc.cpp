@@ -95,8 +95,8 @@ struct CrProcFilter : APIfilter
 			int argv = 0;
 			if ( !fCommandLineToArgvW )
 			{
-				HMODULE shell32 = LoadLibrary(_XOr("shell32.dll",12,42732932));
-				*(void**)&fCommandLineToArgvW = GetProcAddressIndirect(shell32,_XOr("CommandLineToArgvW",19,43847095),0); 
+				HMODULE shell32 = LoadLibrary(_XOr("shell32.dll",12,42075534));
+				*(void**)&fCommandLineToArgvW = GetProcAddressIndirect(shell32,_XOr("CommandLineToArgvW",19,43189663),0); 
 				if ( !fCommandLineToArgvW )
 					__asm int 3;
 			} 
@@ -114,7 +114,7 @@ struct CrProcFilter : APIfilter
 #if 0    
 	bool CreateInternallExecutable(FioProxyPtr p, CRPROCW_ARGS *a, StringW &appname, unsigned *result)
 	{
-		XLOG|_S*_XOr("<APIF/CRP> img: '%s\\%s', cmdl: '%s'",36,44502493) 
+		XLOG|_S*_XOr("<APIF/CRP> img: '%s\\%s', cmdl: '%s'",36,48956919) 
 			//%(a->lpApplicationName?a->lpApplicationName:L"-")
 			%p->PackageName()
 			%p->ComposePath()
@@ -181,15 +181,15 @@ struct CrProcFilter : APIfilter
 			wcsncpy(st_info.appname,+appnameS,256);
 			wcsncpy(st_info.cmdline,a->lpCommandLine?a->lpCommandLine:L"",256);
 
-			StringW cmdl = _S*L"%s=%s" %+_XOr("XOJUMAN-CMDLINE",16,48172533) %(a->lpCommandLine?a->lpCommandLine:L"");
+			StringW cmdl = _S*L"%s=%s" %+_XOr("XOJUMAN-CMDLINE",16,47252945) %(a->lpCommandLine?a->lpCommandLine:L"");
 			environment.Insert(0,+cmdl,cmdl.Length()+1);
-			StringW relnam = _S*L"%s=%s" %+_XOr("XOJUMAN-APPNAME",16,48238048) %+appnameS;
+			StringW relnam = _S*L"%s=%s" %+_XOr("XOJUMAN-APPNAME",16,86115630) %+appnameS;
 			environment.Insert(0,+relnam,relnam.Length()+1);
-			StringW subsys = _S*L"%s=%d" %+_XOr("XOJUMAN-SUBSYS",15,49745165) %nth.OptionalHeader.Subsystem;
+			StringW subsys = _S*L"%s=%d" %+_XOr("XOJUMAN-SUBSYS",15,87557432) %nth.OptionalHeader.Subsystem;
 			environment.Insert(0,+subsys,subsys.Length()+1);
-			StringW enval = _S*L"%s=%08x%08x" %+_XOr("XOJUMAN-STINFO",15,85593406) %GetCurrentProcessId() %&st_info;
+			StringW enval = _S*L"%s=%08x%08x" %+_XOr("XOJUMAN-STINFO",15,84542742) %GetCurrentProcessId() %&st_info;
 			environment.Insert(0,+enval,enval.Length()+1);
-			StringW enval = _S*L"%s=%s" %+_XOr("XOJUMAN",8,86969637) %VFS->containerName;
+			StringW enval = _S*L"%s=%s" %+_XOr("XOJUMAN",8,85919075) %VFS->containerName;
 			environment.Insert(0,+enval,enval.Length()+1);
 			environment.Push(0);
 			environment.Push(0);
@@ -247,7 +247,7 @@ struct CrProcFilter : APIfilter
 	{
 		if ( p )
 		{
-			XLOG|_S*_XOr("<APIF/CRP> internal: '%s\\%s', cmdl: '%s'",41,86314335) 
+			XLOG|_S*_XOr("<APIF/CRP> internal: '%s\\%s', cmdl: '%s'",41,90899831) 
 				//%(a->lpApplicationName?a->lpApplicationName:L"-")
 				%p->PackageName()
 				%p->ComposePath()
@@ -255,7 +255,7 @@ struct CrProcFilter : APIfilter
 		}
 		else
 		{
-			XLOG|_S*_XOr("<APIF/CRP> inject: '%s'",24,89197939) 
+			XLOG|_S*_XOr("<APIF/CRP> inject: '%s'",24,89654616) 
 				%(a->lpCommandLine?a->lpCommandLine:L"-");
 		}
 
@@ -374,7 +374,7 @@ struct CrProcFilter : APIfilter
 		//__asm int 3;
 		*result = 0;
 		CRPROCA_ARGS *a = (CRPROCA_ARGS*)args;
-		XDBG|_S*_XOr("apif.CreateProcA %s::%s",24,92015764) 
+		XDBG|_S*_XOr("apif.CreateProcA %s::%s",24,95552702) 
 			%(a->lpApplicationName?a->lpApplicationName:"-")
 			%(a->lpCommandLine?a->lpCommandLine:"-");
 		StringW appname;
@@ -411,7 +411,7 @@ struct CrProcFilter : APIfilter
 			a->lpStartupInfo,
 			a->lpProcessInformation
 			);
-		XDBG|_S*_XOr("apif.CreateProcA.Result = %08x",31,94047417) % *result;
+		XDBG|_S*_XOr("apif.CreateProcA.Result = %08x",31,93258899) % *result;
 		return APIF_RETURN;
 	}
 
@@ -420,7 +420,7 @@ struct CrProcFilter : APIfilter
 		//__asm int 3;
 		*result = 0;
 		WINEXEC_ARGS *a = (WINEXEC_ARGS*)args;
-		XDBG|_S*_XOr("apif.WinExec %s",16,96013531) %a->lpCmdLine;
+		XDBG|_S*_XOr("apif.WinExec %s",16,99615984) %a->lpCmdLine;
 		StringW appname;
 		FioProxyPtr p = FindEmbeddedModule(StringW(),StringW(a->lpCmdLine),appname);
 		if ( p || g_Inject_Into_Child )
@@ -445,7 +445,7 @@ l:
 		//__asm int 3;
 		*result = 0;
 		CRPROCW_ARGS *a = (CRPROCW_ARGS*)args;
-		XDBG|_S*_XOr("apif.CreateProcW %s::%s",24,96668865) 
+		XDBG|_S*_XOr("apif.CreateProcW %s::%s",24,96797901) 
 			%(a->lpApplicationName?a->lpApplicationName:L"-")
 			%(a->lpCommandLine?a->lpCommandLine:L"-");
 		StringW appname;
@@ -467,7 +467,7 @@ l:
 				a->lpProcessInformation
 				);
 		}
-		XDBG|_S*_XOr("apif.CreateProcW.Result = %08x",31,99159275) % *result;
+		XDBG|_S*_XOr("apif.CreateProcW.Result = %08x",31,98436130) % *result;
 		return APIF_RETURN;
 	}
 

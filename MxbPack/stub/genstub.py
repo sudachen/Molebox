@@ -73,7 +73,7 @@ def Q(Sname):
         exe(GCC+' -D__stcall=__attribute__((__stdcall__)) '+' '.join(defs)+" "+Sname+".c -O1 -w -Wl,-s -Wl,-S -Wl,--strip-discarded -Wl,-pie -Wl,-Tldscript.x -Wl,-Map -Wl,mapfile.t onexit.c -Wl,--defsym -Wl,_atexit=__atexit -Wl,--section-alignment -Wl,4096 --no-exceptions -o "+Sname+".BIN 2>&1")
         exe(STRIP+' '+Sname+".BIN")
     elif buildway == 'rcl':
-        exe('vs6.cmd cl -EP -D_RANDOM='+str(randombytes(4))+" -I../../include metastab.c > ../"+Sname+".c")
+        exe('vs6.cmd cl -EP -D_RAWPTR -D_RANDOM='+str(randombytes(4))+" -I../../include metastab.c > ../"+Sname+".c")
         exe('vs6.cmd cl ../'+Sname+".c -Fe../"+Sname+".BIN -ML /Zi /O1 -I. /link /debug /pdb:../image00400000.pdb /fixed:no /incremental:no advapi32.lib user32.lib /map /safeseh:no")
         unlink(Sname+".obj")
     else:

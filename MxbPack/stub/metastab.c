@@ -81,22 +81,6 @@ enum { KEY_BYTES   = 15 };
 enum { UNRAV_BYTES = 60 };
 enum { UNRAV_BYTES_1 = 68 };
 
-typedef struct tm {
-	int tm_sec;
-	int tm_min;
-	int tm_hour;
-	int tm_mday;
-	int tm_mon;
-	int tm_year;
-	int tm_wday;
-	int tm_yday;
-	int tm_isdst;
-} struct_tm;
-
-typedef unsigned long time_t;
-struct_tm*localtime(time_t *_Time);
-time_t mktime(struct_tm *_Tm);
-
 #define _XOr(x,l,S,p) __unxor(p,x)
 #define _XOr1(x,l,S,p) __unxor(p,x)
 #define _uXOr(x,l,S,p) __Wunxor(p,L##x)
@@ -339,21 +323,35 @@ char *Bf_malloc()
 	return malloc(256+_RANDOM%15);
 }
 
-#ifdef __TRIAL
+#ifdef _RAWPTR
 
 char *encode_ptr(void *ptr)
 {
-	//return encode_ptr_S(ptr,encode_ptr_gen_S());
 	return (char*)xor_dword((uint32_t)ptr,(_RANDOM*1664525 + 1013904223));
 }
 
 void *decode_ptr(char *S)
 {
-	//return decode_ptr_S(S);
 	return (void*)xor_dword((uint32_t)S,(_RANDOM*1664525 + 1013904223));
 }
 
 #else
+
+typedef struct tm {
+    int tm_sec;
+    int tm_min;
+    int tm_hour;
+    int tm_mday;
+    int tm_mon;
+    int tm_year;
+    int tm_wday;
+    int tm_yday;
+    int tm_isdst;
+} struct_tm;
+
+typedef unsigned long time_t;
+struct_tm*localtime(time_t *_Time);
+time_t mktime(struct_tm *_Tm);
 
 time_t base_number(int o)
 {
@@ -476,7 +474,7 @@ typedef union USW{
 	UNICODE_STRING W;
 } USW;
 
-enum { SW_MAXLEN = 64 };
+enum { SW_MAXLEN = 512 };
 enum { MAX_STB_BUFFER = sizeof(STB_INFO2) };
 
 void Relocate(CORE0_HEADER *eh)
@@ -679,14 +677,16 @@ CORE0_HEADER *load_embedded(USW *SW, FILE *modfile, uint8_t *keydat, STB_INFO *s
 	return eh;
 }
 
+static char SW_Buffer[SW_MAXLEN] = {0};
+
 void *CHAIN1();
 void *load_c1(void *ntdll_handle, void **xdll,void **a)
 {
 	static USW SW = {0};
-	static char SW_Buffer[SW_MAXLEN] = {0};
 
 	*xdll = find_ntdll(1);
 	*a = &SW;
+    SW.S.Buffer = SW_Buffer;
 
 	return encode_ptr(CHAIN1);
 }

@@ -2,7 +2,7 @@
 cd %~dp0
 set CURR=%CD%
 cd %XTERNAL%
-rem cmd /c build_all_vc10.cmd
+cmd /c build_all_vc10.cmd
 cd %CURR%
 set LIBRARIES=zlib libwx3 libtiff libpng libjpeg expatw libhash
 

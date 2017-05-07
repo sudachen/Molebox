@@ -42,7 +42,7 @@ namespace teggo
 
         void DoCipherBlock(void* b)
         {
-            if ( direction = ENCRYPTION )
+            if ( direction == ENCRYPTION )
                 Blowfish_Encrypt8(&self,b);
             else
                 Blowfish_Decrypt8(&self,b);

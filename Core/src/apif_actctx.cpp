@@ -154,12 +154,12 @@ struct ActCtxFilter : APIfilter
       sxsGenerateActivationContext(0),
       rtlCreateActivationContext(0)
       {
-        *(void**)&rtlCreateActivationContext = GetProcAddressIndirect(_NTDLL,_XOr("RtlCreateActivationContext",27,9831346),0);
+        *(void**)&rtlCreateActivationContext = GetProcAddressIndirect(_NTDLL,_XOr("RtlCreateActivationContext",27,10093542),0);
         if ( rtlCreateActivationContext )
           {
-            HMODULE hm = LoadLibrary(_XOr("sxs.dll",8,11535312));
+            HMODULE hm = LoadLibrary(_XOr("sxs.dll",8,16319481));
             if ( hm )
-              *(void**)&sxsGenerateActivationContext = GetProcAddressIndirect(hm,_XOr("SxsGenerateActivationContext",29,13435847),0);
+              *(void**)&sxsGenerateActivationContext = GetProcAddressIndirect(hm,_XOr("SxsGenerateActivationContext",29,13042635),0);
           }
         if ( !sxsGenerateActivationContext )
           *(void**)&sxsGenerateActivationContext = (void*)-1;
@@ -326,17 +326,17 @@ struct ActCtxFilter : APIfilter
               void *actctx = MapViewOfFile(sxsd.Mapping(osversion_),FILE_MAP_ALL_ACCESS,0,0,0);
               if ( HRESULT r = rtlCreateActivationContext(0,actctx,0,0,0,(HANDLE*)result) )
                 {
-                  XLOG | _S*_XOr("<APIF/CTX> RtlCrateActivationContext failed with error %08x",60,14812134)%r;
+                  XLOG | _S*_XOr("<APIF/CTX> RtlCrateActivationContext failed with error %08x",60,52691756)%r;
                   UnmapViewOfFile(actctx);
                 }
               else
                 {
-                  XLOG | _S*_XOr("<APIF/CTX> activation context successful created -> %08x",57,52429600)%*result;
+                  XLOG | _S*_XOr("<APIF/CTX> activation context successful created -> %08x",57,57017194)%*result;
                   return true;
                 }
             }
 
-        XLOG | _S*_XOr("<APIF/CTX> SxsGenerateActivationContext failed",47,57410404);
+        XLOG | _S*_XOr("<APIF/CTX> SxsGenerateActivationContext failed",47,60949166);
         return false;
       }
       
@@ -378,14 +378,14 @@ struct ActCtxFilter : APIfilter
         RTL_CREATEACTCTXW_ARG *args = (RTL_CREATEACTCTXW_ARG*)_a;
         if ( !args->ptr) return APIF_CONTINUE;
         
-        XDBG|_S*_XOr(".apif.CreatActCtxW ptr: %08x",29,59835059) % args->ptr; 
-        XDBG|_S*_XOr(".apif.CreatActCtxW flags: %08x, proc: %08x, resid: %08x, langid: %08x, hmod: %08x",82,62325453) 
+        XDBG|_S*_XOr(".apif.CreatActCtxW ptr: %08x",29,60162714) % args->ptr; 
+        XDBG|_S*_XOr(".apif.CreatActCtxW flags: %08x, proc: %08x, resid: %08x, langid: %08x, hmod: %08x",82,66519803) 
           % args->ptr->dwFlags
           % args->ptr->wProcessorArchitecture
           % args->ptr->lpResourceName
           % args->ptr->wLangId
           % args->ptr->hModule; 
-        //XDBG|_S*_XOr(".apif.CreatActCtxW strs: \n      '%s',\n      '%s',\n      '%s'",61,35193403)
+        //XDBG|_S*_XOr(".apif.CreatActCtxW strs: \n      '%s',\n      '%s',\n      '%s'",61,34341396)
         //  % args->ptr->lpSource
         //  % args->ptr->lpAssemblyDirectory
         //  % args->ptr->lpApplicationName;
@@ -429,7 +429,7 @@ struct ActCtxFilter : APIfilter
                   return APIF_RETURN;
               }
             else
-              XLOG | _S*_XOr("<APIF/CTX> failed to found manifest for %s/%d/%d",49,39322232) 
+              XLOG | _S*_XOr("<APIF/CTX> failed to found manifest for %s/%d/%d",49,38535764) 
                             %actctx->lpSource %(unsigned)actctx->lpResourceName %actctx->wLangId;
             *result = 0;
             return APIF_RETURN;

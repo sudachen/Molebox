@@ -34,18 +34,18 @@ StringA QueryOsInformation()
 	GetVersionEx((OSVERSIONINFO*)&osinfo);
 	StringA osname;
 	u32_t Maj = osinfo.dwMajorVersion, Min = osinfo.dwMinorVersion;
-	if ( Maj == 5 && Min == 0 ) osname = _XOr("Windows 2000",13,983051);
-	else if ( Maj == 5 && Min == 1 ) osname = _XOr("Windows XP",11,4064250);
-	else if ( Maj == 5 && Min == 2 ) osname = _XOr("Windows Server 2003",20,3081195);
+	if ( Maj == 5 && Min == 0 ) osname = _XOr("Windows 2000",13,2228270);
+	else if ( Maj == 5 && Min == 1 ) osname = _XOr("Windows XP",11,5308465);
+	else if ( Maj == 5 && Min == 2 ) osname = _XOr("Windows Server 2003",20,6225987);
 	else if ( Maj == 6 && Min == 0 )
-		if ( osinfo.wProductType == VER_NT_WORKSTATION ) osname = _XOr("Windows Vista",14,4260801);
-		else osname = _XOr("Windows Server 2008",20,7734194);
+		if ( osinfo.wProductType == VER_NT_WORKSTATION ) osname = _XOr("Windows Vista",14,7864408);
+		else osname = _XOr("Windows Server 2008",20,7012471);
 	else if ( Maj == 6 && Min == 1 )
-		if ( osinfo.wProductType == VER_NT_WORKSTATION ) osname = _XOr("Windows 7",10,7078828);
-		else osname = _XOr("Windows Server 2008 R2",23,10355610);
+		if ( osinfo.wProductType == VER_NT_WORKSTATION ) osname = _XOr("Windows 7",10,25233281);
+		else osname = _XOr("Windows Server 2008 R2",23,26019733);
 	else
-		osname = _S*_XOr("Unknwon Windows %d.%d",22,12190582)%Maj%Min;
-	osname += _S*_XOr(" build %d",10,13697873)%osinfo.dwBuildNumber;
+		osname = _S*_XOr("Unknwon Windows %d.%d",22,27854761)%Maj%Min;
+	osname += _S*_XOr(" build %d",10,29558735)%osinfo.dwBuildNumber;
 	if ( osinfo.szCSDVersion[0] )
 		osname += _S*" (%s)"%osinfo.szCSDVersion;
 	return osname;
@@ -600,7 +600,7 @@ Z:
 
 		if ( inputfile && (flags&PEWRAP_SELFCONTAINS) )
 		{
-			StringW boxname = +GetBasenameOfPath(inputfile);
+            StringW boxname = L"<>.EXE";//+GetBasenameOfPath(inputfile);
 			files[+boxname] = inputfile;
 			hidden_files[+boxname] = true;        
 			executables[inputfile] = true;
@@ -634,7 +634,7 @@ Z:
 				package->SetContent(GetBasenameOfPath(outputfile));
 
             package->SetParam(L"compressed",L"yes");
-			package->SetParam(L"encrypted",L"yes");
+            package->SetParam(L"encrypted",L"yes");
 
             if ( cargs->HasOpts("O") || virtual_registry
                 || StrSafeEqualI(+autoreg_value,L"onstart")
@@ -887,9 +887,9 @@ e:
 			Xoln|"  -z     *default* ~  slice executable and store inaccessible via VFS";
 			Xoln|"  -s               ~  opposite to -z, store original EXE as-is in default package";
 			//Xoln|"                      ! -0 -z -s are incompatible, use only one of them!";
-			//Xoln|"  -S <container>   ~  use defined container instead original executable";                 
-			Xoln|"  -1               ~  enable anti-cracking features";
-			Xoln|"  -2               ~  like -1 and use some undocumented windows API/behavior";
+            Xoln|"  -S <container>   ~  use defined container instead original executable";
+            //Xoln|"  -1               ~  enable anti-cracking features";
+            //Xoln|"  -2               ~  like -1 and use some undocumented windows API/behavior";
 			//Xoln|"                      ! -0 -1 -2 are incompatible, use only one of them!";
 			Xoln|"  -q               ~  don't touch import table (required for some theme hacks)";
 			Xoln|"  -Q               ~  don't touch RSRC section";

@@ -526,7 +526,7 @@ struct RegEntry : Refcounted
           return subkeys_[i];
         else
           {
-            XLOG|_S*_XOr("<ERR> invalid subkey index %d of key '%s' ['apif_register.cpp':%d]",67,186911580)
+            XLOG|_S*_XOr("<ERR> invalid subkey index %d of key '%s' ['apif_register.cpp':%d]",67,190974830)
               %i
               %Path()
               %__LINE__;
@@ -925,7 +925,7 @@ struct _REGISTER
                 regS.Replace(+USIDS,USIDS.Length(),+USID,USID.Length());
                 wchar_t *p = regS.Begin();
                 if ( logrgloading_ )
-                  XDBG | _S*_XOr("RGLOAD: %s",11,192678548) %+regS;
+                  XDBG | _S*_XOr("RGLOAD: %s",11,195627689) %+regS;
 
                 //if ( DataStreamPtr ds = OpenStream("registry.txt",STREAM_WRITE+STREAM_CREATE) )
                 //  ds->UtfWriteText(+regS,regS.Count());
@@ -986,7 +986,7 @@ struct RegObjectFilter : APIfilter
       {
         NT_CREATE_HKEY_ARGS *args = (NT_CREATE_HKEY_ARGS*)_a;
         StringW path(args->ObjectAttributes->ObjectName->Buffer,args->ObjectAttributes->ObjectName->Length/2);
-        XDBG|_S*_XOr(".apif.CreateHkey %08x/'%s'",27,193792647) %args->ObjectAttributes->RootDirectory %path;
+        XDBG|_S*_XOr(".apif.CreateHkey %08x/'%s'",27,196348604) %args->ObjectAttributes->RootDirectory %path;
         __lockon__(REGISTER)
           {
             RegEntryPtr par;
@@ -998,7 +998,7 @@ struct RegObjectFilter : APIfilter
               {
                 *args->KeyHandle = handles_.Put(Refe(+p));
                 *result = 0;
-                XLOG|_S*_XOr("<APIF/RGS> create hkey '%s' -> %08x, created: %?",49,195824292)
+                XLOG|_S*_XOr("<APIF/RGS> create hkey '%s' -> %08x, created: %?",49,194185887)
                         %p->Path() %*args->KeyHandle %created;
                 if ( args->Disposition )
                   *args->Disposition = created?REG_CREATED_NEW_KEY:REG_OPENED_EXISTING_KEY;
@@ -1035,7 +1035,7 @@ struct RegObjectFilter : APIfilter
       {
         NT_CREATE_HKEY_ARGS *args = (NT_CREATE_HKEY_ARGS*)_a;
         StringW path(args->ObjectAttributes->ObjectName->Buffer,args->ObjectAttributes->ObjectName->Length/2);
-        XDBG|_S*_XOr(".apif.CreateHkey (unvirtualized) %08x/'%s'",43,198642413) %args->ObjectAttributes->RootDirectory %path;
+        XDBG|_S*_XOr(".apif.CreateHkey (unvirtualized) %08x/'%s'",43,197724873) %args->ObjectAttributes->RootDirectory %path;
         __lockon__(REGISTER)
           {
             RegEntryPtr par;
@@ -1063,7 +1063,7 @@ struct RegObjectFilter : APIfilter
       {
         NT_OPEN_HKEY_ARGS *args = (NT_OPEN_HKEY_ARGS*)_a;
         StringW path(args->ObjectAttributes->ObjectName->Buffer,args->ObjectAttributes->ObjectName->Length/2);
-        XDBG|_S*_XOr(".apif.OpenHkey %08x/'%s'",25,168036924) %args->ObjectAttributes->RootDirectory %path;
+        XDBG|_S*_XOr(".apif.OpenHkey %08x/'%s'",25,171379259) %args->ObjectAttributes->RootDirectory %path;
         bool deleted = false;
         __lockon__(REGISTER)
           {
@@ -1075,14 +1075,14 @@ struct RegObjectFilter : APIfilter
               {
                 *args->KeyHandle = handles_.Put(Refe(+p));
                 *result = 0;
-                XLOG|_S*_XOr("<APIF/RGS> open hkey '%s' -> %08x:%s",37,170330717)
+                XLOG|_S*_XOr("<APIF/RGS> open hkey '%s' -> %08x:%s",37,168823312)
                         %p->Path() %*args->KeyHandle %(p->IsProxy()?":proxy":"");
                 return APIF_RETURN;
               }
             else if (deleted)
               {
                 *result = STATUS_OBJECT_NAME_NOT_FOUND;
-                XLOG|_S*_XOr("<APIF/RGS> couldn't open hkey, the hkey is deleted '%s%s%s'",60,173935226)
+                XLOG|_S*_XOr("<APIF/RGS> couldn't open hkey, the hkey is deleted '%s%s%s'",60,175704697)
                        %(par?par->Path():L"")%(par?L"\\":L"")%path;
                 return APIF_RETURN;
               }
@@ -1093,7 +1093,7 @@ struct RegObjectFilter : APIfilter
               }
             else
               {
-                XLOG|_S*_XOr("<APIF/RGS> open native hkey '%08x:%s'",38,178009524)
+                XLOG|_S*_XOr("<APIF/RGS> open native hkey '%08x:%s'",38,180030855)
                         %args->ObjectAttributes->RootDirectory %path;
                 if ( handles_._Get(args->ObjectAttributes->RootDirectory) )
                   if ( HANDLE rootdir = _LookForRegKeyHandle(+par,0) )
@@ -1117,7 +1117,7 @@ struct RegObjectFilter : APIfilter
       {
         NT_OPEN_HKEY_ARGS *args = (NT_OPEN_HKEY_ARGS*)_a;
         StringW path(args->ObjectAttributes->ObjectName->Buffer,args->ObjectAttributes->ObjectName->Length/2);
-        XDBG|_S*_XOr(".apif.OpenHkey (unvirtualized) %08x/'%s'",41,181089737) %args->ObjectAttributes->RootDirectory %path;
+        XDBG|_S*_XOr(".apif.OpenHkey (unvirtualized) %08x/'%s'",41,182586862) %args->ObjectAttributes->RootDirectory %path;
         bool deleted = false;
         __lockon__(REGISTER)
           {
@@ -1125,7 +1125,7 @@ struct RegObjectFilter : APIfilter
             if ( args->ObjectAttributes->RootDirectory )
               if ( !(par=QueryPar(args->ObjectAttributes->RootDirectory)) )
                 return APIF_CONTINUE;
-            XLOG|_S*_XOr("<APIF/RGS> open native hkey '%08x:%s'",38,182793503)
+            XLOG|_S*_XOr("<APIF/RGS> open native hkey '%08x:%s'",38,181341651)
                     %args->ObjectAttributes->RootDirectory %path;
             if ( handles_._Get(args->ObjectAttributes->RootDirectory) )
               if ( HANDLE rootdir = _LookForRegKeyHandle(+par,0) )
@@ -1172,14 +1172,14 @@ struct RegObjectFilter : APIfilter
     APIF_STATUS DoDuplicateKey(void *_a, unsigned *result)
       {
         NT_DUPLICATE_ARGS *args = (NT_DUPLICATE_ARGS *)_a;
-        XDBG|_S*_XOr(".apif.DuplicateHkey %08x",25,219362609) %args->SourceHandle;
+        XDBG|_S*_XOr(".apif.DuplicateHkey %08x",25,221711675) %args->SourceHandle;
         if ( HOA::R o = handles_.Get(args->SourceHandle) )
           {
             __lockon__(REGISTER)
               if ( o->IsValid() )
                 {
                   *args->TargetHandle = handles_.Put(Refe(+o));
-                    XLOG|_S*_XOr("<APIF/RGS> duplicate hkey (%08x) '%s' -> %08x",46,221394262)
+                    XLOG|_S*_XOr("<APIF/RGS> duplicate hkey (%08x) '%s' -> %08x",46,219286814)
                             %args->SourceHandle
                             %o->Path()
                             %*args->TargetHandle;
@@ -1195,14 +1195,14 @@ struct RegObjectFilter : APIfilter
     APIF_STATUS DoCloseHkey(void *_a, unsigned *result)
       {
         NT_CLOSE_ARGS *args = (NT_CLOSE_ARGS*)_a;
-        XDBG|_S*_XOr(".apif.CloseHkey %08x",21,224802146) % args->FileHandle;
+        XDBG|_S*_XOr(".apif.CloseHkey %08x",21,222629197) % args->FileHandle;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
           {
             __lockon__(REGISTER)
               {
                 if ( o->IsValid() )
                   {
-                    XLOG|_S*_XOr("<APIF/RGS> close hkey (%08x) '%s'",34,227488901)
+                    XLOG|_S*_XOr("<APIF/RGS> close hkey (%08x) '%s'",34,224267426)
                           %args->FileHandle
                           %o->Path();
                     _ClearRegKeyHandle(+o);
@@ -1221,7 +1221,7 @@ struct RegObjectFilter : APIfilter
     APIF_STATUS DoDeleteHkey(void *_a, unsigned *result)
       {
         NT_DELKEY_ARGS *args = (NT_DELKEY_ARGS*)_a;
-        XDBG|_S*_XOr(".apif.DeleteHkey %08x",22,228603040) % args->KeyHandle;
+        XDBG|_S*_XOr(".apif.DeleteHkey %08x",22,226757772) % args->KeyHandle;
         if ( HOA::R o = handles_.Get(args->KeyHandle) )
           {
             //if (o)
@@ -1229,7 +1229,7 @@ struct RegObjectFilter : APIfilter
               {
                 if ( o->IsValid() )
                   {
-                    XLOG|_S*_XOr("<APIF/RGS> delete hkey (%08x) '%s'",35,231617738)
+                    XLOG|_S*_XOr("<APIF/RGS> delete hkey (%08x) '%s'",35,228527331)
                               %args->KeyHandle
                               %o->Path();
                     o->Delete();
@@ -1262,7 +1262,7 @@ struct RegObjectFilter : APIfilter
                 break;
               else if ( st )
                 {
-                  XLOG|_S*_XOr("<ERR> failed(%08x) to query key value %d of '%s'",49,233255965)
+                  XLOG|_S*_XOr("<ERR> failed(%08x) to query key value %d of '%s'",49,231017677)
                       %st %idx %o->Path();
                   //__asm int 3;
                   continue;
@@ -1275,21 +1275,21 @@ struct RegObjectFilter : APIfilter
       {
         NT_DELKEYVAL_ARGS *args = (NT_DELKEYVAL_ARGS*)_a;
         StringW valname(args->ValueName->Buffer,args->ValueName->Length/2);
-        XDBG|_S*_XOr(".apif.DeleteHkeyVal %08x %s",28,204092462) % args->KeyHandle % valname;
+        XDBG|_S*_XOr(".apif.DeleteHkeyVal %08x %s",28,205130758) % args->KeyHandle % valname;
         if ( HOA::R o = handles_.Get(args->KeyHandle) )
           {
             __lockon__(REGISTER)
               {
                 if ( o->IsValid() )
                   {
-                    XLOG|_S*_XOr("<APIF/RGS> delete hkey value (%08x) '%s'/'%s'",46,206058568)
+                    XLOG|_S*_XOr("<APIF/RGS> delete hkey value (%08x) '%s'/'%s'",46,203099239)
                             %args->KeyHandle
                             %o->Path()
                             %valname;
                     if ( o->IsProxy() && REGISTER->IsFiltered() )
                       if ( HANDLE hk = _LookForRegKeyHandle(+o,args->KeyHandle,1) )
                         {
-                          XLOG|_S*_XOr("<APIF/RGS> delvalue '%s' redirecting to native registry",56,209467284) %valname;
+                          XLOG|_S*_XOr("<APIF/RGS> delvalue '%s' redirecting to native registry",56,206244951) %valname;
                           args->KeyHandle = hk;
                           return APIF_CONTINUE;
                         }
@@ -1316,7 +1316,7 @@ struct RegObjectFilter : APIfilter
         NT_SETVAL_HKEY_ARGS *args = (NT_SETVAL_HKEY_ARGS*)_a;
         //__asm int 3;
         StringW valname(args->ValueName->Buffer,args->ValueName->Length/2);
-        XDBG|_S*_XOr(".apif.SetValHkey %08x, val '%s', type %02x, size %d",52,213465051)
+        XDBG|_S*_XOr(".apif.SetValHkey %08x, val '%s', type %02x, size %d",52,210177931)
                   % args->KeyHandle
                   % valname
                   % args->Type
@@ -1330,13 +1330,13 @@ struct RegObjectFilter : APIfilter
                     if ( o->IsProxy() && REGISTER->IsFiltered() )
                       if ( HANDLE hk = _LookForRegKeyHandle(+o,args->KeyHandle,1) )
                         {
-                          XLOG|_S*_XOr("<APIF/RGS> setvalue '%s' redirecting to native registry",56,216086499) %valname;
+                          XLOG|_S*_XOr("<APIF/RGS> setvalue '%s' redirecting to native registry",56,217911237) %valname;
                           args->KeyHandle = hk;
                           return APIF_CONTINUE;
                         }
-                    XDBG|_S*_XOr("<APIF/RGS> proxy: %d, filtered: %d",35,254621479) %o->IsProxy() %REGISTER->IsFiltered();
+                    XDBG|_S*_XOr("<APIF/RGS> proxy: %d, filtered: %d",35,255332152) %o->IsProxy() %REGISTER->IsFiltered();
                     valname.ToUpper();
-                    XLOG|_S*_XOr("<APIF/RGS> set value '%s'=%s:'%s' of hkey(%08x) '%s'",53,256194431)
+                    XLOG|_S*_XOr("<APIF/RGS> set value '%s'=%s:'%s' of hkey(%08x) '%s'",53,258019169)
                             %valname
                             %(args->Type==REG_DWORD?"dword"
                              :args->Type==REG_SZ?"string"
@@ -1370,7 +1370,7 @@ struct RegObjectFilter : APIfilter
       {
         NT_QUERYKEY_HKEY_ARGS *args = (NT_QUERYKEY_HKEY_ARGS*)_a;
         //__asm int 3;
-        XDBG|_S*_XOr(".apif.QueryHkey %08x",21,260191878) % args->KeyHandle;
+        XDBG|_S*_XOr(".apif.QueryHkey %08x",21,257560230) % args->KeyHandle;
         if ( HOA::R o = handles_.Get(args->KeyHandle) )
           {
             //if (!o)
@@ -1382,7 +1382,7 @@ struct RegObjectFilter : APIfilter
                   { *result = STATUS_INVALID_HANDLE; }
                 else
                   {
-                    XLOG|_S*_XOr("<APIF/RGS> query hkey(%08x) '%s'",33,262878889)
+                    XLOG|_S*_XOr("<APIF/RGS> query hkey(%08x) '%s'",33,263327422)
                               %args->KeyHandle
                               %o->Path();
                     if ( o->IsProxy() )
@@ -1525,7 +1525,7 @@ struct RegObjectFilter : APIfilter
       {
         NT_QUERYVAL_HKEY_ARGS *args = (NT_QUERYVAL_HKEY_ARGS*)_a;
         //__asm int 3;
-        XDBG|_S*_XOr(".apif.QueryValHkey %08x",24,265238213) % args->KeyHandle;
+        XDBG|_S*_XOr(".apif.QueryValHkey %08x",24,261492378) % args->KeyHandle;
         if ( HOA::R o = handles_.Get(args->KeyHandle) )
           {
             __lockon__(REGISTER)
@@ -1534,7 +1534,7 @@ struct RegObjectFilter : APIfilter
                   { *result = STATUS_INVALID_HANDLE; }
                 else
                   {
-                    XLOG|_S*_XOr("<APIF/RGS> query value '%s' of hkey(%08x) '%s'",47,266876648)
+                    XLOG|_S*_XOr("<APIF/RGS> query value '%s' of hkey(%08x) '%s'",47,267390704)
                             %StringW(args->ValueName->Buffer,args->ValueName->Length/2)
                             %args->KeyHandle
                             %o->Path();
@@ -1576,7 +1576,7 @@ struct RegObjectFilter : APIfilter
       {
         NT_ENUMKEY_HKEY_ARGS *args = (NT_ENUMKEY_HKEY_ARGS*)_a;
         //__asm int 3;
-        XDBG|_S*_XOr(".apif.EnumHkey %08x",20,236795447) % args->KeyHandle;
+        XDBG|_S*_XOr(".apif.EnumHkey %08x",20,237112878) % args->KeyHandle;
         if ( HOA::R o = handles_.Get(args->KeyHandle) )
           {
             //__asm int 3;
@@ -1588,7 +1588,7 @@ struct RegObjectFilter : APIfilter
                   { *result = STATUS_INVALID_HANDLE; }
                 else
                   {
-                    XLOG|_S*_XOr("<APIF/RGS> enum hkey(%08x) '%s'",32,238761561)
+                    XLOG|_S*_XOr("<APIF/RGS> enum hkey(%08x) '%s'",32,238816772)
                             %args->KeyHandle
                             %o->Path();
 
@@ -1765,7 +1765,7 @@ struct RegObjectFilter : APIfilter
       {
         NT_ENUMVAL_HKEY_ARGS *args = (NT_ENUMVAL_HKEY_ARGS*)_a;
         //__asm int 3;
-        XDBG|_S*_XOr(".apif.EnumValHkey %08x",23,240727675) % args->KeyHandle;
+        XDBG|_S*_XOr(".apif.EnumValHkey %08x",23,241372783) % args->KeyHandle;
         if ( HOA::R o = handles_.Get(args->KeyHandle) )
           {
             //if (o)
@@ -1776,7 +1776,7 @@ struct RegObjectFilter : APIfilter
                   { *result = STATUS_INVALID_HANDLE; }
                 else
                   {
-                    XLOG|_S*_XOr("<APIF/RGS> enum values of hkey(%08x) '%s'",42,241643933)
+                    XLOG|_S*_XOr("<APIF/RGS> enum values of hkey(%08x) '%s'",42,243076677)
                               %args->KeyHandle
                               %o->Path();
                     if ( !o->IsProxy() )
@@ -1919,14 +1919,14 @@ struct RegObjectFilter : APIfilter
         if ( long st = NtOpenKey(&minrkh->eh,MAXIMUM_ALLOWED,&oa) )
         //if ( long st = NtOpenKey(&minrkh->eh,KEY_READ|(rw?KEY_WRITE:0),&oa) )
           { if ( st != STATUS_OBJECT_NAME_NOT_FOUND ) {
-            XLOG|_S*_XOr("<ERR> failed to open key '%s' with status %08x ['apif_register.cpp':%d]",72,244789677) %rpath %st %__LINE__;
+            XLOG|_S*_XOr("<ERR> failed to open key '%s' with status %08x ['apif_register.cpp':%d]",72,245920168) %rpath %st %__LINE__;
             //__asm int 3;
             }
             minrkh->eh = 0;
           }
         else
           {
-            XDBG|_S*_XOr("<APIF/RGS> open shadow key %08x '%s'",37,249770465) %minrkh->eh %rpath;
+            XDBG|_S*_XOr("<APIF/RGS> open shadow key %08x '%s'",37,250769918) %minrkh->eh %rpath;
             minrkh->stamp = ++stamp;
             minrkh->e = e;
           }
@@ -1948,7 +1948,7 @@ struct RegObjectFilter : APIfilter
     virtual APIF_STATUS DoQuerySecurity(void *_a,unsigned *result)
       {
         NT_QUESEQ_ARGS *args = (NT_QUESEQ_ARGS *)_a;
-        XDBG|_S*_XOr(".apif.QueryKeySecurity %08x",28,286929214) % args->ObjectHandle;
+        XDBG|_S*_XOr(".apif.QueryKeySecurity %08x",28,249327908) % args->ObjectHandle;
         if ( HOA::R o = handles_.Get(args->ObjectHandle) )
           __lockon__(REGISTER)
           {
@@ -1956,7 +1956,7 @@ struct RegObjectFilter : APIfilter
               { *result = STATUS_INVALID_HANDLE; }
             else
               {
-                XLOG|_S*_XOr("<APIF/RGS> query security info of hkey(%08x) '%s'",50,287650143)
+                XLOG|_S*_XOr("<APIF/RGS> query security info of hkey(%08x) '%s'",50,289370371)
                           %args->ObjectHandle
                           %o->Path();
                 if ( o->IsProxy() )
@@ -2025,18 +2025,18 @@ struct RegObjectFilter : APIfilter
             HOA::R r;
             HANDLE h;
             int i = 0;
-            XLOG|_S*_XOr("<APIF/RGS> filtered: %d, virtual %d ",37,292434282)
+            XLOG|_S*_XOr("<APIF/RGS> filtered: %d, virtual %d ",37,292843900)
                     %REGISTER->IsFiltered() %REGISTER->IsVirtual();
-            XLOG|_XOr("<APIF/RGS> --- begin of registry state --- ",44,294006914);
+            XLOG|_XOr("<APIF/RGS> --- begin of registry state --- ",44,291270820);
             while ( handles_.NextRecord(&i,&h,&r) )
-              XLOG|_S*_XOr("... [%08x] %5s %s",18,297152722)
+              XLOG|_S*_XOr("... [%08x] %5s %s",18,294613139)
                       %h
-                      %(r->IsProxy()?_XOr("proxy",6,299774202):_XOr("node",5,299249906))
+                      %(r->IsProxy()?_XOr("proxy",6,300380395):_XOr("node",5,300970224))
                       %r->Path();
-            XLOG|_XOr("<APIF/RGS> --- persistent nodes --- ",37,300757223);
+            XLOG|_XOr("<APIF/RGS> --- persistent nodes --- ",37,301822149);
             for ( int i = 0; i < REGISTER->Stored().Count() ; ++i )
-              XLOG|_S*_XOr("... %s",7,268775487) %REGISTER->Stored()[i]->Path();
-            XLOG|_XOr("<APIF/RGS> --- end of registry state --- ",42,269692977);
+              XLOG|_S*_XOr("... %s",7,270692398) %REGISTER->Stored()[i]->Path();
+            XLOG|_XOr("<APIF/RGS> --- end of registry state --- ",42,271347764);
           }
       }
 

@@ -60,6 +60,9 @@ $(OBJDIR)\xorC.S:
 	@echo $(*F)
 	@$(AS) $(_M64) -o$@ $<
 
+{$(BASEDIR)\..}.c{$(OBJDIR)}.obj:
+	@cl $(CFLAGS) $(INCL) -c -Fo$@ $<
+
 $(LIBDIR)\Core$(DBGSFX).lib: $(OBJECTS)
 	@echo -- collect -- $@
 	@link /lib -nologo -machine:$(CPU) -out:$@ $**

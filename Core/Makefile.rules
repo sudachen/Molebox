@@ -27,7 +27,7 @@ DNAME=~Release
 TEMP_BUILD=$(TEMP)
 !endif
 
-TMPDIR = $(TEMP_BUILD)\molebox_sdk_COREv1\$(CPU)$(DBGSFX)
+TMPDIR = $(TEMP_BUILD)\molebox\$(CPU)$(DBGSFX)
 OBJDIR = $(TMPDIR)\obj\$(PROJECT)
 LIBDIR=$(BASEDIR)\..\$(DNAME)\.lib
 OUTDIR=$(BASEDIR)\..\$(DNAME)
@@ -44,8 +44,8 @@ WINDEF=-D_WIN64
 WINDEF=-D_WIN32
 !endif
 
-CFLAGS= -nologo -FC -GS- -Gs- -EHs-c- -GR- -GF -Gy -Z7 $(WINDEF)
-CCFLAGS= -nologo -FC -GS- -Gs- -EHs-c- -GR- -GF -Gy -Z7 $(WINDEF)
+CFLAGS= -nologo -FC -GS- -Gs- -EHs-c- -GR- -GF -Gy -Z7 $(WINDEF) -DPOSIXBUILDTIME=%POSIXBUILDTIME%
+CCFLAGS= -nologo -FC -GS- -Gs- -EHs-c- -GR- -GF -Gy -Z7 $(WINDEF) -DPOSIXBUILDTIME=%POSIXBUILDTIME%
 
 INCL=-I$(BASEDIR)\include -I$(BASEDIR)\classes -I$(BASEDIR)\classes\RSA512.SRC -I$(XTERNAL)\include
 LIB=$(LIB);$(XTERNAL)\~Release\.lib;$(XTERNAL)\~Debug\.lib

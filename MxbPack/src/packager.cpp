@@ -13,7 +13,7 @@
 #include "../../Core/include/spackstru.h"
 #include "XorS.h"
 
-typedef BLOWFISH_Cipher Cipher;
+typedef NEWDES_Cipher Cipher;
 
 inline unsigned MASK_FILE_OPTS(unsigned a) { return a; }
 
@@ -125,6 +125,9 @@ bool _Packager::_WriteContent(StringParam fname,FileInfoPtr &f, EhFilter ehf)
 
     if ( f->flags & F_COMPRESSED ) z.Resize(SVFS_FILE_BLOCK_SIZE);
 
+    uint64_t file_offs = ds_->Tell();
+    Xoln| _S*"file %? at %x" %fname %(uint32_t)file_offs;
+
     while (!ids->Eof())
       {
         unsigned wasread = ids->Read(m,SVFS_FILE_BLOCK_SIZE);
@@ -154,7 +157,7 @@ bool _Packager::_WriteContent(StringParam fname,FileInfoPtr &f, EhFilter ehf)
               {
                 flags|= F_ENCRYPTED;
                 count = (count+7) & ~7;
-                cipher.DoCipherCBCI(m,count/8,off);
+                cipher.DoCipherCBCI(m,count/8);
               }
 
             f->blocks.Append(FileBlock(off,count,wasread,flags,crc));
@@ -305,6 +308,7 @@ bool _WriteNames( FileInfo *finfo, SPACK_FILE_INFO *sfilinfo, DataStream *xds, E
     MD5_Hash md5;
     md5.Update(+fullname,fullname.Length()*2);
     md5.Finalize(sfilinfo->key.sign);
+    printf("%S ",+fullname); for (int i =0; i< 16; ++i) printf("%02x ",sfilinfo->key.sign[i]); printf("\n");
     memcpy(finfo->sign,sfilinfo->key.sign,16);
     if ( !(finfo->flags&Packager::F_HIDDEN) || (finfo->flags&FT_DIRECTORY) )
       {
@@ -324,8 +328,7 @@ bool _WriteFile( FileInfo *finfo, DataStream *xds, EhFilter ehf )
     _WriteNames(finfo,&sfilinfo,xds,ehf);
     finfo->spack_offs = xds->Tell();
     xds->Write(&sfilinfo,sizeof(sfilinfo));
-    for ( int i = 0; i < finfo->Blocks().Count(); ++ i )
-      //SPACK_BLOCK is equal to FileBlock
+    for ( int i = 0; i < finfo->Blocks().Count(); ++i )
       xds->Write(&finfo->Blocks()[i],sizeof(SPACK_FILE_BLOCK));
     return true;
   }
@@ -431,9 +434,10 @@ bool _Packager::Finish(u32_t /*out*/ *offset,EhFilter ehf)
     shdr.tree_size  = b.Count();
     shdr.root_roffs = root_->spack_offs;
     shdr.base_boffs = ds_->Tell()-package_base_;
-    memcpy(shdr.signature,_XOr("STELPACK",9,14484317),8);
-    cipher.DoCipher(shdr.signature,1);
-    cipher.DoCipher(shdr.signature,1);
+
+    Xoln|_S*"package base %08x" % package_base_;
+
+    memcpy(shdr.signature,_XOr("STELPACK",9,32573393),8);
     cipher.DoCipherCBCI(&shdr,sizeof(shdr)/8);
 
     *offset = ds_->Tell();

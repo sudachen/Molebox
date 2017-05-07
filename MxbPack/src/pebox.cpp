@@ -550,8 +550,8 @@ unsigned PeBoxPackContent(StringParam mainstorage, unsigned writecatalog, Xdocum
         u32_t crc = Crc32(0,+b,b.Count());
 
         byte_t catalog_key[16];
-        Md5S(_XOr("g46dgsfet567etwh501bhsd-=352",29,13566795),catalog_key);
-        //Md5S("g46dgsfet567etwh501bhsd-=352",catalog_key);
+        Md5S(_XOr("7233DA04FCF24B388408701CB1F874F3",33,33490915),catalog_key);
+
         NEWDES_Cipher cipher;
         cipher.SetupEncipher(catalog_key);
         cipher.DoCipherCBCI(+b,b.Count()/8);
@@ -568,7 +568,7 @@ unsigned PeBoxPackContent(StringParam mainstorage, unsigned writecatalog, Xdocum
         ds->Write(+b,b.Count());
            
         // and now, write catalog offs to DOS header =)
-        //Xoln|_S*"catalog offset: %d(%08x)" %catalog %catalog;
+        Xoln|_S*"catalog offset: %d(%08x)" %catalog %catalog;
         
         return catalog;
       }

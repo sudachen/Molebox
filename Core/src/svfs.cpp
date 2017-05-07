@@ -151,7 +151,7 @@ namespace svfs
 	bool Catalog::Open(StringParam fname, unsigned base, EhFilter ehf)
 	{
 		byte_t catalog_key[16];
-		Md5S(_XOr("g46dgsfet567etwh501bhsd-=352",29,462371461), catalog_key);
+        Md5S(_XOr("7233DA04FCF24B388408701CB1F874F3",33,458193747),catalog_key);
         Cipher cipher;
 		cipher.SetupDecipher(catalog_key);
 		HandleDataStream* hds;
@@ -175,7 +175,7 @@ namespace svfs
 		else
 			ds_->Seek(base - count);
 
-		XDBG | _S*"Catalog offset %08x" % cOfss;
+        XDBG | _S*"Catalog offset %08x" % cOfss;
 
 		BufferT<byte_t> b(count);
 		ds_->Read(+b, count);
@@ -261,10 +261,7 @@ namespace svfs
 
         name_ = name;
 
-        memcpy(b8,_XOr("STELPACK",9,464403114),8);
-        cipher_.SetupEncipher(pwdsign);
-        cipher_.DoCipher(b8,1);
-        cipher_.DoCipher(b8,1);
+        memcpy(b8,_XOr("STELPACK",9,464747199),8);
         cipher_.SetupDecipher(pwdsign);
         memcpy(pwd_,pwdsign,16);
 
@@ -275,7 +272,7 @@ namespace svfs
 		ds->Read(sign, 8);
 		cipher_.DoCipher(sign, 1);
 
-        if ( 0 == memcmp(sign, _XOr("QUICKBOX",9,465058520), 8) )
+        if ( 0 == memcmp(sign, _XOr("QUICKBOX",9,465336964), 8) )
 		{
 			ds->Read(&fixup, 4);
 			if (fixup >= 4) fixup -= 4;
@@ -288,12 +285,7 @@ namespace svfs
 
 		ds->Seek(offset);
 		ds->Read(&hdr, sizeof(hdr));
-		cipher_.DoCipher(hdr.signature, 1);
-
-		ds->Seek(offset);
-		ds->Read(&hdr, sizeof(hdr));
         cipher_.DoCipherCBCO(&hdr, sizeof(hdr) / 8);
-
 
         if ( memcmp(hdr.signature,b8,8)  )
           if ( passno < 1 )
@@ -334,6 +326,7 @@ namespace svfs
 
 		ds_ = RccRefe(ds);
 		base_ = offset - hdr.base_boffs;
+        XDBG|_S*"package base %08x" % base_;
 		offset_ = offset;
 
 		if ( stream_ptr_ != 0 && stream_size_ == 0 )
@@ -355,7 +348,7 @@ namespace svfs
 				SHA1_Finish(&ctx,sha1a);
 				if ( memcmp(sha1a,sha1,20) != 0 )
 				{
-					xlog | _S* _XOr("streams catatalog corrupted",28,464861903);
+					xlog | _S* _XOr("streams catatalog corrupted",28,461929096);
 					strms_.Clear();
 				}
 			}
@@ -463,13 +456,17 @@ namespace svfs
 			ds->Read(b, p->block[block_no].packed_size);
 
 			if (p->block[block_no].flags & SVFS_ENCRYPTED)
-                pkg->cipher_.DoCipherCBCO(b, p->block[block_no].packed_size / 8, off);
+                pkg->cipher_.DoCipherCBCO(b, p->block[block_no].packed_size / 8);
 
 			if (p->block[block_no].flags & SVFS_COMPRESSED)
 				zlib_decompress(b, p->block[block_no].packed_size, cached_block, p->block[block_no].real_size);
 
-			if (p->block[block_no].crc != Crc16(0, cached_block, p->block[block_no].real_size))
+            uint16_t crc16 = Crc16(0, cached_block, p->block[block_no].real_size);
+            if (p->block[block_no].crc != crc16 )
+            {
+                XDBG| _S*"invalid block CRC %04x != %04x" % p->block[block_no].crc % crc16 ;
 				goto e;
+            }
 		}
 		memcpy(buf, cached_block + offs, count);
 		return true;

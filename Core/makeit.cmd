@@ -12,6 +12,8 @@ cd %~dp0
 set ENV=env32_100.cmd
 set BUILDBOT_VERSION_INCREMENT=YES
 
+for /F %%i in ('%XTERNAL%\posixtime.exe') do set POSIXBUILDTIME=%%i
+
 :repeat
 if "%1" == "debug" set BUILD=DEBUG
 if "%1" == "release" set BUILD=RELEASE
