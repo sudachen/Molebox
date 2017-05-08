@@ -13,24 +13,25 @@
 #include "flatset.h"
 #include "refcounted.h"
 
-namespace teggo {
+namespace teggo
+{
 
-  struct SymbolTable : Refcounted
+    struct SymbolTable : Refcounted
     {
-      _TEGGO_EXPORTABLE pwide_t FindSymbol(pwide_t);
-      _TEGGO_EXPORTABLE pwide_t GetSymbol(pwide_t);
-      _TEGGO_EXPORTABLE SymbolTable();
-      _TEGGO_EXPORTABLE ~SymbolTable();
+        _TEGGO_EXPORTABLE pwide_t FindSymbol(pwide_t);
+        _TEGGO_EXPORTABLE pwide_t GetSymbol(pwide_t);
+        _TEGGO_EXPORTABLE SymbolTable();
+        _TEGGO_EXPORTABLE ~SymbolTable();
     private:
-      struct PWIDE { unsigned len; pwide_t text; };
-      struct PWideLess
+        struct PWIDE { unsigned len; pwide_t text; };
+        struct PWideLess
         {
-          bool operator() (const PWIDE& a,const PWIDE& b) const
+            bool operator() (const PWIDE& a,const PWIDE& b) const
             {
-              return a.len < b.len || (a.len == b.len && wcsicmp(a.text,b.text) < 0);
+                return a.len < b.len || (a.len == b.len && wcsicmp(a.text,b.text) < 0);
             }
         };
-      FlatsetT<PWIDE,PWideLess> table_;
+        FlatsetT<PWIDE,PWideLess> table_;
     };
 }
 

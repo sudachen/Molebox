@@ -30,44 +30,44 @@
 #include "xnt.h"
 #include "sources/detect_compiler.h"
 #include "stbinfo.h"
-                
+
 extern HANDLE g_heap;
 extern STB_INFO2_FLAGS g_stbi2f;
 
-extern "C" void Lfree(void *pp)
-  { 
+extern "C" void Lfree(void* pp)
+{
     if ( !pp ) return;
     if ( g_stbi2f.insinity )
-      {
-        byte_t *p = (byte_t*)pp - 12; 
+    {
+        byte_t* p = (byte_t*)pp - 12;
         if ( *(unsigned*)p != 'AAAA' || *(unsigned*)(p+8) != 'BBBB' || *(unsigned*)(*(unsigned*)(p+4) + (p + 12)) != 'CCCC' )
-          __asm int 3;
+            __asm int 3;
         if ( !HeapValidate(g_heap,0,p) )
-          __asm int 3;
+            __asm int 3;
         HeapFree(g_heap,0,p);
-      }
+    }
     else
-      HeapFree(g_heap,0,pp);
-  }
-  
-extern "C" void *Lalloc(unsigned sz)
-  { 
+        HeapFree(g_heap,0,pp);
+}
+
+extern "C" void* Lalloc(unsigned sz)
+{
     if ( g_stbi2f.insinity )
-      {
-        if ( !HeapValidate(g_heap,0,0) ) 
-          __asm int 3;
-        //if ( !HeapValidate(GetProcessHeap(),0,0) ) 
+    {
+        if ( !HeapValidate(g_heap,0,0) )
+            __asm int 3;
+        //if ( !HeapValidate(GetProcessHeap(),0,0) )
         //  __asm int 3;
-        byte_t *p = (byte_t*)HeapAlloc(g_heap,HEAP_GENERATE_EXCEPTIONS|HEAP_ZERO_MEMORY,sz+16);
+        byte_t* p = (byte_t*)HeapAlloc(g_heap,HEAP_GENERATE_EXCEPTIONS|HEAP_ZERO_MEMORY,sz+16);
         memset(p,'A',4);
         *(unsigned*)(p+4) = sz;
         memset(p+8,'B',4);
         memset(p+(12+sz),'C',4);
         return p+12;
-      }
-    else                                                                                       
-      return HeapAlloc(g_heap,HEAP_GENERATE_EXCEPTIONS|HEAP_ZERO_MEMORY,sz);
-  }
+    }
+    else
+        return HeapAlloc(g_heap,HEAP_GENERATE_EXCEPTIONS|HEAP_ZERO_MEMORY,sz);
+}
 
 
 #define _X86_ASSEMBLER

@@ -14,14 +14,15 @@
 #include "refcounted.h"
 #include "xdom.h"
 
-namespace teggo {
+namespace teggo
+{
 
-  _TEGGO_EXPORTABLE TEGGOt_E  CXX_STDCALL DEFparse(DataStream *ds, XMLdocumentBuilder *db);
-  _TEGGO_EXPORTABLE TEGGOt_E  CXX_STDCALL DEFparse(StringParam source, XMLdocumentBuilder *db);
-  _TEGGO_EXPORTABLE Xdocument CXX_STDCALL XopenDefDocument(StringParam docname);
-  _TEGGO_EXPORTABLE Xdocument CXX_STDCALL XopenDefDocument(DataStream &);
-  _TEGGO_EXPORTABLE TEGGOt_E  CXX_STDCALL XwriteDefDocument(Xnode *root_node, StringParam fname, bool use_utf8 = false);
-  _TEGGO_EXPORTABLE TEGGOt_E  CXX_STDCALL XwriteDefDocument(Xnode *root_node, DataStream *ds, bool use_utf8 = false);
+    _TEGGO_EXPORTABLE TEGGOt_E  CXX_STDCALL DEFparse(DataStream* ds, XMLdocumentBuilder* db);
+    _TEGGO_EXPORTABLE TEGGOt_E  CXX_STDCALL DEFparse(StringParam source, XMLdocumentBuilder* db);
+    _TEGGO_EXPORTABLE Xdocument CXX_STDCALL XopenDefDocument(StringParam docname);
+    _TEGGO_EXPORTABLE Xdocument CXX_STDCALL XopenDefDocument(DataStream&);
+    _TEGGO_EXPORTABLE TEGGOt_E  CXX_STDCALL XwriteDefDocument(Xnode* root_node, StringParam fname, bool use_utf8 = false);
+    _TEGGO_EXPORTABLE TEGGOt_E  CXX_STDCALL XwriteDefDocument(Xnode* root_node, DataStream* ds, bool use_utf8 = false);
 
 } // namespace teggo
 

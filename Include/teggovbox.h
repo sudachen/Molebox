@@ -32,12 +32,12 @@ enum _TEGGOVBOX_CONSTANTS
 
 typedef struct _TEGGOVBOX_FUNCTIONS_TABLE
 {
-	long(__stdcall* WriteVirtualRegistry)(unsigned flags, wchar_t const* filename, wchar_t const* filter);
-	long(__stdcall* SerilizeVirtualRegistryAsText)(unsigned flags, wchar_t const* filter, char** p, int* len);
-	long(__stdcall* DeserilizeVirtualRegistryFromText)(unsigned flags, wchar_t const* filter);
-	//long (__stdcall *MaskVirtualRegistryValues)(unsigned flags,wchar_t const *pattern,wchar_t const *mask);
-	//long (__stdcall *MarkVirtualRegistry)();
-	long(__stdcall* LogState)();
+    long(__stdcall* WriteVirtualRegistry)(unsigned flags, wchar_t const* filename, wchar_t const* filter);
+    long(__stdcall* SerilizeVirtualRegistryAsText)(unsigned flags, wchar_t const* filter, char** p, int* len);
+    long(__stdcall* DeserilizeVirtualRegistryFromText)(unsigned flags, wchar_t const* filter);
+    //long (__stdcall *MaskVirtualRegistryValues)(unsigned flags,wchar_t const *pattern,wchar_t const *mask);
+    //long (__stdcall *MarkVirtualRegistry)();
+    long(__stdcall* LogState)();
 } TEGGOVBOX_FUNCTIONS_TABLE;
 
 #define TEGGOVBOX_INSTALL_ROUTINE "_Install@8"

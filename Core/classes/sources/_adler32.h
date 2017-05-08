@@ -18,56 +18,57 @@
 #define _ADLER32_DO8(buf,i)  _ADLER32_DO4(buf,i); _ADLER32_DO4(buf,i+4);
 #define _ADLER32_DO16(buf)   _ADLER32_DO8(buf,0); _ADLER32_DO8(buf,8);
 
-namespace teggo {
+namespace teggo
+{
 
-u32_t CXX_STDCALL Adler32(u32_t adler,const byte_t *buf,u32_t len);
+    u32_t CXX_STDCALL Adler32(u32_t adler,const byte_t* buf,u32_t len);
 
-#if defined _TEGGOINLINE || defined _TEGGO_ADLER_HERE || defined _ADLER32_LOCAL
+    #if defined _TEGGOINLINE || defined _TEGGO_ADLER_HERE || defined _ADLER32_LOCAL
 
-CXX_EXTERNC u32_t adler32(u32_t adler,const byte_t *buf,u32_t len) { return Adler32(adler,buf,len); }
+    CXX_EXTERNC u32_t adler32(u32_t adler,const byte_t* buf,u32_t len) { return Adler32(adler,buf,len); }
 
-# if defined _TEGGOINLINE || defined _ADLER32_LOCAL
-CXX_FAKE_INLINE
-# endif
+    # if defined _TEGGOINLINE || defined _ADLER32_LOCAL
+    CXX_FAKE_INLINE
+    # endif
 
-u32_t CXX_STDCALL Adler32(u32_t adler,const byte_t *buf,u32_t len)
-  {
-    enum
-      {
-        BASE = 65521L, /* largest prime smaller than 65536 */
-        /* NMAX is the largest n such that 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
-        NMAX = 5552
-      };
+    u32_t CXX_STDCALL Adler32(u32_t adler,const byte_t* buf,u32_t len)
+    {
+        enum
+        {
+            BASE = 65521L, /* largest prime smaller than 65536 */
+            /* NMAX is the largest n such that 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */
+            NMAX = 5552
+        };
 
-    u32_t s1 = adler & 0xffff;
-    u32_t s2 = (adler >> 16) & 0xffff;
-    int k;
+        u32_t s1 = adler & 0xffff;
+        u32_t s2 = (adler >> 16) & 0xffff;
+        int k;
 
-    if (buf == 0) return 1L;
+        if (buf == 0) return 1L;
 
-    while (len > 0)
-      {
-        k = len < NMAX ? len : NMAX;
-        len -= k;
-        while (k >= 16)
-          {
-            _ADLER32_DO16(buf);
-            buf += 16;
-            k -= 16;
-          }
-        if (k != 0)
-          do
+        while (len > 0)
+        {
+            k = len < NMAX ? len : NMAX;
+            len -= k;
+            while (k >= 16)
             {
-              s1 += *buf++;
-              s2 += s1;
+                _ADLER32_DO16(buf);
+                buf += 16;
+                k -= 16;
             }
-          while (--k);
-        s1 %= BASE;
-        s2 %= BASE;
-      }
-    return (s2 << 16) | s1;
-  }
-#endif
+            if (k != 0)
+                do
+                {
+                    s1 += *buf++;
+                    s2 += s1;
+                }
+                while (--k);
+            s1 %= BASE;
+            s2 %= BASE;
+        }
+        return (s2 << 16) | s1;
+    }
+    #endif
 
 #undef _ADLER32_DO1
 #undef _ADLER32_DO2

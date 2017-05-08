@@ -14,10 +14,10 @@
 namespace teggo
 {
 
-  template<class tTchr>
+    template<class tTchr>
     struct SplitterT
-      {
-        typedef tTchr const *Tstr;
+    {
+        typedef tTchr const* Tstr;
         bool Reset();
         Tstr Next();
         Tstr Get() const;
@@ -30,66 +30,66 @@ namespace teggo
         SplitterT& operator=(const SplitterT&);
         operator bool() const { return count_ != 0; }
         bool operator!() const { return count_ == 0; }
-      private:
-        tTchr *text_;
-        tTchr **ptrs_;
+    private:
+        tTchr* text_;
+        tTchr** ptrs_;
         long  count_;
         long  curr_;
-      };
+    };
 
-  typedef SplitterT<wchar_t> widesplitter;
-  typedef SplitterT<char>    asciisplitter;
+    typedef SplitterT<wchar_t> widesplitter;
+    typedef SplitterT<char>    asciisplitter;
 
-  template<class tTchr>
+    template<class tTchr>
     bool SplitterT<tTchr>::Reset()
-      {
+    {
         curr_ = -1;
         return count_ > 0;
-      }
+    }
 
-  template<class tTchr>
+    template<class tTchr>
     const tTchr* SplitterT<tTchr>::Next()
-      {
+    {
         return ( curr_+1 < count_ ? ( ++curr_, ptrs_[curr_] ) : 0 );
-      }
+    }
 
-  template<class tTchr>
+    template<class tTchr>
     const tTchr* SplitterT<tTchr>::Get() const
-      {
+    {
         return ( curr_ >=0 && curr_ < count_  ? ptrs_[curr_] : 0 );
-      }
+    }
 
-  template<class tTchr>
+    template<class tTchr>
     const tTchr* SplitterT<tTchr>::Get(long no) const
-      {
+    {
         return ( no >= 0 && no < count_ ? ptrs_[no] : 0 );
-      }
+    }
 
-  template<class tTchr>
+    template<class tTchr>
     u32_t SplitterT<tTchr>::Count() const
-      {
+    {
         return count_;
-      }
+    }
 
-  template<class tTchr>
+    template<class tTchr>
     SplitterT<tTchr>::SplitterT() : text_(0), count_(0), curr_(-1), ptrs_(0)
-      {
-      }
+    {
+    }
 
-  template<class tTchr> CXX_NO_INLINE
+    template<class tTchr> CXX_NO_INLINE
     SplitterT<tTchr>::SplitterT(Tstr text,tTchr delim) : text_(0), count_(0), curr_(-1), ptrs_(0)
-      {
+    {
         if ( text )
-          {
+        {
             long textlen = StrLen(text);
             if ( textlen )
-              {
+            {
                 Tstr p  = text;
                 Tstr pE = p+textlen;
 
                 for ( ; p != pE ; ++p )
-                  if ( *p == delim )
-                    ++count_;
+                    if ( *p == delim )
+                        ++count_;
                 ++count_;
 
                 long buffsize = (textlen+1)*sizeof(tTchr)+count_*sizeof(tTchr**)+1*sizeof(long);
@@ -102,52 +102,52 @@ namespace teggo
                 ptrs_[0] = text_;
 
                 if ( count_ > 1 )
-                  for ( tTchr *p = text_, *pE = text_+textlen ; p != pE ; ++p )
-                    if ( *p == delim ) ptrs_[id++] = p+1, *p = 0;
-              }
-          }
-      }
+                    for ( tTchr* p = text_, *pE = text_+textlen ; p != pE ; ++p )
+                        if ( *p == delim ) ptrs_[id++] = p+1, *p = 0;
+            }
+        }
+    }
 
-  template<class tTchr> CXX_NO_INLINE
+    template<class tTchr> CXX_NO_INLINE
     SplitterT<tTchr>::~SplitterT()
-      {
+    {
         if ( ptrs_ )
-          BaseStringT<tTchr>::widestring_free((byte_t*)ptrs_-sizeof(long));
+            BaseStringT<tTchr>::widestring_free((byte_t*)ptrs_-sizeof(long));
         ptrs_ = 0,text_ = 0, count_ = 0;
-      }
+    }
 
-  template<class tTchr>
+    template<class tTchr>
     SplitterT<tTchr>::SplitterT(const SplitterT& a)
-      : text_(0), count_(0), curr_(-1), ptrs_(0)
-      {
+        : text_(0), count_(0), curr_(-1), ptrs_(0)
+    {
         operator=(a);
-      }
+    }
 
-  template<class tTchr> CXX_NO_INLINE
+    template<class tTchr> CXX_NO_INLINE
     SplitterT<tTchr>& SplitterT<tTchr>::operator=(const SplitterT& a)
-      {
+    {
         if ( ptrs_ )
-          BaseStringT<tTchr>::widestring_free((byte_t*)ptrs_-sizeof(long));
+            BaseStringT<tTchr>::widestring_free((byte_t*)ptrs_-sizeof(long));
 
         ptrs_ = 0,text_ = 0, count_ = 0;
 
         if ( a.ptrs_ )
-          {
+        {
             long bufsize = *(long*)((byte_t*)a.ptrs_-sizeof(long));
             byte_t* buff = (byte_t*)BaseStringT<tTchr>::widestring_malloc(bufsize);
             memcpy(buff,((byte_t*)a.ptrs_-sizeof(long)),bufsize);
             ptrs_ = (tTchr**)((byte_t*)buff+sizeof(long));
-          }
+        }
 
         text_ = (tTchr*)((byte_t*)ptrs_ + ((byte_t*)a.text_ - (byte_t*)a.ptrs_));
         curr_ = -1;
         count_ = a.count_;
 
         for ( int i = 0; i < count_; ++i )
-          ptrs_[i] = text_ + ( ptrs_[i] - a.text_ );
+            ptrs_[i] = text_ + ( ptrs_[i] - a.text_ );
 
         return *this;
-      }
+    }
 
 } // namespace
 

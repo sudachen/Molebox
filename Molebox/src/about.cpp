@@ -11,16 +11,16 @@
 #include "wx/html/htmlwin.h"
 
 struct AboutDialog : wxDialog
-  {
-    AboutDialog(wxWindow *parent) : wxDialog(parent,wxID_ANY,L"About",wxDefaultPosition,wxDefaultSize,wxCAPTION)
-      {
-      }
-      
+{
+    AboutDialog(wxWindow* parent) : wxDialog(parent,wxID_ANY,L"About",wxDefaultPosition,wxDefaultSize,wxCAPTION)
+    {
+    }
+
     void CreateControls()
-      {
-        wxBoxSizer *topszr = new wxBoxSizer(wxVERTICAL);
-        wxPanel *pan = new wxPanel(this);
-        wxHtmlWindow *html = new wxHtmlWindow(pan,wxID_ANY,wxDefaultPosition,wxSize(520,480),wxHW_SCROLLBAR_NEVER|wxSUNKEN_BORDER);
+    {
+        wxBoxSizer* topszr = new wxBoxSizer(wxVERTICAL);
+        wxPanel* pan = new wxPanel(this);
+        wxHtmlWindow* html = new wxHtmlWindow(pan,wxID_ANY,wxDefaultPosition,wxSize(520,480),wxHW_SCROLLBAR_NEVER|wxSUNKEN_BORDER);
 
         static const wchar_t about_html[] =
             L"<HTML><BODY><CENTER>\n"
@@ -43,7 +43,7 @@ struct AboutDialog : wxDialog
         html->SetBorders(0);
         pan->SetSize(html->GetSize());
         topszr->Add(pan, 0, wxALL, 10);
-        wxSizer *buttons = CreateButtonSizer(wxOK);
+        wxSizer* buttons = CreateButtonSizer(wxOK);
         //buttons->Add( new wxButton(this,ctID_EXTEND,L"Renew subscription") );
         topszr->Add( buttons, 0, wxALIGN_CENTER_HORIZONTAL|wxBOTTOM, 10 );
         SetSizer(topszr);
@@ -53,19 +53,19 @@ struct AboutDialog : wxDialog
         wxPoint xy = GetParent()->GetPosition();
         SetPosition(wxPoint(xy.x+(psz.x-sz.x)/2,xy.y+(psz.y-sz.y)/2));
         //SetClientSize(topszr->ComputeFittingClientSize(this));
-      }
+    }
 
     DECLARE_EVENT_TABLE()
-  };
+};
 
 BEGIN_EVENT_TABLE( AboutDialog, wxDialog )
     //EVT_BUTTON( wxID_OK, ConfigDialog::OnOK )
     //EVT_BUTTON( ctID_HELP, ActivateDialog::OnHelp )
 END_EVENT_TABLE()
 
-void ShowAboutInfo(wxWindow *parent)
-  {
+void ShowAboutInfo(wxWindow* parent)
+{
     AboutDialog dialog(parent);
     dialog.CreateControls();
     dialog.ShowModal();
-  }
+}

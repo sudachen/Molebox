@@ -89,7 +89,7 @@
 #define CXX_COMPILER_IS_MCW     (CXX_COMPILER == CXX_COMPILER_MCW )
 
 #define CXX_COMPILER_IS_MSVC_COMPATIBLE   \
-  (CXX_COMPILER_IS_MSVC || CXX_COMPILER_IS_ICL )
+    (CXX_COMPILER_IS_MSVC || CXX_COMPILER_IS_ICL )
 
 #if CXX_COMPILER_IS_MSVC
 # define CXX_COMPILER_IS_MSVC_BUNNY (_MSC_VER >= 1400)
@@ -104,7 +104,7 @@
 #endif
 
 #define CXX_COMPILER_HAS_MSVCRT \
-  (CXX_COMPILER_IS_MSVC_COMPATIBLE || CXX_COMPILER_IS_MINGW)
+    (CXX_COMPILER_IS_MSVC_COMPATIBLE || CXX_COMPILER_IS_MINGW)
 
 #if !defined _NOEXCEPTIONS
 # if CXX_COMPILER_IS_MSVC_COMPATIBLE
@@ -195,8 +195,8 @@ typedef unsigned int      uint_t;
 typedef u16_t wchar_t;
 #endif
 
-typedef char const       *pchar_t;
-typedef wchar_t const    *pwide_t;
+typedef char const*       pchar_t;
+typedef wchar_t const*    pwide_t;
 
 typedef u32_t  const      cu32_t;
 typedef u16_t  const      cu16_t;
@@ -212,9 +212,9 @@ typedef long long i64_t;
 
 #if defined __cplusplus
 inline u64_t cxx_u64_hilo(u32_t h, u32_t l)
-  {
+{
     return ((u64_t)h << 32 ) | (u64_t)l;
-  }
+}
 #else
 #define cxx_u64_hilo(h,l) (((u64_t)(h) << 32 ) | (u64_t)(l))
 #endif
@@ -222,18 +222,18 @@ inline u64_t cxx_u64_hilo(u32_t h, u32_t l)
 #define CXX_BIT(x) (1L<<x)
 
 #if defined __cplusplus
-template <class tT >
-  inline void cxx_swap( tT &a, tT &b)
-    { tT foo = a; a= b; b= foo; }
-template <class tT >
-  inline tT cxx_min( tT a, tT b)
-    { return a < b ? a : b; }
-template <class tT >
-  inline tT cxx_max( tT a, tT b)
-    { return a > b ? a : b; }
-template < class tTx >
-  inline tTx cxx_align( tTx t, tTx mod )
-    { return (t+mod-1) & ~(mod-1); }
+template <class tT>
+inline void cxx_swap( tT& a, tT& b)
+{ tT foo = a; a= b; b= foo; }
+template <class tT>
+inline tT cxx_min( tT a, tT b)
+{ return a < b ? a : b; }
+template <class tT>
+inline tT cxx_max( tT a, tT b)
+{ return a > b ? a : b; }
+template <class tTx>
+inline tTx cxx_align( tTx t, tTx mod )
+{ return (t+mod-1) & ~(mod-1); }
 inline unsigned cxx_alignu( unsigned val, unsigned mod ) { return (val+mod-1) & ~(mod-1); }
 #endif
 
@@ -248,7 +248,7 @@ inline unsigned cxx_alignu( unsigned val, unsigned mod ) { return (val+mod-1) & 
 # define __finally else
 # define __except(x) else
 #endif
-         
+
 #if defined __cplusplus
 #define CXX_EXTERNC extern "C"
 #else

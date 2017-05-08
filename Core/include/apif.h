@@ -8,13 +8,13 @@
 enum APIF_STATUS { APIF_RETURN, APIF_ORIGINAL, APIF_CONTINUE };
 
 typedef struct _API_FILTER
-  {
-    APIF_STATUS (*do_call)(void *flt, int apif_id, void *args, unsigned *result);
-    void (*log_state)(void *flt);
-  } API_FILTER;
+{
+    APIF_STATUS (*do_call)(void* flt, int apif_id, void* args, unsigned* result);
+    void (*log_state)(void* flt);
+} API_FILTER;
 
 enum APIF_ID
-  {
+{
     APIF_NONE         = 0,
     APIF_CREATEFILE   = 1,
     APIF_OPENFILE     = 2,
@@ -68,14 +68,14 @@ enum APIF_ID
     APIF_CMDLINEW     = 50,
     APIF_DELKEYVAL    = 51,
     APIF_COUNT
-   };
+};
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-extern void *apif_realcall[APIF_COUNT];
-extern void Regster_API_Filter(API_FILTER *flt);
+extern void* apif_realcall[APIF_COUNT];
+extern void Regster_API_Filter(API_FILTER* flt);
 
 #ifdef __cplusplus
 }
@@ -84,46 +84,46 @@ extern void Regster_API_Filter(API_FILTER *flt);
 #ifdef __cplusplus
 
 struct APIfilter
-  {
-    virtual APIF_STATUS DoCall(int apif_id, void *args, unsigned *result) = 0;
+{
+    virtual APIF_STATUS DoCall(int apif_id, void* args, unsigned* result) = 0;
     virtual void LogState() {}
-  };
+};
 
 struct APIfilter_C : APIfilter
-  {
-    API_FILTER *filter;
-    APIfilter_C(API_FILTER *flt) : filter(flt) {}
-    
-    virtual APIF_STATUS DoCall(int apif_id, void *args, unsigned *result)
-      {
+{
+    API_FILTER* filter;
+    APIfilter_C(API_FILTER* flt) : filter(flt) {}
+
+    virtual APIF_STATUS DoCall(int apif_id, void* args, unsigned* result)
+    {
         return filter->do_call(filter,apif_id,args,result);
-      }
-      
-    virtual void LogState() 
-      { 
-        if (filter->log_state) filter->log_state(filter); 
-      }
-  };
-  
+    }
+
+    virtual void LogState()
+    {
+        if (filter->log_state) filter->log_state(filter);
+    }
+};
+
 struct APIF_
-  {
+{
     static BufferT<APIfilter*> filters_;
-    static void Remove(APIfilter *f);
-    static void Push(APIfilter *f);
-    static void SetupNtKrHooks(void *ntdll,void *krdll);
+    static void Remove(APIfilter* f);
+    static void Push(APIfilter* f);
+    static void SetupNtKrHooks(void* ntdll,void* krdll);
     static void UnsetHooks();
-#if !defined PEOVER_MINICORE
+    #if !defined PEOVER_MINICORE
     static void AcquireFilterLock();
     static void ReleaseFilterLock();
-#else
+    #else
     static void AcquireFilterLock() {}
     static void ReleaseFilterLock() {}
-#endif
-  };
+    #endif
+};
 
 //extern "C" APIF_STATUS __stdcall APIF_DoCall(int apif_id, void *args, unsigned *result);
 
-struct APIFGATE { APIF_ *operator->() const { return 0; } };
+struct APIFGATE { APIF_* operator->() const { return 0; } };
 static const APIFGATE APIF = APIFGATE();
 
 extern void APIF_RegisterFileObjectHooks();
@@ -134,28 +134,28 @@ extern void APIF_RegisterCrProcHooks();
 extern void APIF_RegisterCmdlHooks();
 //extern unsigned APIF_CrProc_SEP;
 
-extern long __stdcall APIF_RegisterWriteToFile(unsigned flags,wchar_t const *filename,wchar_t const *filter);
-extern long __stdcall APIF_RegisterSerilize(unsigned flags,wchar_t const *filter,char **p,int *len);
+extern long __stdcall APIF_RegisterWriteToFile(unsigned flags,wchar_t const* filename,wchar_t const* filter);
+extern long __stdcall APIF_RegisterSerilize(unsigned flags,wchar_t const* filter,char** p,int* len);
 extern long __stdcall APIF_LogState();
 
 struct COREAPI
-  {
+{
     unsigned major_version;
     unsigned build_number;
-    unsigned (__stdcall *EnableExeFilter)(unsigned);
-    unsigned (__stdcall *EnableFsFilter)(unsigned);
-    unsigned (__stdcall *EnableRegFilter)(unsigned);
-    unsigned (__stdcall *Mount)(wchar_t const *pakagemask, char const *passwd, unsigned atAppfold);
-    unsigned (__stdcall *Unmount)(wchar_t const *pakagemask);
-  };
+    unsigned (__stdcall* EnableExeFilter)(unsigned);
+    unsigned (__stdcall* EnableFsFilter)(unsigned);
+    unsigned (__stdcall* EnableRegFilter)(unsigned);
+    unsigned (__stdcall* Mount)(wchar_t const* pakagemask, char const* passwd, unsigned atAppfold);
+    unsigned (__stdcall* Unmount)(wchar_t const* pakagemask);
+};
 
-enum 
-  {
+enum
+{
     REGISTRY_DISABLE_VIRTUALIZATION = 0,
     REGISTRY_PARTIAL_VIRTUALIZATION = 1,
     REGISTRY_FULL_VIRTUALIZATION    = 2,
     REGISTRY_VIRTUAL_VIRTUALIZATION = 3,
-  };
+};
 
 int Get_Registry_Virtualization_Mode();
 int Set_Registry_Virtualization_Mode(int mode);

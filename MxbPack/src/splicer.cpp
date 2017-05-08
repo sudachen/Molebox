@@ -16,13 +16,13 @@ static HANDLE thu_heap[MAX_THU_HEAP_COUNT] = {0};
 static teggo::randizer_t thu_rnd = 0;
 
 void InitHeapAndSplicer()
-  {
+{
     for ( int i = 0; i < MAX_THU_HEAP_COUNT; ++i )
-      {
+    {
         thu_heap[i] = HeapCreate(HEAP_CREATE_ENABLE_EXECUTE,4*1024,0);
         thu_rnd ^= (teggo::randizer_t)thu_heap[i];
-      }
-  }
+    }
+}
 
 /*
 int StealFiveBytes(byte_t *code, byte_t *f)
@@ -91,35 +91,35 @@ void *Splice5(void *f)
   }
 */
 
-extern "C" void * __stdcall AutoIatSpliceProcAddress(char *modname, void **modhandle, unsigned char *xored, unsigned no)
-  {
+extern "C" void* __stdcall AutoIatSpliceProcAddress(char* modname, void** modhandle, unsigned char* xored, unsigned no)
+{
     //__asm int 3
     ;
 
     char AutoIatSpliceProcAddress_b[128] = {0};
-    void *f = 0;
-    unsigned char *bp = (unsigned char*)AutoIatSpliceProcAddress_b;
+    void* f = 0;
+    unsigned char* bp = (unsigned char*)AutoIatSpliceProcAddress_b;
     unsigned long sid = no;
     no = 0;
 
     sid += 0xabecaffe; // 0xfabecaffe; ???
     do
-      {
+    {
         sid = 1664525*sid + 1013904223;
         *bp = (sid >> ( no++ % 8 )) ^ *xored++;
-      }
+    }
     while ( *bp++ && no < 127 );
 
     if ( !*modhandle )
-      //if ( !(*modhandle = get_predefined_module(modname)) )
-      if ( !(*modhandle = GetModuleHandleA(modname)) )
-        if ( !(*modhandle = LoadLibraryA(modname)) )
-          __asm int 3
-          ;
+        //if ( !(*modhandle = get_predefined_module(modname)) )
+        if ( !(*modhandle = GetModuleHandleA(modname)) )
+            if ( !(*modhandle = LoadLibraryA(modname)) )
+                __asm int 3
+                ;
 
     if ( !(f = GetProcAddressIndirect(*modhandle,AutoIatSpliceProcAddress_b,0)) )
-      __asm int 3
-      ;
+        __asm int 3
+        ;
 
     /*if ( *modhandle == _NTDLL )
       {
@@ -128,21 +128,21 @@ extern "C" void * __stdcall AutoIatSpliceProcAddress(char *modname, void **modha
 
     memset(AutoIatSpliceProcAddress_b,0xcc,sizeof(AutoIatSpliceProcAddress_b));
     return f;
-  }
+}
 
-void *AllocExecutableBlock(int sz)
-  {
+void* AllocExecutableBlock(int sz)
+{
     sz = cxx_max<unsigned>(sz+sizeof(HANDLE),THU_BLOCK_SIZE);
     HANDLE h = thu_heap[teggo::modulate_random(&thu_rnd,MAX_THU_HEAP_COUNT)];
-    void *f = HeapAlloc(h,0,sz);
+    void* f = HeapAlloc(h,0,sz);
     for ( int i = 0; i < sz/4; ++i )
-      ((unsigned*)f)[i] = teggo::unsigned_random(&thu_rnd);
+        ((unsigned*)f)[i] = teggo::unsigned_random(&thu_rnd);
     *(HANDLE*)f = h;
     return (char*)f + sizeof(HANDLE);
-  }
+}
 
-void FreeExecutableBlock(void *f)
-  {
-    HANDLE *h = (HANDLE*)((char*)f - sizeof(HANDLE));
+void FreeExecutableBlock(void* f)
+{
+    HANDLE* h = (HANDLE*)((char*)f - sizeof(HANDLE));
     HeapFree(*h,0,h);
-  }
+}

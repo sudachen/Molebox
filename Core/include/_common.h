@@ -25,7 +25,7 @@
 # endif
 #endif
 
-#include <stdint.h> 
+#include <stdint.h>
 
 typedef __int64 INT64T;
 
@@ -73,14 +73,14 @@ EXTERN_C  unsigned isNestedProcess;
 
 typedef struct _CRPROC_INFO
 {
-	wchar_t fullExePath[1024];
-	wchar_t internalName[256];
-	unsigned char internalSign[16];
-	struct
-	{
-		unsigned injected   : 1;
-		unsigned suspended  : 1;
-	} f;
+    wchar_t fullExePath[1024];
+    wchar_t internalName[256];
+    unsigned char internalSign[16];
+    struct
+    {
+        unsigned injected   : 1;
+        unsigned suspended  : 1;
+    } f;
 } CRPROC_INFO;
 
 EXTERN_C void* _TIB();

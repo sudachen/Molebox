@@ -15,7 +15,7 @@
 #if defined _WIN32 || defined WIN32
 #define SYSTEM_IS_WINDOWS 1
 #else
-#define SYSTEM_IS_WINDOWS 0 
+#define SYSTEM_IS_WINDOWS 0
 #endif
 
 #if defined _MACOSX
@@ -83,7 +83,7 @@
 #include <limits.h>
 
 enum TEGGOt_E
-  {
+{
     TEGGO_OK            = 0,
     TEGGO_FAIL          = 1,
     TEGGO_NOFILE        = 2,
@@ -96,69 +96,69 @@ enum TEGGOt_E
     TEGGO_CORRUPTED     = 9,
     TEGGO_UNSUPPORTED   = 10,
     TEGGO_OVERFLOW      = 11,
-  };
+};
 
 _TEGGO_EXPORTABLE pchar_t CXX_STDCALL TeggoErrorText(TEGGOt_E);
 
 namespace teggo
-  {
+{
     template<class tTc> struct FormatT;
     struct StringParam_;
-    void CXX_STDCALL StringParamCopy(StringParam_ const& _,wchar_t * b,int l); // stuppid paranoic GCC
-  }
+    void CXX_STDCALL StringParamCopy(StringParam_ const& _,wchar_t* b,int l);  // stuppid paranoic GCC
+}
 
 template<class tFake> struct Teggo_LastError_
-  {
+{
     _TEGGO_EXPORTABLE_DATA static wchar_t reason[128];
     _TEGGO_EXPORTABLE_DATA static u32_t value;
-    template < class tTe >
-      static tTe CXX_STDCALL Success(tTe e)
-        {
-          return value = TEGGO_OK, reason[0] = 0, e;
-        }
+    template <class tTe>
+    static tTe CXX_STDCALL Success(tTe e)
+    {
+        return value = TEGGO_OK, reason[0] = 0, e;
+    }
     static TEGGOt_E CXX_STDCALL Success()
-      {
+    {
         return value = TEGGO_OK, reason[0] = 0, TEGGO_OK;
-      }
+    }
     void Clear() { Success(); }
-    template < class tTe >
-      static tTe CXX_STDCALL Fail(tTe e,teggo::StringParam_ const &error_string)
-        {
-          return Fail(error_string), e;
-        }
-    _TEGGO_EXPORTABLE static TEGGOt_E CXX_STDCALL Fail(teggo::StringParam_ const &error_string)
-      {
+    template <class tTe>
+    static tTe CXX_STDCALL Fail(tTe e,teggo::StringParam_ const& error_string)
+    {
+        return Fail(error_string), e;
+    }
+    _TEGGO_EXPORTABLE static TEGGOt_E CXX_STDCALL Fail(teggo::StringParam_ const& error_string)
+    {
         value = TEGGO_FAIL;
         return teggo::StringParamCopy(error_string,reason,127), TEGGO_FAIL;
-      }
-    _TEGGO_EXPORTABLE static TEGGOt_E CXX_STDCALL Fail(TEGGOt_E e,teggo::StringParam_ const &error_string)
-      {
+    }
+    _TEGGO_EXPORTABLE static TEGGOt_E CXX_STDCALL Fail(TEGGOt_E e,teggo::StringParam_ const& error_string)
+    {
         value = e;
         return teggo::StringParamCopy(error_string,reason,127), e;
-      }
+    }
     _TEGGO_EXPORTABLE static TEGGOt_E CXX_STDCALL TEGGOt() { return (TEGGOt_E)value; }
     _TEGGO_EXPORTABLE static pwide_t  CXX_STDCALL Reason() { return reason; }
-    Teggo_LastError_ *operator ->() const { return 0; }    
-  };
+    Teggo_LastError_* operator ->() const { return 0; }
+};
 
 #if defined _TEGGOINLINE
-  template <class tFake> wchar_t Teggo_LastError_<tFake>::reason[128] = {0};
-  template <class tFake> u32_t Teggo_LastError_<tFake>::value = 0;
+template <class tFake> wchar_t Teggo_LastError_<tFake>::reason[128] = {0};
+template <class tFake> u32_t Teggo_LastError_<tFake>::value = 0;
 #endif
 
 static const Teggo_LastError_<int> _E = Teggo_LastError_<int>();
 
 namespace teggo
 {
-  struct Uncopyable
+    struct Uncopyable
     {
-      Uncopyable() {}
+        Uncopyable() {}
     private:
-      Uncopyable(Uncopyable const&);
-      Uncopyable& operator=(Uncopyable const&);
+        Uncopyable(Uncopyable const&);
+        Uncopyable& operator=(Uncopyable const&);
     };
 
-  struct EmptyStruct
+    struct EmptyStruct
     {
     };
 }
@@ -167,30 +167,30 @@ namespace teggo
 //#undef max
 
 template <class tTx> inline
-  tTx const& CXX_STDCALL teggo_min(tTx const &a,tTx const &b)
-    {
-      return a < b ? a : b;
-    }
+tTx const& CXX_STDCALL teggo_min(tTx const& a,tTx const& b)
+{
+    return a < b ? a : b;
+}
 
 template <class tTx> inline
-  tTx const& CXX_STDCALL teggo_max(tTx const &a,tTx const &b)
-    {
-      return a > b ? a : b;
-    }
+tTx const& CXX_STDCALL teggo_max(tTx const& a,tTx const& b)
+{
+    return a > b ? a : b;
+}
 
 template <class tTx> inline
-  tTx const CXX_STDCALL teggo_abs(tTx const a)
-    {
-      return (signed)a < 0 ? -(signed)a : a;
-    }
+tTx const CXX_STDCALL teggo_abs(tTx const a)
+{
+    return (signed)a < 0 ? -(signed)a : a;
+}
 
 template <class tTx> inline
-  void CXX_STDCALL teggo_swap(tTx &a,tTx &b)
-    {
-      tTx temp(a);
-      a = b;
-      b = temp;
-    }
+void CXX_STDCALL teggo_swap(tTx& a,tTx& b)
+{
+    tTx temp(a);
+    a = b;
+    b = temp;
+}
 
 #if (defined _DEBUG || defined DEBUG) && !defined _NOSTRICT
 #define _STRICTCODECOP
@@ -220,10 +220,10 @@ template <class tTx> inline
 #endif
 
 template <class tTx> inline
-  void CXX_STDCALL teggo_new_and_move_data (void *to, tTx* from )
-    {
-      new (to) tTx(*from);
-    }
+void CXX_STDCALL teggo_new_and_move_data (void* to, tTx* from )
+{
+    new (to) tTx(*from);
+}
 
 #include "_strategy_copy.h"
 #include "_algo.h"
@@ -236,13 +236,13 @@ template <class tTx> inline
 # if SYSTEM_IS_WINDOWS
 # include <objbase.h>
 # else
-    typedef struct GUID 
-      {
-        u32_t   Data1;
-        u16_t   Data2;
-        u16_t   Data3;
-        byte_t  Data4[8];
-      } GUID;
+typedef struct GUID
+{
+    u32_t   Data1;
+    u16_t   Data2;
+    u16_t   Data3;
+    byte_t  Data4[8];
+} GUID;
 # endif
 #else
 #define CXX_NO_GUID_SUPPORT
@@ -257,26 +257,26 @@ template <class tTx> inline
 #endif
 
 #if defined _TEGGONEW
-inline void *CXX_CDECL operator new(unsigned size) { return _MALLOC(size); }
-inline void *CXX_CDECL operator new[](unsigned size) { return _MALLOC(size); }
-inline void CXX_CDECL operator delete(void *p) { if(p) _FREE(p); }
-inline void CXX_CDECL operator delete[](void *p) { if(p) _FREE(p); }
+inline void* CXX_CDECL operator new(unsigned size) { return _MALLOC(size); }
+inline void* CXX_CDECL operator new[](unsigned size) { return _MALLOC(size); }
+inline void CXX_CDECL operator delete(void* p) { if (p) _FREE(p); }
+inline void CXX_CDECL operator delete[](void* p) { if (p) _FREE(p); }
 #endif
 
 namespace teggo
 {
 
-  enum resize_policy_t { FIXEDSIZE, RESIZABLE };
-  enum reuse_policy_t { REUSE };
-  enum swap_policy_t { SWAP_CONTENT };
+    enum resize_policy_t { FIXEDSIZE, RESIZABLE };
+    enum reuse_policy_t { REUSE };
+    enum swap_policy_t { SWAP_CONTENT };
 
-  _TEGGO_EXPORTABLE wchar_t CXX_STDCALL ucs2_btowc(char c);
-  _TEGGO_EXPORTABLE char CXX_STDCALL ucs2_wctob(wchar_t wc);
+    _TEGGO_EXPORTABLE wchar_t CXX_STDCALL ucs2_btowc(char c);
+    _TEGGO_EXPORTABLE char CXX_STDCALL ucs2_wctob(wchar_t wc);
 
-#if defined _TEGGOINLINE
+    #if defined _TEGGOINLINE
 # define _TEGGO_FAKE_STATIC static
 # define _TEGGO_SPECIFIC_INIT(x) = x
-#else
+    #else
 // # if CXX_COMPILER_IS_MSVC_COMPATIBLE
 // #  if defined _DEBUG
 // #    pragma comment(lib,"tffcls_d.lib")
@@ -284,78 +284,78 @@ namespace teggo
 // #    pragma comment(lib,"tffcls.lib")
 // #  endif
 // # endif
-# if defined _TEGGO_SPECIFIC_HERE
+    # if defined _TEGGO_SPECIFIC_HERE
 #  define _TEGGO_FAKE_STATIC
-# else
+    # else
 #  define _TEGGO_FAKE_STATIC extern
-# endif
-#endif
+    # endif
+    #endif
 
-#if !defined __DMC__
-  _TEGGO_FAKE_STATIC std::nothrow_t nothrow;
-#else
-  struct nothrow_t {};
-  _TEGGO_FAKE_STATIC nothrow_t nothrow;
-  inline void* operator new (size_t sz,nothrow_t const&)
+    #if !defined __DMC__
+    _TEGGO_FAKE_STATIC std::nothrow_t nothrow;
+    #else
+    struct nothrow_t {};
+    _TEGGO_FAKE_STATIC nothrow_t nothrow;
+    inline void* operator new (size_t sz,nothrow_t const&)
     {
-      return ::operator new(sz);
+        return ::operator new(sz);
     }
-#endif
+    #endif
 
-  struct DefaultAllocator
+    struct DefaultAllocator
     {
-      _TEGGO_EXPORTABLE void* Allocate( u32_t sz );
-      _TEGGO_EXPORTABLE void Deallocate( void* p );
+        _TEGGO_EXPORTABLE void* Allocate( u32_t sz );
+        _TEGGO_EXPORTABLE void Deallocate( void* p );
     };
 
-  template < class tTx >
+    template <class tTx>
     struct mutable_t
-      {
+    {
         mutable tTx value;
-        typedef mutable_t<tTx> const &T;
+        typedef mutable_t<tTx> const& T;
         mutable_t () {}
-      };
+    };
 
-  template < bool tTrue = false >
+    template <bool tTrue = false>
     struct static_check
-      {
+    {
         enum isFalse { value = 0 };
-      };
+    };
 
-  template <>
+    template <>
     struct static_check<true>
-      {
+    {
         enum isTrue { value = 1 };
-      };
+    };
 } //namespace
 
-template < class tTc > struct teggo_if_char_else;
+template <class tTc> struct teggo_if_char_else;
 
 template<> struct teggo_if_char_else<wchar_t>
-  {
+{
 //     template < class tTx, class tTy >
 //       static tTy Select( tTx &, tTy &a) { return a; }
-    template < class tTx, class tTy >
-      static tTy Select( tTx, tTy a) { return a; }
-  };
+    template <class tTx, class tTy>
+    static tTy Select( tTx, tTy a) { return a; }
+};
 
 template<> struct teggo_if_char_else<char>
-  {
+{
 //     template < class tTx, class tTy >
 //       static tTy Select( tTx &a, tTy &) { return a; }
-    template < class tTx, class tTy >
-      static tTy Select( tTx a, tTy) { return a; }
-  };
+    template <class tTx, class tTy>
+    static tTy Select( tTx a, tTy) { return a; }
+};
 
 #define TEGGO_STATIC_CHECK(expr) \
-  void teggo_static_check___( teggo::static_check<expr>::isTrue );
+    void teggo_static_check___( teggo::static_check<expr>::isTrue );
 #define DO_NOTHING ((void)0)
 
-#if !SYSTEM_IS_WINDOWS 
-  typedef void* HANDLE;
+#if !SYSTEM_IS_WINDOWS
+typedef void* HANDLE;
 
-  _TEGGO_EXPORTABLE long InterlockedDecrement(long*);
-  _TEGGO_EXPORTABLE long InterlockedIncrement(long*);
+_TEGGO_EXPORTABLE long InterlockedDecrement(long*);
+_TEGGO_EXPORTABLE long InterlockedIncrement(long*);
 #endif
 
 #if defined _TEGGOINLINE

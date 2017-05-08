@@ -20,6 +20,7 @@
 
 #undef _Nomemory
 
-namespace std {
-  void _Nomemory(void) {}
+namespace std
+{
+    void _Nomemory(void) {}
 }

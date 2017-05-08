@@ -24,16 +24,16 @@
 #endif
 
 #include <windows.h>
-                
-extern "C" void Lfree(void *pp)
-  { 
-      HeapFree(GetProcessHeap(),0,pp);
-  }
-  
-extern "C" void *Lalloc(unsigned sz)
-  { 
-      return HeapAlloc(GetProcessHeap(),HEAP_GENERATE_EXCEPTIONS|HEAP_ZERO_MEMORY,sz);
-  }
+
+extern "C" void Lfree(void* pp)
+{
+    HeapFree(GetProcessHeap(),0,pp);
+}
+
+extern "C" void* Lalloc(unsigned sz)
+{
+    return HeapAlloc(GetProcessHeap(),HEAP_GENERATE_EXCEPTIONS|HEAP_ZERO_MEMORY,sz);
+}
 
 
 #define _X86_ASSEMBLER
@@ -96,7 +96,7 @@ namespace aux {
 #include "../Classes/Sources/saxparser.inl"
 #include "../Classes/Sources/symboltable.inl"
 #include "../Classes/Sources/logger.inl"
-#include "../Classes/Sources/messages.inl" 
+#include "../Classes/Sources/messages.inl"
 #include "../Classes/Sources/com_register.inl"
 #include "../Classes/Sources/sysutil.h"
 #include "../Classes/Sources/lz77ss.inl"

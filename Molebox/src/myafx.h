@@ -15,21 +15,21 @@ extern pwide_t MessageValue(int i);
 #define Tr(i,t) MessageValue(i)
 
 struct MessageBoxEhFiler : teggo::ErrorFilter
-  {
-    virtual bool Ascii(const char * message, int e) const
-      {
+{
+    virtual bool Ascii(const char* message, int e) const
+    {
         MessageBoxA(0,message,e?"error":"warning",0);
         return !e;
-      }
-  };
+    }
+};
 
 extern int _MAJOR_VERSION;
 extern int _MINOR_VERSION;
 extern int _BUILD_NUMBER;
 extern "C" time_t _BUILD_TIME;
 
-enum 
-  {
+enum
+{
     tmID_DEFAULT = 1000,
     myID_PKGCONFIGURE = wxID_HIGHEST,
     myID_PKGDOPACK,
@@ -89,28 +89,28 @@ enum
     ctID_HELP,
     ctID_CONFLICT,
     ctID_EXTEND,
-  };
-  
-void ShowAboutInfo(wxWindow *parent);
-void ShowExpiredInfo(wxWindow *parent);
-void ShowActivateDialog(wxWindow *parent);
-bool ShowConfigDialog(wxWindow *parent);
-bool DoPackingProcess(wxWindow *parent);
-void DisplayError(wxWindow *parent,StringParam message,StringParam title);
-void DisplayMessage(wxWindow *parent,StringParam message,StringParam title);
-bool AreYouSure(wxWindow *parent,StringParam message,StringParam title);
-bool QueryNewSubfolder(wxWindow *parent, StringW &subfolder);
-bool QueryAddFiles(wxWindow *parent, ArrayT<StringW> const &names, StringW &folder);
-bool RenameMove(wxWindow *parent, StringW &targ_subfolder, StringW &inout_name, bool operate_folder, bool enable_rename);
+};
 
-void DirList(StringParam rfold, StringParam patt, ArrayT<StringW> &names, u32_t flgs);
-enum 
-  {
+void ShowAboutInfo(wxWindow* parent);
+void ShowExpiredInfo(wxWindow* parent);
+void ShowActivateDialog(wxWindow* parent);
+bool ShowConfigDialog(wxWindow* parent);
+bool DoPackingProcess(wxWindow* parent);
+void DisplayError(wxWindow* parent,StringParam message,StringParam title);
+void DisplayMessage(wxWindow* parent,StringParam message,StringParam title);
+bool AreYouSure(wxWindow* parent,StringParam message,StringParam title);
+bool QueryNewSubfolder(wxWindow* parent, StringW& subfolder);
+bool QueryAddFiles(wxWindow* parent, ArrayT<StringW> const& names, StringW& folder);
+bool RenameMove(wxWindow* parent, StringW& targ_subfolder, StringW& inout_name, bool operate_folder, bool enable_rename);
+
+void DirList(StringParam rfold, StringParam patt, ArrayT<StringW>& names, u32_t flgs);
+enum
+{
     DIRLIST_FILESONLY = 1,
     DIRLIST_DIRESONLY = 2,
     DIRLIST_RECURSIVE = 4,
     DIRLIST_FULLPATH  = 8,
-  };
+};
 
 extern void ShowHelpSection(StringParam name);
 

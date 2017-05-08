@@ -34,39 +34,39 @@
 
 #endif
 
-CXX_EXTERNC int compress(void *dest, u32_t *destLen, void const *source, u32_t sourceLen, int level);
-CXX_EXTERNC int uncompress(void *dest, u32_t *destLen, void const *source, u32_t sourceLen);
+CXX_EXTERNC int compress(void* dest, u32_t* destLen, void const* source, u32_t sourceLen, int level);
+CXX_EXTERNC int uncompress(void* dest, u32_t* destLen, void const* source, u32_t sourceLen);
 
-_ZLIB_EXPORTABLE int zlib_compress_l(void const *in_b, int in_b_len, void *out_b, int out_b_len, int level)
-  {
+_ZLIB_EXPORTABLE int zlib_compress_l(void const* in_b, int in_b_len, void* out_b, int out_b_len, int level)
+{
     u32_t l = out_b_len;
     int r = compress(out_b,&l,in_b,in_b_len,level);
     switch ( r )
-      {
+    {
         case 0:
-          return l;
+            return l;
         default:
-          return -1;
-      }
-  }
+            return -1;
+    }
+}
 
-_ZLIB_EXPORTABLE int zlib_compress(void const *in_b, int in_b_len, void *out_b, int out_b_len)
-  {
+_ZLIB_EXPORTABLE int zlib_compress(void const* in_b, int in_b_len, void* out_b, int out_b_len)
+{
     return zlib_compress_l(in_b,in_b_len,out_b,out_b_len,6);
-  }
+}
 
-_ZLIB_EXPORTABLE int zlib_decompress(void const *in_b, int in_b_len, void *out_b, int out_b_len)
-  {
+_ZLIB_EXPORTABLE int zlib_decompress(void const* in_b, int in_b_len, void* out_b, int out_b_len)
+{
     u32_t l = out_b_len;
     int r = uncompress(out_b,&l,in_b,in_b_len);
     switch ( r )
-      {
+    {
         case 0:
-          return l;
+            return l;
         default:
-          return -1;
-      }
-  }
+            return -1;
+    }
+}
 
 /*#else no here*/
 #endif

@@ -12,41 +12,42 @@
 
 namespace teggo
 {
-  class MD5_Hash {
-  public:
-    MD5_Hash();
-    void Update(void const *input, unsigned long input_length);
-    void Finalize(void *outDigest);
-
-  private:
-    MD5_CONTEXT context;
-
-  };
-
-  inline MD5_Hash::MD5_Hash()
-  {
-    MD5_Start(&context);
-  }
-
-  CXX_FAKE_INLINE
-  void MD5_Hash::Update(void const *_input, unsigned long input_length)
-  {
-    MD5_Update(&context,_input,input_length);
-  }
-
-  // AlgMD5 finalization. Writing the message digest and zeroizing the context.
-  CXX_FAKE_INLINE
-  void MD5_Hash::Finalize (void *outDigest)
-  {
-    MD5_Finish(&context,outDigest);
-  }
-
-  CXX_FAKE_INLINE 
-  void Md5sign(void const *data,unsigned len,void *md5sign)
+    class MD5_Hash
     {
-      MD5_Hash md5;
-      md5.Update(data,len);
-      md5.Finalize(md5sign);
+    public:
+        MD5_Hash();
+        void Update(void const* input, unsigned long input_length);
+        void Finalize(void* outDigest);
+
+    private:
+        MD5_CONTEXT context;
+
+    };
+
+    inline MD5_Hash::MD5_Hash()
+    {
+        MD5_Start(&context);
+    }
+
+    CXX_FAKE_INLINE
+    void MD5_Hash::Update(void const* _input, unsigned long input_length)
+    {
+        MD5_Update(&context,_input,input_length);
+    }
+
+    // AlgMD5 finalization. Writing the message digest and zeroizing the context.
+    CXX_FAKE_INLINE
+    void MD5_Hash::Finalize (void* outDigest)
+    {
+        MD5_Finish(&context,outDigest);
+    }
+
+    CXX_FAKE_INLINE
+    void Md5sign(void const* data,unsigned len,void* md5sign)
+    {
+        MD5_Hash md5;
+        md5.Update(data,len);
+        md5.Finalize(md5sign);
     }
 
 } // namespace

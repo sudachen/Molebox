@@ -8,81 +8,82 @@
 namespace teggo
 {
 
-  enum ILLEGAL_SITUATION
+    enum ILLEGAL_SITUATION
     {
-      SIT_VIOLATION,
-      SIT_ASSERTION,
-      SIT_EMERGENCY,
-      SIT_WARNING,
-      SIT_DEBUGIT,
-      SIT_FAKE_SITUATION
+        SIT_VIOLATION,
+        SIT_ASSERTION,
+        SIT_EMERGENCY,
+        SIT_WARNING,
+        SIT_DEBUGIT,
+        SIT_FAKE_SITUATION
     };
 
-  typedef void (CXX_STDCALL *CodePoliceNotification)(pwide_t /*description*/, int /*lineno*/, pchar_t /*fname*/);
-  typedef void (CXX_STDCALL *CodePoliceTerminator)(pwide_t /*description*/, int /*lineno*/, pchar_t /*fname*/);
+    typedef void (CXX_STDCALL* CodePoliceNotification)(pwide_t /*description*/, int /*lineno*/, pchar_t /*fname*/);
+    typedef void (CXX_STDCALL* CodePoliceTerminator)(pwide_t /*description*/, int /*lineno*/, pchar_t /*fname*/);
 
-  struct CodePolice__
+    struct CodePolice__
     {
-      _TEGGO_EXPORTABLE static void CXX_STDCALL Message(pwide_t msg,pwide_t prefix, int lineno, pchar_t fname);
-      _TEGGO_EXPORTABLE static void CXX_STDCALL Terminator(pwide_t msg, int lineno, pchar_t fname);
-      _TEGGO_EXPORTABLE static void CXX_STDCALL Notifier(pwide_t msg, int lineno, pchar_t fname);
+        _TEGGO_EXPORTABLE static void CXX_STDCALL Message(pwide_t msg,pwide_t prefix, int lineno, pchar_t fname);
+        _TEGGO_EXPORTABLE static void CXX_STDCALL Terminator(pwide_t msg, int lineno, pchar_t fname);
+        _TEGGO_EXPORTABLE static void CXX_STDCALL Notifier(pwide_t msg, int lineno, pchar_t fname);
     };
 
-  template < unsigned tNo >
+    template <unsigned tNo>
     struct CodePolice_
-      {
+    {
         CodePoliceNotification notify_;
         CodePoliceTerminator   terminate_;
         _TEGGO_EXPORTABLE void Analyse( ILLEGAL_SITUATION sit, pwide_t descr, int lineno, pchar_t fname );
-      };
+    };
 
-  template <> void CodePolice_<0>::Analyse( ILLEGAL_SITUATION sit, pwide_t descr, int lineno, pchar_t fname );
+    template <> void CodePolice_<0>::Analyse( ILLEGAL_SITUATION sit, pwide_t descr, int lineno, pchar_t fname );
 
-  template <unsigned tNo>
+    template <unsigned tNo>
     struct CodePolice_Office
-      {
+    {
         static _TEGGO_EXPORTABLE_DATA CodePolice_<tNo> police_;
         CodePolice_<tNo>* operator->()
-          {
+        {
             return &police_;
-          }
-      };
+        }
+    };
 
-#if defined _TEGGOINLINE
-  template <unsigned tNo>
+    #if defined _TEGGOINLINE
+    template <unsigned tNo>
     CodePolice_<tNo> CodePolice_Office<tNo>::police_
-      = {
-          &CodePolice__::Notifier,
-          &CodePolice__::Terminator
-        };
-#endif
-
-  static CodePolice_Office<0> CodePolice;
-
-  inline void CXX_STDCALL violation_check(
-    bool occured, pwide_t description, int lineno, pchar_t fname )
+    =
     {
-      if ( occured )
-        CodePolice->Analyse( SIT_VIOLATION, description, lineno, fname );
+        &CodePolice__::Notifier,
+        &CodePolice__::Terminator
+    };
+    #endif
+
+    static CodePolice_Office<0> CodePolice;
+
+    inline void CXX_STDCALL violation_check(
+        bool occured, pwide_t description, int lineno, pchar_t fname )
+    {
+        if ( occured )
+            CodePolice->Analyse( SIT_VIOLATION, description, lineno, fname );
     }
 
-  inline void CXX_STDCALL assertion_check(
-    bool satisfied, pwide_t description, int lineno, pchar_t fname )
+    inline void CXX_STDCALL assertion_check(
+        bool satisfied, pwide_t description, int lineno, pchar_t fname )
     {
-      if ( !satisfied )
-        CodePolice->Analyse( SIT_ASSERTION, description, lineno, fname );
+        if ( !satisfied )
+            CodePolice->Analyse( SIT_ASSERTION, description, lineno, fname );
     }
 
-  inline void CXX_STDCALL emergency(
-    pwide_t description, int lineno, pchar_t fname )
+    inline void CXX_STDCALL emergency(
+        pwide_t description, int lineno, pchar_t fname )
     {
-      CodePolice->Analyse( SIT_EMERGENCY, description, lineno, fname );
+        CodePolice->Analyse( SIT_EMERGENCY, description, lineno, fname );
     }
 
-  inline void CXX_STDCALL warning(
-    pwide_t msg, int lineno, pchar_t fname )
+    inline void CXX_STDCALL warning(
+        pwide_t msg, int lineno, pchar_t fname )
     {
-      CodePolice->Analyse( SIT_WARNING, msg, lineno, fname );
+        CodePolice->Analyse( SIT_WARNING, msg, lineno, fname );
     }
 
 } // namespace

@@ -14,14 +14,14 @@
 
 namespace teggo
 {
-  struct WideException
+    struct WideException
     {
-      WideException(pwide_t what=0) : what_(what) {}
-      WideException(FormatT<wchar_t> const &fwhat) { fwhat.Write(what_); }
-      virtual pwide_t What() const { return what_?what_.Str():L"unknown wexception"; }
-      virtual ~WideException() {}
+        WideException(pwide_t what=0) : what_(what) {}
+        WideException(FormatT<wchar_t> const& fwhat) { fwhat.Write(what_); }
+        virtual pwide_t What() const { return what_?what_.Str():L"unknown wexception"; }
+        virtual ~WideException() {}
 
-      widestring what_;
+        widestring what_;
     };
 }
 

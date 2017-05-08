@@ -14,47 +14,47 @@
 namespace teggo
 {
 
-  struct CXX_NO_VTABLE Ireferred
+    struct CXX_NO_VTABLE Ireferred
     {
-      virtual u32_t Release() = 0;
-      virtual u32_t AddRef() = 0;
-      virtual void *QueryInterface(guid_t const &guid) { return 0; }
-      virtual ~Ireferred() {}
-      //_TEGGO_EXPORTABLE virtual void Finalize();
+        virtual u32_t Release() = 0;
+        virtual u32_t AddRef() = 0;
+        virtual void* QueryInterface(guid_t const& guid) { return 0; }
+        virtual ~Ireferred() {}
+        //_TEGGO_EXPORTABLE virtual void Finalize();
 //       template <class tTx>
 //         tTx *Cast(Ireferred *p, tTx *_=0)
 //           { return (tTx*)QueryInterface(TEGGO_GUIDOF(tTx)); }
     };
-    
-  template < class tTbase >
+
+    template <class tTbase>
     struct RefcountedT : tTbase
-      {
+    {
         u32_t Release()
-          {
+        {
             if ( long refcount = InterlockedDecrement(&refcount_) )
-              return refcount;
+                return refcount;
             else
-              return (delete this), 0;
-          }
+                return (delete this), 0;
+        }
 
         u32_t AddRef()
-          {
+        {
             return InterlockedIncrement(&refcount_);
-          }
+        }
 
         RefcountedT() : refcount_(1) {}
         u32_t _Refcount() { return refcount_; }
 
-      protected:
+    protected:
         virtual ~RefcountedT() {}
 
-      private:
-        RefcountedT( const RefcountedT& );
-        RefcountedT& operator =( const RefcountedT& );
+    private:
+        RefcountedT( const RefcountedT&);
+        RefcountedT& operator =( const RefcountedT&);
         long refcount_;
-      };
+    };
 
-  typedef RefcountedT<Ireferred> Refcounted;
+    typedef RefcountedT<Ireferred> Refcounted;
 
 } // namespace
 

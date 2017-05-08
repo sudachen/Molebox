@@ -15,48 +15,48 @@
 #define _iXOr(_,l,i) i, l
 
 static int apif_internal = TlsAlloc();
-extern "C" void _DlF_COPY(void *mem);
+extern "C" void _DlF_COPY(void* mem);
 extern "C" int  _DlF_SIZE();
-extern "C" void _DlF_SET_ORIGN(void *mem, void* f);
-extern "C" void _DlF_SET_HANDLER(void *mem, void* f);
-extern "C" void _DlF_SET_RETN(void *mem, unsigned n);
-extern "C" void _DlF_SET_APIFID(void *mem, unsigned id);
+extern "C" void _DlF_SET_ORIGN(void* mem, void* f);
+extern "C" void _DlF_SET_HANDLER(void* mem, void* f);
+extern "C" void _DlF_SET_RETN(void* mem, unsigned n);
+extern "C" void _DlF_SET_APIFID(void* mem, unsigned id);
 extern "C" void _NtDlFhandler();
 
-void xVirtualProtect1(void *p, unsigned l, unsigned long &old)
-  {
+void xVirtualProtect1(void* p, unsigned l, unsigned long& old)
+{
     if ( !VirtualProtect(p,l,PAGE_EXECUTE_READWRITE,&old) )
-      VirtualProtect(p,l,PAGE_READWRITE,&old);
-  }
-  
-void xVirtualProtect(void *p, unsigned l)
-  {
+        VirtualProtect(p,l,PAGE_READWRITE,&old);
+}
+
+void xVirtualProtect(void* p, unsigned l)
+{
     unsigned long old;
     xVirtualProtect1(p,l,old);
-  }
-  
-void zVirtualProtect(void *p, unsigned l, unsigned long &old)
-  {
-    unsigned long n = old; 
+}
+
+void zVirtualProtect(void* p, unsigned l, unsigned long& old)
+{
+    unsigned long n = old;
     VirtualProtect(p,l,n,&old);
-  }
+}
 
-HRESULT (__stdcall *_NtQueryInformationProcess)(void *,unsigned long,void *,unsigned long,void *) = 0;
+HRESULT (__stdcall* _NtQueryInformationProcess)(void*,unsigned long,void*,unsigned long,void*) = 0;
 
-extern "C" void *apif_realcall[APIF_COUNT] = {0};
+extern "C" void* apif_realcall[APIF_COUNT] = {0};
 
-void HookFunc(int apif_id, char *fn_name, int retn, void *dll, void **hook)
-  {
+void HookFunc(int apif_id, char* fn_name, int retn, void* dll, void** hook)
+{
 
-    void *orign = GetProcAddressIndirect(dll,fn_name,0);
+    void* orign = GetProcAddressIndirect(dll,fn_name,0);
     if ( !orign ) return;
-    
-    void *fx = Splice5(orign);
-    void *f = AllocExecutableBlock(_DlF_SIZE());
+
+    void* fx = Splice5(orign);
+    void* f = AllocExecutableBlock(_DlF_SIZE());
 
     if ( !orign || !fx || !f)
-      __asm int 3
-      ;
+        __asm int 3
+        ;
 
     _DlF_COPY(f);
     _DlF_SET_ORIGN(f,fx);
@@ -72,27 +72,27 @@ void HookFunc(int apif_id, char *fn_name, int retn, void *dll, void **hook)
     *hook = f;
     zVirtualProtect(orign,5,old);
     apif_realcall[apif_id] = fx;
-  }
+}
 
 enum APIF_KIND
-  {
+{
     KIND_NONE,
     KIND_NTDLL,
     KIND_KRN32,
-  };
-  
+};
+
 struct APIF_F_RECORD
-  {
+{
     APIF_KIND apif_kind;
     APIF_ID   apif_id;
     int       xor_id;
     int       xor_l;
     int       retn;
-    void     *hook;
-  };
-  
+    void*     hook;
+};
+
 APIF_F_RECORD hooks_list[] =
-  {
+{
     { KIND_NTDLL, APIF_CREATEFILE,  _iXOr("NtCreateFile",13,131074), 44, 0 },
     { KIND_NTDLL, APIF_OPENFILE,    _iXOr("NtOpenFile",11,1179666), 24, 0 },
     { KIND_NTDLL, APIF_READFILE,    _iXOr("NtReadFile",11,2097184), 36, 0 },
@@ -136,7 +136,7 @@ APIF_F_RECORD hooks_list[] =
     //{ KIND_NTDLL, APIF_FINDCTXCSS,  _iXOr("RtlFindActivationContextSectionString",38,81724373), 20, 0},
     { KIND_NTDLL, APIF_CSRCALL,     _iXOr("CsrClientCallServer",20,67175423), 16, 0},
     { KIND_NTDLL, APIF_LOCKFILE,    _iXOr("NtLockFile",11,68879385), 40, 0},
-    { KIND_NTDLL, APIF_UNLOCKFILE,  _iXOr("NtUnlockFile",13,69796903), 20, 0}, 
+    { KIND_NTDLL, APIF_UNLOCKFILE,  _iXOr("NtUnlockFile",13,69796903), 20, 0},
     { KIND_KRN32, APIF_KRCREATECTX, _iXOr("CreateActCtxW",14,70845495), 4, 0},
     { KIND_KRN32, APIF_GETENVAR,    _iXOr("GetEnvironmentVariableW",24,71894087), 12, 0},
     { KIND_KRN32, APIF_KCRPROCA,    _iXOr("CreateProcessA",15,74384485), 40, 0},
@@ -145,171 +145,171 @@ APIF_F_RECORD hooks_list[] =
     { KIND_KRN32, APIF_CMDLINEA,    _iXOr("GetCommandLineA",16,93848728), 0, 0},
     { KIND_KRN32, APIF_CMDLINEW,    _iXOr("GetCommandLineW",16,95683756), 0, 0},
     { KIND_NONE,  APIF_NONE },
-  };
+};
 
-void APIF_::SetupNtKrHooks(void *ntdll,void *krdll)
-  {
-    APIF_F_RECORD *r = hooks_list;
+void APIF_::SetupNtKrHooks(void* ntdll,void* krdll)
+{
+    APIF_F_RECORD* r = hooks_list;
     char b[64];
     for ( ; r->apif_id ; ++r )
-      {
-        char *S = _UnXOr(r->xor_id,r->xor_l,b);
+    {
+        char* S = _UnXOr(r->xor_id,r->xor_l,b);
         if ( r->apif_kind == KIND_NTDLL )
-          HookFunc(r->apif_id,S,r->retn,ntdll,&r->hook);
+            HookFunc(r->apif_id,S,r->retn,ntdll,&r->hook);
         else if ( r->apif_kind == KIND_KRN32 )
-          HookFunc(r->apif_id,S,r->retn,krdll,&r->hook);
-      }
-  }
+            HookFunc(r->apif_id,S,r->retn,krdll,&r->hook);
+    }
+}
 
 void APIF_::UnsetHooks()
-  {
-    APIF_F_RECORD *r = hooks_list;
+{
+    APIF_F_RECORD* r = hooks_list;
     for ( ; r->apif_id; ++r )
-      {
+    {
         if ( r->hook )
-          _DlF_SET_HANDLER(r->hook,0);
-      }
-  }
+            _DlF_SET_HANDLER(r->hook,0);
+    }
+}
 
-void APIF_::Remove(APIfilter *f)
-  {
-  }
+void APIF_::Remove(APIfilter* f)
+{
+}
 
-void APIF_::Push(APIfilter *f)
-  {
+void APIF_::Push(APIfilter* f)
+{
     filters_.Append(f);
-  }
+}
 
-APIF_STATUS QueryProcInfo(void *_args,unsigned *result)
-  {
-    struct QPI { HANDLE hndl;ULONG ls;ULONG *val;ULONG l;ULONG *rs; };
-    QPI *a = (QPI*)_args;
+APIF_STATUS QueryProcInfo(void* _args,unsigned* result)
+{
+    struct QPI { HANDLE hndl; ULONG ls; ULONG* val; ULONG l; ULONG* rs; };
+    QPI* a = (QPI*)_args;
     //XDBG|_S*"%08x %08x" %a->ls %a->hndl;
     if ( a->ls == 0x22 && a->hndl == (HANDLE)-1 )
-      {
+    {
         *result = _NtQueryInformationProcess(a->hndl,a->ls,a->val,a->l,a->rs);
         *a->val |= 0x30;
         return APIF_RETURN;
-      }
+    }
     return APIF_ORIGINAL;
-  }
+}
 
-void *QueryAPI();
+void* QueryAPI();
 
-APIF_STATUS GetEnVar(void *args, unsigned *result)
-  {
-    struct GEV { LPCWSTR lpName;LPWSTR lpBuffer;DWORD nSize; } *a = (GEV*)args;
+APIF_STATUS GetEnVar(void* args, unsigned* result)
+{
+    struct GEV { LPCWSTR lpName; LPWSTR lpBuffer; DWORD nSize; } *a = (GEV*)args;
     StringA name = a->lpName;
     if ( StrSafeEqualI(+name,_XOr("molebox;version",16,5046357)) )
-      {
+    {
         *result = _BUILD_NUMBER;
         return APIF_RETURN;
-      }
+    }
     else if ( StrSafeEqualI(+name,_XOr("molebox;version;txt",20,10683311)) )
-      {
+    {
         StringW build = _S*L"%04d"%_BUILD_NUMBER;
         *result = build.Length();
         memcpy(a->lpBuffer,+build,build.Length()*2+2);
         return APIF_RETURN;
-      } 
+    }
     else if ( StrSafeEqualI(+name,_XOr("molebox;api",12,12190598)) && a->nSize == sizeof(void*) )
-      {
+    {
         *(void**)a->lpBuffer = QueryAPI();
         *result = sizeof(void*);
         return APIF_RETURN;
-      }
+    }
     return APIF_CONTINUE;
-  }
+}
 
-struct SX { unsigned r[4]; }; 
-extern "C" APIF_STATUS __cdecl APIF_DoCall(SX,int apif_id, void *args, unsigned *result)
-  {
+struct SX { unsigned r[4]; };
+extern "C" APIF_STATUS __cdecl APIF_DoCall(SX,int apif_id, void* args, unsigned* result)
+{
     if (apif_id == APIF_QUEPROCINFO) return QueryProcInfo(args,result);
-    
+
     if (apif_id == APIF_CSRCALL)
-      for ( int i = 0; i < APIF_::filters_.Count(); ++i )
-        if ( APIF_::filters_[i]->DoCall(APIF_CSRCALL,args,result) != APIF_CONTINUE )
-          return APIF_ORIGINAL;
+        for ( int i = 0; i < APIF_::filters_.Count(); ++i )
+            if ( APIF_::filters_[i]->DoCall(APIF_CSRCALL,args,result) != APIF_CONTINUE )
+                return APIF_ORIGINAL;
 
     APIF_STATUS apif_s = APIF_ORIGINAL;
     unsigned lastStatus = *_LASTSTATUS();
     unsigned le = GetLastError();
 
     if ( apif_id != APIF_KRCREATECTX )
-      {
+    {
         if ( TlsGetValue(apif_internal) )
-          return APIF_ORIGINAL;
+            return APIF_ORIGINAL;
         TlsSetValue(apif_internal,(void*)1);
-      }
+    }
 
-    XDBG|_S*_XOr(".apif.Call %d",14,8913800) %apif_id;
+    XDBG|_S* _XOr(".apif.Call %d",14,8913800) %apif_id;
 
     if ( 0 )
-      if ( !HeapValidate(GetProcessHeap(),0,0) ) 
-        __asm int 3; 
-          
+        if ( !HeapValidate(GetProcessHeap(),0,0) )
+            __asm int 3;
+
     for ( int i = 0; i < APIF_::filters_.Count(); ++i )
-      {
+    {
         apif_s = APIF_::filters_[i]->DoCall(apif_id,args,result);
         switch ( apif_s )
-          {
+        {
             case APIF_RETURN:
             case APIF_ORIGINAL:
-              goto e;
+                goto e;
             case APIF_CONTINUE:
-              break;
-          }
-      }
-      
+                break;
+        }
+    }
+
     if ( 0 )
-      if ( !HeapValidate(GetProcessHeap(),0,0) ) 
-        __asm int 3; 
+        if ( !HeapValidate(GetProcessHeap(),0,0) )
+            __asm int 3;
 
     if ( apif_id == APIF_GETENVAR && apif_s == APIF_CONTINUE )
-        apif_s = GetEnVar(args,result); 
-        
-  e:
+        apif_s = GetEnVar(args,result);
+
+e:
     if ( apif_id != APIF_KRCREATECTX )
-      TlsSetValue(apif_internal,(void*)0);
+        TlsSetValue(apif_internal,(void*)0);
     SetLastError(le);
     *_LASTSTATUS() = apif_s == APIF_RETURN ? *result : lastStatus;
     return apif_s;
-  }
+}
 
 BufferT<APIfilter*> APIF_::filters_ = BufferT<APIfilter*>();
 
 void APIF_::AcquireFilterLock()
-  {
+{
     int i = (int)TlsGetValue(apif_internal);
     TlsSetValue(apif_internal,(void*)(i+1));
-  }
+}
 
 void APIF_::ReleaseFilterLock()
-  {
+{
     int i = (int)TlsGetValue(apif_internal);
     if ( i )
-      TlsSetValue(apif_internal,(void*)(i-1));
+        TlsSetValue(apif_internal,(void*)(i-1));
     else
-      __asm int 3
-      ;
-  }
+        __asm int 3
+        ;
+}
 
 long __stdcall APIF_LogState()
-  {
+{
     for ( int i = 0; i < APIF_::filters_.Count(); ++i )
-      APIF_::filters_[i]->LogState();
+        APIF_::filters_[i]->LogState();
     return 0;
-  }
+}
 
-extern "C" void Regster_API_Filter(API_FILTER *flt)
-  {
+extern "C" void Regster_API_Filter(API_FILTER* flt)
+{
     APIF->Push(new APIfilter_C(flt));
-  }
+}
 
 extern "C" void Regster_Clear()
-  {
+{
     APIF_::filters_.Clear();
-  }
+}
 
 
 
