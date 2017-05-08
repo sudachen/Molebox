@@ -13,7 +13,6 @@ The first public version released in 2004. Commercial development discontinued i
 git clone https://github.com/sudachen/Molebox.git
 cd Molebox
 git clone https://github.com/sudachen/xternal.git
-cd ..
 makeall.cmd 
 ```
 
