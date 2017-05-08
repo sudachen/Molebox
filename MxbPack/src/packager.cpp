@@ -13,7 +13,7 @@
 #include "../../Core/include/spackstru.h"
 #include "XorS.h"
 
-typedef NEWDES_Cipher Cipher;
+typedef BLOWFISH_Cipher Cipher;
 
 inline unsigned MASK_FILE_OPTS(unsigned a) { return a; }
 

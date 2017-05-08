@@ -40,7 +40,6 @@ OBJECTS = \
     $(OBJDIR)\rsa_accel.obj \
     $(OBJDIR)\xorS.obj \
     $(OBJDIR)\classes.obj \
-    $(OBJDIR)\newdes_accel.obj \
     $(OBJDIR)\cor0S.obj 
 
 $(OBJDIR)\rsa.obj : $(TOPDIR)\Core\classes\RSA512.SRC\rsa.cpp
@@ -52,11 +51,8 @@ $(OBJDIR)\rsa_accel.obj : $(TOPDIR)\Core\classes\RSA512.SRC\rsa_accel.S
 $(OBJDIR)\fpattern_a.obj : $(TOPDIR)\Core\src\fpattern_a.c
     $(CC) -c $(CCFLAGS) $(DLL_OPTS) $(INCL) -Fo$@ $**
 
-$(OBJDIR)\version.obj : $(TOPDIR)\Core\src\version.c
+$(OBJDIR)\version.obj : $(TOPDIR)\version.c
     $(CC) -c $(CCFLAGS) $(DLL_OPTS) $(INCL) -Fo$@ $**
-
-$(OBJDIR)\newdes_accel.obj: $(TOPDIR)\Core\classes\sources\newdes_accel.S
-    $(AS) $(ASFLAGS) -o$@ $**
 
 $(OBJDIR)\cor0S.obj : $(TOPDIR)\Core\cor0S.c
     $(CC) -c $(CCFLAGS) $(DLL_OPTS) $(INCL) -Fo$@ $**

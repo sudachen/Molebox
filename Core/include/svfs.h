@@ -10,7 +10,7 @@
 namespace svfs
 {
 
-    typedef NEWDES_Cipher Cipher;
+    typedef BLOWFISH_Cipher Cipher;
 
     struct Package;
 

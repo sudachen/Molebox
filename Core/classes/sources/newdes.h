@@ -15,16 +15,14 @@
 #define _TEGGO_EXPORTABLE
 #endif
 
+#include <libhash/NDES.h>
+
 namespace teggo
 {
 
     struct NEWDES_Cipher // trivial 'aka C' structure
     {
-        enum { BLOCK_BYTES = 8 };
-        enum { KEY_BYTES   = 15 };
-        enum { UNRAV_BYTES = 60 };
-        enum { UNRAV_BYTES_1 = 68 };
-        enum _CONFIGURE_FLAG { ENCRYPTION, DECRYPTION };
+	NDES_CONTEXT ctx;
 
         _TEGGO_EXPORTABLE void SetupEncipher(void const* key);
         _TEGGO_EXPORTABLE void SetupDecipher(void const* key);
@@ -32,19 +30,8 @@ namespace teggo
         _TEGGO_EXPORTABLE void DoCipherCBCI(void* data, u32_t count_of_blocks, uint64_t IVc = 0);
         _TEGGO_EXPORTABLE void DoCipherCBCO(void* data, u32_t count_of_blocks, uint64_t IVc = 0);
         _TEGGO_EXPORTABLE void DoCipherBlock(void* b);
-        _TEGGO_EXPORTABLE void Normalize_(byte_t const* kunrav);
-
-        union
-        {
-            unsigned _;
-            unsigned char key_unrav[UNRAV_BYTES_1];
-        };
     };
 }
-
-//#if defined _X86_ASSEMBLER
-extern "C" void NEWDES_DoCipher_S(void const* key,void* b,int count);
-//#endif
 
 #include "./newdes.inl"
 

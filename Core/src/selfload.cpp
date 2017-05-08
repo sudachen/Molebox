@@ -78,15 +78,15 @@ void Load_Registry_Files(pwide_t mask)
         u32_t wsr;
         char error[256];
         BufferT<char> text(lst->At(i)->Size() + 2, '\0');
-        xlog | _S* _XOr("importing registry file: %s",28,366638118) % lst->At(i)->ComposePath1();
+        xlog | _S* _XOr("importing registry file: %s",28,332559602) % lst->At(i)->ComposePath1();
         if (0 == lst->At(i)->Read(0, +text, lst->At(i)->Size(), &wsr))
         {
             if (!Import_Registry(+text, error))
-                xlog | _S* _XOr("failed to import registry file: %s",35,339571717) % error;
+                xlog | _S* _XOr("failed to import registry file: %s",35,338916371) % error;
         }
         else
         {
-            xlog | _S* _XOr("failed to read registry file: %s",33,342127724)
+            xlog | _S* _XOr("failed to read registry file: %s",33,337146936)
             % lst->At(i)->ComposePath1();
         }
     }
@@ -95,7 +95,7 @@ void Load_Registry_Files(pwide_t mask)
 
 int ActiveX_Register(int, pwide_t fullname)
 {
-    xlog | _S* _XOr("ocx_register: %s",17,340489303) % fullname;
+    xlog | _S* _XOr("ocx_register: %s",17,340030556) % fullname;
     int olderr = SetErrorMode(SEM_NOOPENFILEERRORBOX | SEM_FAILCRITICALERRORS);
     long(__stdcall * DLLregisterServer)(void) = 0;
     if (HMODULE hm = LoadLibraryExW((wchar_t*)fullname, 0, LOAD_WITH_ALTERED_SEARCH_PATH))
@@ -104,7 +104,7 @@ int ActiveX_Register(int, pwide_t fullname)
         {
             long hr = DLLregisterServer();
             if (hr)
-                xlog | _S* _XOr("  failed to register with code %d",34,346126241) % hr;
+                xlog | _S* _XOr("  failed to register with code %d",34,341275727) % hr;
         }
     }
     SetErrorMode(olderr);
@@ -257,8 +257,8 @@ void InitializeStage_Protector(unsigned flags = 0xffffffff)
 
 void InitializeStage_0(unsigned flags = 0xffffffff, unsigned catalog_base = 0)
 {
-    xlog | _S* _XOr("commad line: %s",16,344422283) % GetCommandLineW();
-    xlog | _XOr("starting at stage 0 ...",24,345536408);
+    xlog | _S* _XOr("commad line: %s",16,348026774) % GetCommandLineW();
+    xlog | _XOr("starting at stage 0 ...",24,344684427);
     #if !defined __BUILD_VR_CORE__
     VFS->InitAndLoadInternalCatalog((flags & TEGGOVBOX_SEARCH_FOR_EMBEDDINGS) ? catalog_base : 0);
     #else
@@ -281,7 +281,7 @@ void InitializeStage_0(unsigned flags = 0xffffffff, unsigned catalog_base = 0)
 
 void InitializeStage_1(unsigned flags = 0xffffffff) // applying default rules
 {
-    xlog | _XOr("starting at stage 1 ...",24,351434750);
+    xlog | _XOr("starting at stage 1 ...",24,351106981);
     #if !defined __BUILD_VR_CORE__
     if (flags & TEGGOVBOX_SEARCH_FOR_EMBEDDINGS)
         VFS->MoundDefaults();
@@ -327,7 +327,7 @@ return handle;
 
 void FixupImageName()
 {
-    if (int l = GetEnvironmentVariableA(_XOr("XOJUMAN-APPNAME",16,349140947), 0, 0))
+    if (int l = GetEnvironmentVariableA(_XOr("XOJUMAN-APPNAME",16,348157888), 0, 0))
     {
         //__asm int 3;
 
@@ -335,7 +335,7 @@ void FixupImageName()
         MY_RTL_USER_PROCESS_PARAMETERS* para = peb->ProcessParameters;
 
         wchar_t* imgpathq = (wchar_t*)HeapAlloc(peb->ProcessHeap, HEAP_ZERO_MEMORY, l * 2 + 2);
-        GetEnvironmentVariableW(+StringW(_XOr("XOJUMAN-APPNAME",16,388003616)), imgpathq, l);
+        GetEnvironmentVariableW(+StringW(_XOr("XOJUMAN-APPNAME",16,350124022)), imgpathq, l);
         RtlInitUnicodeString(&para->ImagePathName, imgpathq);
         RtlInitUnicodeString(&para->WindowTitle, imgpathq);
 
@@ -370,7 +370,7 @@ void* __stdcall _GetProcAddress(HMODULE mod, char* proc)
 extern "C" void* __stdcall _kernel32_GetModuleHandleW_xcall_6(int,wchar_t*);
 void* __stdcall _GetModuleHandleW(wchar_t* modname)
 {
-    if (equal1(modname, _XOr("KERNEL32.DLL",13,389183294)))
+    if (equal1(modname, _XOr("KERNEL32.DLL",13,355170283)))
         return _KERN32;
     return _kernel32_GetModuleHandleW_xcall_6(6,modname);
 }
@@ -383,8 +383,8 @@ void __stdcall _FirstCall(void* ntdll, void* kern32, STB_INFO* info, void* base)
     InitHeapAndSplicer(info, base);
     _ntdll_xcall_fullinit();
 
-    _USER32 = GetModuleHandleA(_XOr("user32",7,386234125));
-    _ADVA32 = GetModuleHandleA(_XOr("advapi32",9,386889491));
+    _USER32 = GetModuleHandleA(_XOr("user32",7,352745246));
+    _ADVA32 = GetModuleHandleA(_XOr("advapi32",9,352876296));
     _imp__GetModuleHandleW__4 = _GetModuleHandleW;
     _imp__GetProcAddress__8 = _GetProcAddress;
 
@@ -459,7 +459,7 @@ void* __stdcall loadlibrary(char* dllname)
     if (void* m = LoadLibraryA(dllname))
         return m;
 e:
-    MessageBox(0, 0 | _S * _XOr("failed to load module %s",25,387610470) % dllname, _XOr("Import Error",13,393705339),
+    MessageBox(0, 0 | _S * _XOr("failed to load module %s",25,354252597) % dllname, _XOr("Import Error",13,359888723),
                MB_OK | MB_ICONERROR);
     TerminateProcess((HANDLE) - 1, -1);
     return 0;
@@ -480,8 +480,8 @@ void* __stdcall getproc(void* module, char* procname)
     {
         char modname[256] = {0};
         GetModuleBaseNameA((HANDLE) - 1, (HMODULE)module, modname, 255);
-        MessageBox(0, 0 | _S * _XOr("module %s doesn't have symbol %s",33,390494026) % modname % procname,
-                   _XOr("Import Error",13,397113015), MB_OK | MB_ICONERROR);
+        MessageBox(0, 0 | _S * _XOr("module %s doesn't have symbol %s",33,356677442) % modname % procname,
+                   _XOr("Import Error",13,363362152), MB_OK | MB_ICONERROR);
         TerminateProcess((HANDLE) - 1, -1);
     }
     if (module && (0
@@ -529,7 +529,7 @@ void ReorderImports(byte_t* mapped)
     for (; d->Name; ++d)
     {
         StringA dn = StringA((pchar_t)(mapped + d->Name)).ToLower();
-        if (dn.StartWith(_XOr("user32",7,398096006)) || dn.StartWith(_XOr("gdi32",6,394557068)))
+        if (dn.StartWith(_XOr("user32",7,364869271)) || dn.StartWith(_XOr("gdi32",6,360871554)))
             continue;
         int n = 0;
         u32_t* p = (u32_t*)(mapped + d->FirstThunk);
@@ -974,7 +974,7 @@ void ExecuteActivator(STB_INFO* info)
     //if ( base )
     //  {
     //    int (__stdcall *f)(void *base) = 0;
-    //    *(void**)&f = GetProcAddressIndirect(base,_XOr("_Activate@4",12,395212434),0);
+    //    *(void**)&f = GetProcAddressIndirect(base,_XOr("_Activate@4",12,361395850),0);
     //    if ( f && f(base) ) return;
     //  }
 
@@ -984,9 +984,9 @@ void ExecuteActivator(STB_INFO* info)
 
         int (__stdcall * f)(void* base) = 0;
         typedef int (__cdecl * fC)(void*);
-        *(void**)&f = GetProcAddressIndirect(base, _XOr("_Activate@4",12,396261090), 0);
-        if (!f) *(void**)&f = GetProcAddressIndirect(base, _XOr("Activate@4",11,401569523), 0);
-        if (!f) *(void**)&f = GetProcAddressIndirect(base, _XOr("Activate",9,402421444), 0);
+        *(void**)&f = GetProcAddressIndirect(base, _XOr("_Activate@4",12,362313400), 0);
+        if (!f) *(void**)&f = GetProcAddressIndirect(base, _XOr("Activate@4",11,368015015), 0);
+        if (!f) *(void**)&f = GetProcAddressIndirect(base, _XOr("Activate",9,368998102), 0);
 
         bool ok = 1;
         ulong_t act_cookie = 0;
@@ -998,7 +998,7 @@ void ExecuteActivator(STB_INFO* info)
         }
         else
         {
-            *(void**)&f = GetProcAddressIndirect(base, _XOr("_activate",10,399013576), 0);
+            *(void**)&f = GetProcAddressIndirect(base, _XOr("_activate",10,365786821), 0);
             ok = (f && ((fC)f)(api));
         }
 
@@ -1017,8 +1017,8 @@ void ActDeactivate(ulong_t cookie)
     static BOOL (__stdcall * fDeactivateActCtx)(DWORD, ulong_t) = 0;
     if (!fDeactivateActCtx)
     {
-        HMODULE hm = GetModuleHandle(_XOr("kernel32.dll",13,399996635));
-        *(void**)&fDeactivateActCtx = GetProcAddress(hm, _XOr("DeactivateActCtx",17,371684907));
+        HMODULE hm = GetModuleHandle(_XOr("kernel32.dll",13,366769908));
+        *(void**)&fDeactivateActCtx = GetProcAddress(hm, _XOr("DeactivateActCtx",17,372209383));
     }
     fDeactivateActCtx(DEACTIVATE_ACTCTX_FLAG_FORCE_EARLY_DEACTIVATION, cookie);
 }
@@ -1032,9 +1032,9 @@ void InitActFromManifest(void* base, pwide_t mod_path, ulong_t* cookie)
 
     if (!fCreateActCtxW)
     {
-        HMODULE hm = GetModuleHandle(_XOr("kernel32.dll",13,373126661));
-        *(void**)&fActivateActCtx = GetProcAddress(hm, _XOr("ActivateActCtx",15,370112019));
-        *(void**)&fCreateActCtxW = GetProcAddress(hm, _XOr("CreateActCtxW",14,375420512));
+        HMODULE hm = GetModuleHandle(_XOr("kernel32.dll",13,369522206));
+        *(void**)&fActivateActCtx = GetProcAddress(hm, _XOr("ActivateActCtx",15,370177584));
+        *(void**)&fCreateActCtxW = GetProcAddress(hm, _XOr("CreateActCtxW",14,375617059));
     }
 
     IMAGE_NT_HEADERS* nth = NT_HEADERS(base);
@@ -1073,7 +1073,7 @@ void InitActFromManifest(void* base, pwide_t mod_path, ulong_t* cookie)
         if (h != INVALID_HANDLE_VALUE)
             fA = fActivateActCtx(h, cookie);
         if (!fA)
-            xlog | _XOr("failed to activate default manifest",36,376665727);
+            xlog | _XOr("failed to activate default manifest",36,377255508);
     }
 }
 
@@ -1194,12 +1194,12 @@ void* InitializeDotNet(STB_INFO* info, void* base)
     void* mscoree = 0;
 
     if (!fCoInitializeEE)
-        if (mscoree = GetModuleHandle(_XOr("mscoree.dll",12,374961753)))
+        if (mscoree = GetModuleHandle(_XOr("mscoree.dll",12,380008062)))
         {
-            *(void**)&fCoInitializeEE = GetProcAddressIndirect(mscoree, _XOr("CoInitializeEE",15,380205481), -1);
-            *(void**)&f_CorValidateImage = GetProcAddressIndirect(mscoree, _XOr("_CorValidateImage",18,381319558), -1);
-            *(void**)&fCorBindToRuntime = GetProcAddressIndirect(mscoree, _XOr("CorBindToRuntime",17,378632593), -1);
-            //*(void**)&fCLRCreateInstance = GetProcAddressIndirect(mscoree,_XOr("CLRCreateInstance",18,384203242),-1);
+            *(void**)&fCoInitializeEE = GetProcAddressIndirect(mscoree, _XOr("CoInitializeEE",15,380991085), -1);
+            *(void**)&f_CorValidateImage = GetProcAddressIndirect(mscoree, _XOr("_CorValidateImage",18,377649538), -1);
+            *(void**)&fCorBindToRuntime = GetProcAddressIndirect(mscoree, _XOr("CorBindToRuntime",17,379222458), -1);
+            //*(void**)&fCLRCreateInstance = GetProcAddressIndirect(mscoree,_XOr("CLRCreateInstance",18,385251758),-1);
         }
     if (fCoInitializeEE)
     {
@@ -1208,12 +1208,12 @@ void* InitializeDotNet(STB_INFO* info, void* base)
         if (FAILED(hr))
             return CLRfailed;
 
-        void* mscorwks = GetModuleHandle(_XOr("mscorwks",9,385776066));
-        void* clr = GetModuleHandle(_XOr("clr",4,382433751));
+        void* mscorwks = GetModuleHandle(_XOr("mscorwks",9,382499268));
+        void* clr = GetModuleHandle(_XOr("clr",4,383220175));
 
-        void* snvf1 = GetProcAddressIndirect(mscoree, _XOr("StrongNameSignatureVerification",32,382761424), -1);
-        void* snvf2 = GetProcAddressIndirect(mscorwks, _XOr("StrongNameSignatureVerification",32,422869308), -1);
-        void* snvf4 = GetProcAddressIndirect(clr, _XOr("StrongNameSignatureVerification",32,421230951), -1);
+        void* snvf1 = GetProcAddressIndirect(mscoree, _XOr("StrongNameSignatureVerification",32,383613429), -1);
+        void* snvf2 = GetProcAddressIndirect(mscorwks, _XOr("StrongNameSignatureVerification",32,389576984), -1);
+        void* snvf4 = GetProcAddressIndirect(clr, _XOr("StrongNameSignatureVerification",32,392460604), -1);
 
         if (snvf1)
             RewriteSnvf(snvf1);
@@ -1229,9 +1229,9 @@ void* InitializeDotNet(STB_INFO* info, void* base)
         }
 
         if (mscorwks)
-            *(void**)&f_CorExeMain = GetProcAddressIndirect(mscorwks, _XOr("_CorExeMain",12,427587908), -1);
+            *(void**)&f_CorExeMain = GetProcAddressIndirect(mscorwks, _XOr("_CorExeMain",12,390560095), -1);
         if (!f_CorExeMain && clr)
-            *(void**)&f_CorExeMain = GetProcAddressIndirect(clr, _XOr("_CorExeMain",12,424507733), -1);
+            *(void**)&f_CorExeMain = GetProcAddressIndirect(clr, _XOr("_CorExeMain",12,391149936), -1);
         if (f_CorExeMain)
             return &ExecuteCLR;
     }
@@ -1326,7 +1326,7 @@ void SetAvHandler(STB_INFO* info)
 void ReConfigureDEP()
 {
     BOOL (__stdcall * fSetProcessDEPPolicy)(DWORD) = 0;
-    *(void**)&fSetProcessDEPPolicy = GetProcAddressIndirect(_KERN32, _XOr("SetProcessDEPPolicy",20,425687203), -1);
+    *(void**)&fSetProcessDEPPolicy = GetProcAddressIndirect(_KERN32, _XOr("SetProcessDEPPolicy",20,396851583), -1);
     if (fSetProcessDEPPolicy)
     {
         if (!fSetProcessDEPPolicy(0))
@@ -1476,13 +1476,13 @@ void* Mmap_Exe_Address_Space(IMAGE_NT_HEADERS* nth, bool* relocated)
     void* p = Mmap_Address_Space((void*)nth->OptionalHeader.ImageBase, nth->OptionalHeader.SizeOfImage, relocatable);
     if (p != (void*)nth->OptionalHeader.ImageBase)
     {
-        XLOG | _S* _XOr("<EXELOAD> relocated %08x -> %08x",33,431585465)
+        XLOG | _S* _XOr("<EXELOAD> relocated %08x -> %08x",33,398293141)
         % nth->OptionalHeader.ImageBase
         % p;
         *relocated = 1;
     }
     if (!p)
-        XLOG | _XOr("<EXELOAD> failed to allocate address space",43,429553894);
+        XLOG | _XOr("<EXELOAD> failed to allocate address space",43,396064955);
     return p;
 }
 
@@ -1494,7 +1494,7 @@ void* Load_Exe_From_File(pwide_t filename, bool reset_peb_base, bool kill_curren
 
     if (!fp)
     {
-        XLOG | _S* _XOr("<EXELOAD> failed to open internal file '%s'",44,432634057) % filename;
+        XLOG | _S* _XOr("<EXELOAD> failed to open internal file '%s'",44,399079625) % filename;
         __asm mov ecx, __LINE__;
         __asm int 3;
     }
@@ -1502,7 +1502,7 @@ void* Load_Exe_From_File(pwide_t filename, bool reset_peb_base, bool kill_curren
     IMAGE_NT_HEADERS l_nth = {0};
     if (0 != fp->ReadImageNtHeaders(&l_nth))
     {
-        XLOG | _S* _XOr("<EXELOAD> failed to read from file '%s\\%s'",43,406353976)
+        XLOG | _S* _XOr("<EXELOAD> failed to read from file '%s\\%s'",43,406419481)
         % fp->PackageName() % fp->ComposePath1();
         __asm mov ecx, __LINE__;
         __asm int 3;
@@ -1513,7 +1513,7 @@ void* Load_Exe_From_File(pwide_t filename, bool reset_peb_base, bool kill_curren
         _XPEB* peb = (_XPEB*)_PEB();
         if (!UnmapViewOfFile(peb->ImageBaseAddress))
         {
-            XLOG | _S* _XOr("<EXELOAD> failed to unmap original PE",38,409368682);
+            XLOG | _S* _XOr("<EXELOAD> failed to unmap original PE",38,409958439);
             __asm mov ecx, __LINE__;
             __asm int 3;
         }
@@ -1523,7 +1523,7 @@ void* Load_Exe_From_File(pwide_t filename, bool reset_peb_base, bool kill_curren
 
     if (0 != fp->Read(0, base, 4 * 1024, &wasread))
     {
-        XLOG | _S* _XOr("<EXELOAD> failed to read from file '%s\\%s'",43,407992401)
+        XLOG | _S* _XOr("<EXELOAD> failed to read from file '%s\\%s'",43,408123507)
         % fp->PackageName() % fp->ComposePath1();
         __asm mov ecx, __LINE__;
         __asm int 3;
@@ -1544,7 +1544,7 @@ void* Load_Exe_From_File(pwide_t filename, bool reset_peb_base, bool kill_curren
                     S->SizeOfRawData,
                     &wasread))
             {
-                XLOG | _S* _XOr("<EXELOAD> failed to read section %d from file '%s\\%s'",54,411138945)
+                XLOG | _S* _XOr("<EXELOAD> failed to read section %d from file '%s\\%s'",54,411270019)
                 % i % fp->PackageName() % fp->ComposePath1();
                 __asm mov ecx, __LINE__;
                 __asm int 3;
@@ -1631,8 +1631,8 @@ extern "C" __declspec(dllexport) void* __stdcall SDK_Inject(unsigned flags, void
     InitHeapAndSplicer(0, base);
     _ntdll_xcall_fullinit();
 
-    _USER32 = GetModuleHandleA(_XOr("user32",7,419265477));
-    _ADVA32 = GetModuleHandleA(_XOr("advapi32",9,415661002));
+    _USER32 = GetModuleHandleA(_XOr("user32",7,419134427));
+    _ADVA32 = GetModuleHandleA(_XOr("advapi32",9,416185286));
     _imp__GetModuleHandleW__4 = _GetModuleHandleW;
     _imp__GetProcAddress__8 = _GetProcAddress;
 
@@ -1663,7 +1663,7 @@ extern "C" __declspec(dllexport) void* __stdcall SDK_Inject(unsigned flags, void
     //SetAvHandler(0); // setting AV handler
     _Inity(flags, 0);
 
-    XLOG | _XOr("working in Injectin mode",25,416644061);
+    XLOG | _XOr("working in Injectin mode",25,417102836);
 
     Open_Inherited(sti);
     exeFilterIsEnabled = false;
@@ -1715,7 +1715,7 @@ extern "C" __declspec(dllexport) void* __stdcall SDK_Init(unsigned flags, void* 
     #endif
     g_License_Level = 100;
     _Inity(flags, 0);
-    XLOG | _XOr("working in SDK mode",20,456031026);
+    XLOG | _XOr("working in SDK mode",20,422673169);
     g_Core_Handle = core;
     g_Inject_Flags = flags;
     g_Inject_Into_Child = flags & TEGGOVBOX_CORE_INJECT;

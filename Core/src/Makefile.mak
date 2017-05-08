@@ -32,7 +32,6 @@ OBJECTS= \
     $(OBJDIR)\splash_pp.obj \
     $(OBJDIR)\rsa.obj \
     $(OBJDIR)\rsa_accel.obj \
-    $(OBJDIR)\newdes.obj \
     $(OBJDIR)\selfload.obj \
     $(OBJDIR)\auxS.obj \
     $(OBJDIR)\apifS.obj \

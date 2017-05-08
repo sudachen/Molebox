@@ -151,7 +151,7 @@ namespace svfs
     bool Catalog::Open(StringParam fname, unsigned base, EhFilter ehf)
     {
         byte_t catalog_key[16];
-        Md5S(_XOr("7233DA04FCF24B388408701CB1F874F3",33,458193747),catalog_key);
+        Md5S(_XOr("7233DA04FCF24B388408701CB1F874F3",33,425622390),catalog_key);
         Cipher cipher;
         cipher.SetupDecipher(catalog_key);
         HandleDataStream* hds;
@@ -261,7 +261,7 @@ namespace svfs
 
         name_ = name;
 
-        memcpy(b8,_XOr("STELPACK",9,464747199),8);
+        memcpy(b8,_XOr("STELPACK",9,431585945),8);
         cipher_.SetupDecipher(pwdsign);
         memcpy(pwd_,pwdsign,16);
 
@@ -272,7 +272,7 @@ namespace svfs
         ds->Read(sign, 8);
         cipher_.DoCipher(sign, 1);
 
-        if ( 0 == memcmp(sign, _XOr("QUICKBOX",9,465336964), 8) )
+        if ( 0 == memcmp(sign, _XOr("QUICKBOX",9,428636804), 8) )
         {
             ds->Read(&fixup, 4);
             if (fixup >= 4) fixup -= 4;
@@ -348,7 +348,7 @@ namespace svfs
                 SHA1_Finish(&ctx,sha1a);
                 if ( memcmp(sha1a,sha1,20) != 0 )
                 {
-                    xlog | _S* _XOr("streams catatalog corrupted",28,461929096);
+                    xlog | _S* _XOr("streams catatalog corrupted",28,428964529);
                     strms_.Clear();
                 }
             }

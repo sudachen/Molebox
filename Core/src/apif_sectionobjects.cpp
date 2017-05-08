@@ -300,14 +300,14 @@ struct SectionObjectFilter : APIfilter
     APIF_STATUS DoCloseObject(void* _a, unsigned* result)
     {
         NT_CLOSE_ARGS* args = (NT_CLOSE_ARGS*)_a;
-        //XDBG|_S*_XOr(".apif.CloseObject %08x",23,270364773) % args->FileHandle;
+        //XDBG|_S*_XOr(".apif.CloseObject %08x",23,269578289) % args->FileHandle;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
         {
             if (o)
             {
                 __lockon__(VFS)
                 if ( o->IsValid() )
-                    XLOG|_S* _XOr("<APIF/VFS> close section (%08x) '%s\\%s'",40,276066428)
+                    XLOG|_S* _XOr("<APIF/VFS> close section (%08x) '%s\\%s'",40,276131885)
                     %args->FileHandle
                     %o->PackageName()
                     %o->ComposePath();
@@ -326,7 +326,7 @@ struct SectionObjectFilter : APIfilter
     APIF_STATUS DoCreateSection(void* _a, unsigned* result)
     {
         NT_CREATESECT_ARGS* args = (NT_CREATESECT_ARGS*)_a;
-        XDBG|_S* _XOr(".apif.CreateSection file %08x, size %08x, page %08x, type %08x",63,279081902)
+        XDBG|_S* _XOr(".apif.CreateSection file %08x, size %08x, page %08x, type %08x",63,274428027)
         %args->FileHandle
         %(args->MaximumSize?args->MaximumSize->LowPart:0)
         %args->PageAttributes
@@ -370,7 +370,7 @@ struct SectionObjectFilter : APIfilter
                     else
                         *args->SectionHandle = 0,
                                *result = STATUS_INVALID_HANDLE;
-                    XLOG|_S* _XOr("<APIF/VFS> create section for '%s\\%s', attr %08x, size %08x -> %08x,%08x",73,283472877)
+                    XLOG|_S* _XOr("<APIF/VFS> create section for '%s\\%s', attr %08x, size %08x -> %08x,%08x",73,283603903)
                     %p->PackageName()
                     %p->ComposePath()
                     %args->SectionAttributes
@@ -390,7 +390,7 @@ struct SectionObjectFilter : APIfilter
         NT_MAPSECTION_ARGS* args = (NT_MAPSECTION_ARGS*)_a;
         //__asm int 3
         ;
-        XDBG|_S* _XOr(".apif.MapSection %08x, base %08x, offset %08x, size %08x, protect %08x",71,322138943)
+        XDBG|_S* _XOr(".apif.MapSection %08x, base %08x, offset %08x, size %08x, protect %08x",71,288715757)
         %args->SectionHandle
         %*args->BaseAddress
         %(args->SectionOffset?args->SectionOffset->LowPart:0)
@@ -405,9 +405,11 @@ struct SectionObjectFilter : APIfilter
                               (args->SectionOffset?args->SectionOffset->LowPart:0),
                               args->BaseAddress,
                               args->ViewSize);
-                XLOG|_S* _XOr("<APIF/VFS> mmap section (%08x) '%s\\%s' at %08x - %08x -> %08x",62,
-                              327054146) %args->SectionHandle %o->PackageName() %o->ComposePath() %*args->BaseAddress %(args->ViewSize?*args->ViewSize:
-                                      o->Size())
+                XLOG|_S* 
+		   _XOr("<APIF/VFS> mmap section (%08x) '%s\\%s' at %08x - %08x -> %08x",62,293565271) 
+				%args->SectionHandle %o->PackageName() %o->ComposePath() 
+				%*args->BaseAddress 
+				%(args->ViewSize?*args->ViewSize:o->Size())
                 %*result;
                 if ( NT_SUCCESS(*result) )
                     subject_.Put(*args->BaseAddress,RccRefe(+o));
@@ -508,12 +510,12 @@ struct SectionObjectFilter : APIfilter
     APIF_STATUS DoQuerySection(void* _a, unsigned* result)
     {
         NT_QUESECTION_ARGS* args = (NT_QUESECTION_ARGS*)_a;
-        //XDBG|_S*_XOr(".apif.MapSection %08x, base %08x, protect %08x",47,331248258) %;
+        //XDBG|_S*_XOr(".apif.MapSection %08x, base %08x, protect %08x",47,297366169) %;
         //__asm int 3
         ;
         if ( HOA::R o = handles_.Get(args->SectionHandle) )
         {
-            XLOG|_S* _XOr("<APIF/VFS> query section (%08x) '%s\\%s', Ic = %d",49,334721791)
+            XLOG|_S* _XOr("<APIF/VFS> query section (%08x) '%s\\%s', Ic = %d",49,301363886)
             %args->SectionHandle %o->PackageName() %o->ComposePath() %args->InformationClass;
             if (o)
                 __lockon__(VFS) if ( o->IsValid() )
@@ -560,7 +562,7 @@ struct SectionObjectFilter : APIfilter
         __lockon__(VFS)
         if ( SectionObjectPtr* o = subject_.Get(args->BaseAddress) )
         {
-            XLOG|_S* _XOr("<APIF/VFS> unmmap section '%s\\%s' at %08x",42,304575019)
+            XLOG|_S* _XOr("<APIF/VFS> unmmap section '%s\\%s' at %08x",42,304902884)
             %(*o)->Proxy()->PackageName() %(*o)->Proxy()->ComposePath()
             %args->BaseAddress
             ;

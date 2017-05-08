@@ -1,7 +1,7 @@
 
 cd %~dp0
 set CURR=%CD%
-if exist xternal set XTERNAL=%~dp0xternal
+if exist "%~dp0xternal" set XTERNAL="%~dp0xternal"
 cd %XTERNAL%
 cmd /c build_all_vc10.cmd
 cd %CURR%

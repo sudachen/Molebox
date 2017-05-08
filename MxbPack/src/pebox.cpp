@@ -553,7 +553,7 @@ unsigned PeBoxPackContent(StringParam mainstorage, unsigned writecatalog, Xdocum
         byte_t catalog_key[16];
         Md5S(_XOr("7233DA04FCF24B388408701CB1F874F3",33,33490915),catalog_key);
 
-        NEWDES_Cipher cipher;
+        BLOWFISH_Cipher cipher;
         cipher.SetupEncipher(catalog_key);
         cipher.DoCipherCBCI(+b,b.Count()/8);
         ds->Write(+b,b.Count());
