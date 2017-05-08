@@ -31,14 +31,10 @@ OBJECTS = \
     $(OBJDIR)\myafx.obj \
     $(OBJDIR)\version.obj \
     $(OBJDIR)\build_time.obj \
-    $(OBJDIR)\newdes_accel.obj \
     $(OBJDIR)\molebox_RC.obj
 
-$(OBJDIR)\version.obj : $(TOPDIR)\Core\src\version.c
+$(OBJDIR)\version.obj : $(TOPDIR)\version.c
     $(CC) -c $(CCFLAGS) $(DLL_OPTS) $(INCL) -Fo$@ $**
-
-$(OBJDIR)\newdes_accel.obj: $(TOPDIR)\Core\classes\sources\newdes_accel.S
-    $(AS) $(ASFLAGS) -o$@ $**
 
 LIBRARIES= oleaut32.lib advapi32.lib user32.lib shell32.lib ws2_32.lib mpr.lib zlib$(LIBSFX).lib libwx3$(LIBSFX).lib libtiff$(LIBSFX).lib libjpeg$(LIBSFX).lib libpng$(LIBSFX).lib expatw$(LIBSFX).lib libhash$(LIBSFX).lib
 
