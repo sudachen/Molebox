@@ -93,57 +93,57 @@ struct APIF_F_RECORD
 
 APIF_F_RECORD hooks_list[] =
 {
-    { KIND_NTDLL, APIF_CREATEFILE,  _iXOr("NtCreateFile",13,327683), 44, 0 },
-    { KIND_NTDLL, APIF_OPENFILE,    _iXOr("NtOpenFile",11,1310740), 24, 0 },
-    { KIND_NTDLL, APIF_READFILE,    _iXOr("NtReadFile",11,33226789), 36, 0 },
-    { KIND_NTDLL, APIF_WRITEFILE,   _iXOr("NtWriteFile",12,30015542), 36, 0 },
-    { KIND_NTDLL, APIF_CLOSE,       _iXOr("NtClose",8,29622340), 4, 0 },
-    { KIND_NTDLL, APIF_QUEFILINFO,  _iXOr("NtQueryInformationFile",23,30539854), 20, 0 },
-    { KIND_NTDLL, APIF_SETFILINFO,  _iXOr("NtSetInformationFile",21,29294697), 20, 0},
-    { KIND_NTDLL, APIF_QUEVOLINFO,  _iXOr("NtQueryVolumeInformationFile",29,25165952), 20, 0},
-    { KIND_NTDLL, APIF_QUEDIRFILE,  _iXOr("NtQueryDirectoryFile",21,23396515), 44, 0},
-    { KIND_NTDLL, APIF_QUESECTINFO, _iXOr("NtQuerySection",15,21889210), 20, 0},
-    { KIND_NTDLL, APIF_CREATESECT,  _iXOr("NtCreateSection",16,22806732), 28, 0},
-    { KIND_NTDLL, APIF_MAPSECT,     _iXOr("NtMapViewOfSection",19,18940127), 40, 0},
-    { KIND_NTDLL, APIF_UNMAPSECT,   _iXOr("NtUnmapViewOfSection",21,17498357), 8, 0},
-    { KIND_NTDLL, APIF_QUEFATTR,    _iXOr("NtQueryAttributesFile",22,17891599), 8, 0},
-    { KIND_NTDLL, APIF_CREATEHKEY,  _iXOr("NtCreateKey",12,50266409), 28, 0},
-    { KIND_NTDLL, APIF_OPENHKEY,    _iXOr("NtOpenKey",10,46727479), 12, 0},
-    { KIND_NTDLL, APIF_SETVALHKEY,  _iXOr("NtSetValueKey",14,47776071), 24, 0},
-    { KIND_NTDLL, APIF_QUEKEY,      _iXOr("NtQueryKey",11,45023577), 20, 0},
-    { KIND_NTDLL, APIF_QUEVALKEY,   _iXOr("NtQueryValueKey",16,46072169), 24, 0},
-    { KIND_NTDLL, APIF_ENUKEY,      _iXOr("NtEnumerateKey",15,42795387), 24, 0},
-    { KIND_NTDLL, APIF_ENUVALKEY,   _iXOr("NtEnumerateValueKey",20,43057551), 24, 0},
-    { KIND_NTDLL, APIF_OPENHKEYEX,  _iXOr("NtOpenKeyEx",12,41877929), 16, 0},
-    { KIND_NTDLL, APIF_NOTIFMULTKEY,_iXOr("ZwNotifyChangeMultipleKeys",27,38601147), 48,0},
-    { KIND_NTDLL, APIF_NOTIFKEY,    _iXOr("ZwNotifyChangeKey",18,36504027), 40,0},
-    { KIND_NTDLL, APIF_QUEFATTRFULL,_iXOr("NtQueryFullAttributesFile",26,37093874), 8, 0},
-    { KIND_NTDLL, APIF_DELKEY,      _iXOr("NtDeleteKey",12,35065361), 4, 0},
-    { KIND_NTDLL, APIF_DELKEYVAL,   _iXOr("NtDeleteValueKey",17,65474081), 8, 0},
-    { KIND_NTDLL, APIF_DUPLICATE,   _iXOr("NtDuplicateObject",18,63639093), 28, 0},
-    { KIND_NTDLL, APIF_QUEPROCINFO, _iXOr("NtQueryInformationProcess",26,64884298), 20, 0},
-    { KIND_NTDLL, APIF_CREATECTX,   _iXOr("RtlCreateActivationContext",27,62787178), 8, 0},
-    { KIND_NTDLL, APIF_QUESEQ,      _iXOr("NtQuerySecurityObject",22,60755593), 20, 0},
-    { KIND_NTDLL, APIF_NOTICHNGFL,  _iXOr("NtNotifyChangeDirectoryFile",28,58396325), 36, 0},
-    //{ KIND_NTDLL, APIF_ADDREFCTX,   _iXOr("RtlAddRefActivationContext",27,56168135), 4, 0},
-    //{ KIND_NTDLL, APIF_RELREFCTX,   _iXOr("RtlReleaseActivationContext",28,54005480), 4, 0},
-    //{ KIND_NTDLL, APIF_ACTIVECTX,   _iXOr("RtlActivateActivationContext",29,52039430), 12, 0},
-    //{ KIND_NTDLL, APIF_DEACTECTX,   _iXOr("RtlDeactivateActivationContext",31,83365672), 8, 0},
-    //{ KIND_NTDLL, APIF_FREETHCTX,   _iXOr("RtlFreeThreadActivationContextStack",36,81727305), 0, 0},
-    //{ KIND_NTDLL, APIF_GETACTCTX,   _iXOr("RtlGetActiveActivationContext",30,78712687), 4, 0},
-    //{ KIND_NTDLL, APIF_ISACTCTX,    _iXOr("RtlIsActivationContextActive",29,76550032), 4, 0},
-    //{ KIND_NTDLL, APIF_QUEACTCTX,   _iXOr("RtlQueryInformationActivationContext",37,74911665), 28, 0},
-    //{ KIND_NTDLL, APIF_FINDCTXCSS,  _iXOr("RtlFindActivationContextSectionString",38,70127578), 20, 0},
-    { KIND_NTDLL, APIF_CSRCALL,     _iXOr("CsrClientCallServer",20,68815878), 16, 0},
-    { KIND_NTDLL, APIF_LOCKFILE,    _iXOr("NtLockFile",11,98700318), 40, 0},
-    { KIND_NTDLL, APIF_UNLOCKFILE,  _iXOr("NtUnlockFile",13,99814445), 20, 0},
-    { KIND_KRN32, APIF_KRCREATECTX, _iXOr("CreateActCtxW",14,96603198), 4, 0},
-    { KIND_KRN32, APIF_GETENVAR,    _iXOr("GetEnvironmentVariableW",24,97913938), 12, 0},
-    { KIND_KRN32, APIF_KCRPROCA,    _iXOr("CreateProcessA",15,95620205), 40, 0},
-    { KIND_KRN32, APIF_KCRPROCW,    _iXOr("CreateProcessW",15,92671106), 40, 0},
-    { KIND_KRN32, APIF_KWINEXEC,    _iXOr("WinExec",8,90836118), 8, 0},
-    { KIND_KRN32, APIF_CMDLINEA,    _iXOr("GetCommandLineA",16,90573986), 0, 0},
-    { KIND_KRN32, APIF_CMDLINEW,    _iXOr("GetCommandLineW",16,88607928), 0, 0},
+    { KIND_NTDLL, APIF_CREATEFILE,  _iXOr("NtCreateFile",13,262172), 44, 0 },
+    { KIND_NTDLL, APIF_OPENFILE,    _iXOr("NtOpenFile",11,1310956), 24, 0 },
+    { KIND_NTDLL, APIF_READFILE,    _iXOr("NtReadFile",11,2228478), 36, 0 },
+    { KIND_NTDLL, APIF_WRITEFILE,   _iXOr("NtWriteFile",12,3342541), 36, 0 },
+    { KIND_NTDLL, APIF_CLOSE,       _iXOr("NtClose",8,4522203), 4, 0 },
+    { KIND_NTDLL, APIF_QUEFILINFO,  _iXOr("NtQueryInformationFile",23,5374126), 20, 0 },
+    { KIND_NTDLL, APIF_SETFILINFO,  _iXOr("NtSetInformationFile",21,8126644), 20, 0},
+    { KIND_NTDLL, APIF_QUEVOLINFO,  _iXOr("NtQueryVolumeInformationFile",29,25362589), 20, 0},
+    { KIND_NTDLL, APIF_QUEDIRFILE,  _iXOr("NtQueryDirectoryFile",21,27591035), 44, 0},
+    { KIND_NTDLL, APIF_QUESECTINFO, _iXOr("NtQuerySection",15,30146884), 20, 0},
+    { KIND_NTDLL, APIF_CREATESECT,  _iXOr("NtCreateSection",16,31261011), 28, 0},
+    { KIND_NTDLL, APIF_MAPSECT,     _iXOr("NtMapViewOfSection",19,31457568), 40, 0},
+    { KIND_NTDLL, APIF_UNMAPSECT,   _iXOr("NtUnmapViewOfSection",21,17367303), 8, 0},
+    { KIND_NTDLL, APIF_QUEFATTR,    _iXOr("NtQueryAttributesFile",22,17891823), 8, 0},
+    { KIND_NTDLL, APIF_CREATEHKEY,  _iXOr("NtCreateKey",12,20513271), 28, 0},
+    { KIND_NTDLL, APIF_OPENHKEY,    _iXOr("NtOpenKey",10,21692869), 12, 0},
+    { KIND_NTDLL, APIF_SETVALHKEY,  _iXOr("NtSetValueKey",14,22610391), 24, 0},
+    { KIND_NTDLL, APIF_QUEKEY,      _iXOr("NtQueryKey",11,23921059), 20, 0},
+    { KIND_NTDLL, APIF_QUEVALKEY,   _iXOr("NtQueryValueKey",16,25035186), 24, 0},
+    { KIND_NTDLL, APIF_ENUKEY,      _iXOr("NtEnumerateKey",15,42205596), 24, 0},
+    { KIND_NTDLL, APIF_ENUVALKEY,   _iXOr("NtEnumerateValueKey",20,43450985), 24, 0},
+    { KIND_NTDLL, APIF_OPENHKEYEX,  _iXOr("NtOpenKeyEx",12,45089392), 16, 0},
+    { KIND_NTDLL, APIF_NOTIFMULTKEY,_iXOr("ZwNotifyChangeMultipleKeys",27,46137920), 48,0},
+    { KIND_NTDLL, APIF_NOTIFKEY,    _iXOr("ZwNotifyChangeKey",18,49218081), 40,0},
+    { KIND_NTDLL, APIF_QUEFATTRFULL,_iXOr("NtQueryFullAttributesFile",26,49611275), 8, 0},
+    { KIND_NTDLL, APIF_DELKEY,      _iXOr("NtDeleteKey",12,34734830), 4, 0},
+    { KIND_NTDLL, APIF_DELKEYVAL,   _iXOr("NtDeleteValueKey",17,35848957), 8, 0},
+    { KIND_NTDLL, APIF_DUPLICATE,   _iXOr("NtDuplicateObject",18,37159625), 28, 0},
+    { KIND_NTDLL, APIF_QUEPROCINFO, _iXOr("NtQueryInformationProcess",26,39518933), 20, 0},
+    { KIND_NTDLL, APIF_CREATECTX,   _iXOr("RtlCreateActivationContext",27,41419448), 8, 0},
+    { KIND_NTDLL, APIF_QUESEQ,      _iXOr("NtQuerySecurityObject",22,60359319), 20, 0},
+    { KIND_NTDLL, APIF_NOTICHNGFL,  _iXOr("NtNotifyChangeDirectoryFile",28,61080444), 36, 0},
+    //{ KIND_NTDLL, APIF_ADDREFCTX,   _iXOr("RtlAddRefActivationContext",27,63308634), 4, 0},
+    //{ KIND_NTDLL, APIF_RELREFCTX,   _iXOr("RtlReleaseActivationContext",28,65274684), 4, 0},
+    //{ KIND_NTDLL, APIF_ACTIVECTX,   _iXOr("RtlActivateActivationContext",29,50463518), 12, 0},
+    //{ KIND_NTDLL, APIF_DEACTECTX,   _iXOr("RtlDeactivateActivationContext",31,52691964), 8, 0},
+    //{ KIND_NTDLL, APIF_FREETHCTX,   _iXOr("RtlFreeThreadActivationContextStack",36,54985689), 0, 0},
+    //{ KIND_NTDLL, APIF_GETACTCTX,   _iXOr("RtlGetActiveActivationContext",30,58524595), 4, 0},
+    //{ KIND_NTDLL, APIF_ISACTCTX,    _iXOr("RtlIsActivationContextActive",29,77398931), 4, 0},
+    //{ KIND_NTDLL, APIF_QUEACTCTX,   _iXOr("RtlQueryInformationActivationContext",37,78644336), 28, 0},
+    //{ KIND_NTDLL, APIF_FINDCTXCSS,  _iXOr("RtlFindActivationContextSectionString",38,82379815), 20, 0},
+    { KIND_NTDLL, APIF_CSRCALL,     _iXOr("CsrClientCallServer",20,67306525), 16, 0},
+    { KIND_NTDLL, APIF_LOCKFILE,    _iXOr("NtLockFile",11,69928165), 40, 0},
+    { KIND_NTDLL, APIF_UNLOCKFILE,  _iXOr("NtUnlockFile",13,71042292), 20, 0},
+    { KIND_KRN32, APIF_KRCREATECTX, _iXOr("CreateActCtxW",14,72090820), 4, 0},
+    { KIND_KRN32, APIF_GETENVAR,    _iXOr("GetEnvironmentVariableW",24,73204947), 12, 0},
+    { KIND_KRN32, APIF_KCRPROCA,    _iXOr("CreateProcessA",15,74974392), 40, 0},
+    { KIND_KRN32, APIF_KCRPROCW,    _iXOr("CreateProcessW",15,92996741), 40, 0},
+    { KIND_KRN32, APIF_KWINEXEC,    _iXOr("WinExec",8,94241938), 8, 0},
+    { KIND_KRN32, APIF_CMDLINEA,    _iXOr("GetCommandLineA",16,94897512), 0, 0},
+    { KIND_KRN32, APIF_CMDLINEW,    _iXOr("GetCommandLineW",16,96077174), 0, 0},
     { KIND_NONE,  APIF_NONE },
 };
 
@@ -200,19 +200,19 @@ APIF_STATUS GetEnVar(void* args, unsigned* result)
 {
     struct GEV { LPCWSTR lpName; LPWSTR lpBuffer; DWORD nSize; } *a = (GEV*)args;
     StringA name = a->lpName;
-    if ( StrSafeEqualI(+name,_XOr("molebox;version",16,29556803)) )
+    if ( StrSafeEqualI(+name,_XOr("molebox;version",16,31719844)) )
     {
         *result = _BUILD_NUMBER;
         return APIF_RETURN;
     }
-    else if ( StrSafeEqualI(+name,_XOr("molebox;version;txt",20,32440439)) )
+    else if ( StrSafeEqualI(+name,_XOr("molebox;version;txt",20,26608022)) )
     {
         StringW build = _S*L"%04d"%_BUILD_NUMBER;
         *result = build.Length();
         memcpy(a->lpBuffer,+build,build.Length()*2+2);
         return APIF_RETURN;
     }
-    else if ( StrSafeEqualI(+name,_XOr("molebox;api",12,32899182)) && a->nSize == sizeof(void*) )
+    else if ( StrSafeEqualI(+name,_XOr("molebox;api",12,25690504)) && a->nSize == sizeof(void*) )
     {
         *(void**)a->lpBuffer = QueryAPI();
         *result = sizeof(void*);
@@ -242,7 +242,7 @@ extern "C" APIF_STATUS __cdecl APIF_DoCall(SX,int apif_id, void* args, unsigned*
         TlsSetValue(apif_internal,(void*)1);
     }
 
-    XDBG|_S* _XOr(".apif.Call %d",14,25166720) %apif_id;
+    XDBG|_S* _XOr(".apif.Call %d",14,29229566) %apif_id;
 
     if ( 0 )
         if ( !HeapValidate(GetProcessHeap(),0,0) )

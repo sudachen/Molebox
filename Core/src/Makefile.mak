@@ -37,21 +37,17 @@ OBJECTS= \
     $(OBJDIR)\apifS.obj \
     $(OBJDIR)\splash.obj \
 
-$(OBJDIR)\xorS.obj : $(OBJDIR)\xorS.S 
+$(OBJDIR)\xorS.obj : $(SRCDIR)\xorS.S 
 	@echo $(*F).S
-	@$(AS) $(_M64) -o$@ $(OBJDIR)\xorS.S
-$(OBJDIR)\xorS.S: $(SRCDIR)\xorS_processed.txt
-	..\XorS.py $(OBJDIR)\xorS.S
-$(SRCDIR)\xorS_processed.txt:
-	echo 1 > $(SRCDIR)\xorS_processed.txt
+	@$(AS) $(_M64) -o$@ $(SRCDIR)\xorS.S
+$(SRCDIR)\xorS.S: 
+	..\XorS.py $(SRCDIR)\xorS.S
 
-$(OBJDIR)\xorC.obj : $(OBJDIR)\xorC.S
+$(OBJDIR)\xorC.obj : $(SRCDIR)\xorC.S
 	@echo $(*F).S
-	@$(AS) $(_M64) -o$@ $(OBJDIR)\xorC.S
-$(OBJDIR)\xorC.S: $(SRCDIR)\xorC_processed.txt
-	..\XorC.py $(OBJDIR)\xorC.S
-$(SRCDIR)\xorC_processed.txt:
-	echo 1 > $(SRCDIR)\xorC_processed.txt
+	@$(AS) $(_M64) -o$@ $(SRCDIR)\xorC.S
+$(SRCDIR)\xorC.S: 
+	..\XorC.py $(SRCDIR)\xorC.S
 
 {$(BASEDIR)\classes\sources\Z}.c{$(OBJDIR)}.obj:
 	@cl $(CFLAGS) $(INCL) -c -Fo$@ $<

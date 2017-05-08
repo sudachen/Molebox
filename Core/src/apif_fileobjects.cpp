@@ -280,7 +280,7 @@ struct FileObjectFilter : APIfilter
                 {
                     *inBox = false;
                     //__asm int 3;
-                    XLOG|_S* _XOr("oppss, unknown path to %08x/%s",31,67443741)
+                    XLOG|_S* _XOr("oppss, unknown path to %08x/%s",31,70454387)
                     %oa->RootDirectory %oa->ObjectName->Buffer;
                     return FioProxyPtr(0);
                 }
@@ -316,7 +316,7 @@ struct FileObjectFilter : APIfilter
     {
         NT_CREATE_FILE_ARGS* args = (NT_CREATE_FILE_ARGS*)_a;
 
-        XDBG|_S* _XOr(".apif.CreateFile '%s'",22,69671999)
+        XDBG|_S* _XOr(".apif.CreateFile '%s'",22,98045016)
         %StringW(args->ObjectAttributes->ObjectName->Buffer,args->ObjectAttributes->ObjectName->Length/2);
 
         bool inBox = false;
@@ -344,7 +344,7 @@ struct FileObjectFilter : APIfilter
             {
                 *args->FileHandle = handles_.Put(Refe(+p));
                 *result = 0;
-                XLOG|_S* _XOr("<APIF/VFS> open('%s\\%s') -> %08x",33,97197147)
+                XLOG|_S* _XOr("<APIF/VFS> open('%s\\%s') -> %08x",33,99683761)
                 %p->PackageName() %internal_path %*args->FileHandle;
             }
             return APIF_RETURN;
@@ -376,7 +376,7 @@ struct FileObjectFilter : APIfilter
     {
         NT_QUE_FILEATTR_ARGS* args = (NT_QUE_FILEATTR_ARGS*)_a;
 
-        XDBG|_S* _XOr(".apif.QueAttrFile '%s'",23,98966654)
+        XDBG|_S* _XOr(".apif.QueAttrFile '%s'",23,93851032)
         %StringW(args->ObjectAttributes->ObjectName->Buffer,args->ObjectAttributes->ObjectName->Length/2);
 
         bool inBox = false;
@@ -398,7 +398,7 @@ struct FileObjectFilter : APIfilter
             FILE_BASIC_INFORMATION* i = (FILE_BASIC_INFORMATION*)args->FileAttributes;
             i->FileAttributes = p->IsDirectory()?FILE_ATTRIBUTE_DIRECTORY:FILE_ATTRIBUTE_READONLY;
             *result = 0;
-            XLOG|_S* _XOr("<APIF/VFS> query attr of '%s\\%s' -> %08x",41,92807064)
+            XLOG|_S* _XOr("<APIF/VFS> query attr of '%s\\%s' -> %08x",41,95555058)
             %p->PackageName() %internal_path %i->FileAttributes;
             return APIF_RETURN;
         }
@@ -417,7 +417,7 @@ struct FileObjectFilter : APIfilter
     {
         NT_QUE_FILEATTR_ARGS* args = (NT_QUE_FILEATTR_ARGS*)_a;
 
-        XDBG|_S* _XOr(".apif.QueAttrFileFull '%s'",27,96280485)
+        XDBG|_S* _XOr(".apif.QueAttrFileFull '%s'",27,88411589)
         %StringW(args->ObjectAttributes->ObjectName->Buffer,args->ObjectAttributes->ObjectName->Length/2);
 
         bool inBox = false;
@@ -444,7 +444,7 @@ struct FileObjectFilter : APIfilter
             i->LastAccessTime = i->LastWriteTime;
             i->ChangeTime = i->LastWriteTime;
             i->AllocationSize.QuadPart = i->EndOfFile.QuadPart = o->Size();
-            XLOG|_S* _XOr("<APIF/VFS> query full attr of '%s\\%s' -> %08x",46,88219586)
+            XLOG|_S* _XOr("<APIF/VFS> query full attr of '%s\\%s' -> %08x",46,91884858)
             %o->PackageName() %internal_path %i->FileAttributes;
             return APIF_RETURN;
         }
@@ -463,7 +463,7 @@ struct FileObjectFilter : APIfilter
     {
         NT_OPEN_FILE_ARGS* args = (NT_OPEN_FILE_ARGS*)_a;
 
-        XDBG|_S* _XOr(".apif.OpenFile '%s'",20,91365138)
+        XDBG|_S* _XOr(".apif.OpenFile '%s'",20,87362933)
         %StringW(args->ObjectAttributes->ObjectName->Buffer,args->ObjectAttributes->ObjectName->Length/2);
 
         bool inBox = false;
@@ -498,7 +498,7 @@ struct FileObjectFilter : APIfilter
 
             *args->FileHandle = handles_.Put(Refe(+p));
             *result = 0;
-            XLOG|_S* _XOr("<APIF/VFS> open('%s\\%s') -> %08x",33,85663499)
+            XLOG|_S* _XOr("<APIF/VFS> open('%s\\%s') -> %08x",33,86183267)
             %p->PackageName() %internal_path %*args->FileHandle;
             return APIF_RETURN;
         }
@@ -531,14 +531,14 @@ struct FileObjectFilter : APIfilter
     APIF_STATUS DoCloseFile(void* _a, unsigned* result)
     {
         NT_CLOSE_ARGS* args = (NT_CLOSE_ARGS*)_a;
-        XDBG|_S* _XOr(".apif.CloseFile %08x",21,87039824) % args->FileHandle;
+        XDBG|_S* _XOr(".apif.CloseFile %08x",21,114232655) % args->FileHandle;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
         {
             if (o)
             {
                 __lockon__(VFS)
                 if ( o->IsValid() )
-                    XLOG|_S* _XOr("<APIF/VFS> close(%08x) '%s\\%s'",31,114827080)
+                    XLOG|_S* _XOr("<APIF/VFS> close(%08x) '%s\\%s'",31,115477154)
                     %args->FileHandle
                     %o->PackageName()
                     %o->ComposePath();
@@ -557,7 +557,7 @@ struct FileObjectFilter : APIfilter
     APIF_STATUS DoReadFile(void* _a, unsigned* result)
     {
         NT_READ_FILE_ARGS* args = (NT_READ_FILE_ARGS*)_a;
-        XDBG|_S* _XOr(".apif.ReadFile %08x, count:%d",30,117120875) % args->FileHandle % args->Length;
+        XDBG|_S* _XOr(".apif.ReadFile %08x, count:%d",30,109972110) % args->FileHandle % args->Length;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
         {
             if (!o)
@@ -576,7 +576,7 @@ struct FileObjectFilter : APIfilter
                 if ( o->IsRoot() )
                 {
                     args->FileHandle = VFS->AppFolderHandle();
-                    XDBG|_S* _XOr("<APIF/VFS> access to application folder is redirectd to handle %08x",68,110370444) % args->FileHandle;
+                    XDBG|_S* _XOr("<APIF/VFS> access to application folder is redirectd to handle %08x",68,111676136) % args->FileHandle;
                     return APIF_CONTINUE;
                 }
 
@@ -597,7 +597,7 @@ struct FileObjectFilter : APIfilter
                 if ( args->Event )
                     SetEvent(args->Event);
 
-                XLOG|_S* _XOr("<APIF/VFS> read(%08x,%d,%d) '%s\\%s' -> %d,%08x",47,106045170)
+                XLOG|_S* _XOr("<APIF/VFS> read(%08x,%d,%d) '%s\\%s' -> %d,%08x",47,102107670)
                 %args->FileHandle
                 %a
                 %args->Length
@@ -616,7 +616,7 @@ struct FileObjectFilter : APIfilter
     APIF_STATUS DoWriteFile(void* _a, unsigned* result)
     {
         NT_WRITE_FILE_ARGS* args = (NT_WRITE_FILE_ARGS*)_a;
-        XDBG|_S* _XOr(".apif.WriteFile %08x, count:%d",31,102702599) % args->FileHandle % args->Length;
+        XDBG|_S* _XOr(".apif.WriteFile %08x, count:%d",31,103221863) % args->FileHandle % args->Length;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
         {
             if (!o) *result = STATUS_INVALID_HANDLE;
@@ -631,7 +631,7 @@ struct FileObjectFilter : APIfilter
                 if ( o->IsRoot() )
                 {
                     args->FileHandle = VFS->AppFolderHandle();
-                    XDBG|_S* _XOr("<APIF/VFS> access to application folder is redirectd to handle %08x",68,104406569) % args->FileHandle;
+                    XDBG|_S* _XOr("<APIF/VFS> access to application folder is redirectd to handle %08x",68,130026048) % args->FileHandle;
                     return APIF_CONTINUE;
                 }
                 *result = 0;
@@ -649,7 +649,7 @@ struct FileObjectFilter : APIfilter
         //if ( args->FileHandle )
         //  __asm int 3
         //  ;
-        XDBG|_S* _XOr(".apif.QueFilInfo %08x, %08x",28,133306770) % args->FileHandle % args->FileInformationClass;
+        XDBG|_S* _XOr(".apif.QueFilInfo %08x, %08x",28,126749582) % args->FileHandle % args->FileInformationClass;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
         {
             if (!o) *result = STATUS_INVALID_HANDLE;
@@ -664,7 +664,7 @@ struct FileObjectFilter : APIfilter
                 if ( o->IsRoot() )
                 {
                     args->FileHandle = VFS->AppFolderHandle();
-                    XDBG|_S* _XOr("<APIF/VFS> access to application folder is redirectd to handle %08x",68,126949809) % args->FileHandle;
+                    XDBG|_S* _XOr("<APIF/VFS> access to application folder is redirectd to handle %08x",68,128846830) % args->FileHandle;
                     return APIF_CONTINUE;
                 }
                 *result = 0;
@@ -757,7 +757,7 @@ struct FileObjectFilter : APIfilter
                 if ( args->FileInformationClass == FilePositionInformation )
                 {
                     o.State() = ((FILE_POSITION_INFORMATION*)args->FileInformation)->CurrentByteOffset.LowPart;
-                    XLOG|_S* _XOr("<APIF/VFS> seek(%08x,%d(%08x)) '%s\\%s'",39,124393978)
+                    XLOG|_S* _XOr("<APIF/VFS> seek(%08x,%d(%08x)) '%s\\%s'",39,118950679)
                     %args->FileHandle
                     %o.State()
                     %o.State()
@@ -796,7 +796,7 @@ struct FileObjectFilter : APIfilter
     APIF_STATUS DoQueVolInfo(void* _a, unsigned* result)
     {
         NT_QUE_VOLINFO_ARGS* args = (NT_QUE_VOLINFO_ARGS*)_a;
-        XDBG|_S* _XOr(".apif.QueVolInfo %08x, %08x",28,117643523) % args->FileHandle % args->FileSystemInformationClass;
+        XDBG|_S* _XOr(".apif.QueVolInfo %08x, %08x",28,121244538) % args->FileHandle % args->FileSystemInformationClass;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
         {
             if (!o) *result = STATUS_INVALID_HANDLE;
@@ -811,7 +811,7 @@ struct FileObjectFilter : APIfilter
                 if ( /*o->IsRoot()*/ o->IsDirectory() )
                 {
                     args->FileHandle = VFS->AppFolderHandle();
-                    XDBG|_S* _XOr("<APIF/VFS> access to application folder is redirectd to handle %08x",68,121379108) % args->FileHandle;
+                    XDBG|_S* _XOr("<APIF/VFS> access to application folder is redirectd to handle %08x",68,148441945) % args->FileHandle;
                     return APIF_CONTINUE;
                 }
                 else
@@ -840,7 +840,7 @@ struct FileObjectFilter : APIfilter
 
         NT_QUE_DIRFILE_ARGS* args = (NT_QUE_DIRFILE_ARGS*)_a;
         FILE_BOTH_DIR_INFORMATION1* di = (FILE_BOTH_DIR_INFORMATION1*)args->FileInformation;
-        XDBG|_S* _XOr(".apif.QueDirInfo %08x, %08x",28,150608234) % args->FileHandle % args->FileInformationClass;
+        XDBG|_S* _XOr(".apif.QueDirInfo %08x, %08x",28,142608512) % args->FileHandle % args->FileInformationClass;
 
         //__asm int 3
         ;
@@ -880,7 +880,7 @@ struct FileObjectFilter : APIfilter
                     if ( args->RestartScan || !ls )
                     {
                         ls = VFS->ListDir(+o,mask?+mask:0);
-                        XLOG|_S* _XOr("<APIF/VFS> list('<workpath>\\%s|%s')  -> %d",43,144185480)
+                        XLOG|_S* _XOr("<APIF/VFS> list('<workpath>\\%s|%s')  -> %d",43,145098982)
                         %o->ComposePath1()
                         %mask
                         %ls->Count();
@@ -954,7 +954,7 @@ struct FileObjectFilter : APIfilter
     APIF_STATUS DoLockFile(void* _a, unsigned* result)
     {
         NT_LOCKFILE_ARGS* args = (NT_LOCKFILE_ARGS*)_a;
-        XDBG|_S* _XOr(".apif.DoLockFile %08x",22,139008217) % args->FileHandle;
+        XDBG|_S* _XOr(".apif.DoLockFile %08x",22,139135179) % args->FileHandle;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
         {
             __lockon__(VFS)
@@ -976,7 +976,7 @@ struct FileObjectFilter : APIfilter
     APIF_STATUS DoUnlockFile(void* _a, unsigned* result)
     {
         NT_UNLOCKFILE_ARGS* args = (NT_UNLOCKFILE_ARGS*)_a;
-        XDBG|_S* _XOr(".apif.DoUnlockFile %08x",24,139532529) % args->FileHandle;
+        XDBG|_S* _XOr(".apif.DoUnlockFile %08x",24,141363245) % args->FileHandle;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
         {
             __lockon__(VFS)
@@ -999,27 +999,27 @@ struct FileObjectFilter : APIfilter
     {
         struct GEV { LPCWSTR lpName; LPWSTR lpBuffer; DWORD nSize; } *a = (GEV*)args;
         StringA name = a->lpName;
-        if ( StrSafeEqualI(+name,_XOr(";molebox;;exefilter;",21,141957358)) )
+        if ( StrSafeEqualI(+name,_XOr(";molebox;;exefilter;",21,134285313)) )
         {
             *result = (unsigned)&CoreAPI_EnableExeFilter;
             return APIF_RETURN;
         }
-        else if ( StrSafeEqualI(+name,_XOr(";molebox;;fsfilter;",20,136255495)) )
+        else if ( StrSafeEqualI(+name,_XOr(";molebox;;fsfilter;",20,138020986)) )
         {
             *result = (unsigned)&CoreAPI_EnableFsFilter;
             return APIF_RETURN;
         }
-        else if ( StrSafeEqualI(+name,_XOr(";molebox;;mount;",17,136386593)) )
+        else if ( StrSafeEqualI(+name,_XOr(";molebox;;mount;",17,164825171)) )
         {
             *result = (unsigned)&CoreAPI_Mount;
             return APIF_RETURN;
         }
-        else if ( StrSafeEqualI(+name,_XOr(";molebox;;unmount;",19,164108376)) )
+        else if ( StrSafeEqualI(+name,_XOr(";molebox;;unmount;",19,164563023)) )
         {
             *result = (unsigned)&CoreAPI_Unmount;
             return APIF_RETURN;
         }
-        else if ( StrSafeEqualI(+name,_XOr(";molebox;;coreapi;",19,164632688)) )
+        else if ( StrSafeEqualI(+name,_XOr(";molebox;;coreapi;",19,165677472)) )
         {
             if ( a->nSize >= sizeof(COREAPI) )
             {
@@ -1037,14 +1037,14 @@ struct FileObjectFilter : APIfilter
     APIF_STATUS DoDuplicate(void* _a, unsigned* result)
     {
         NT_DUPLICATE_ARGS* args = (NT_DUPLICATE_ARGS*)_a;
-        XDBG|_S* _XOr(".apif.DuplicateFile %08x",25,167581797) %args->SourceHandle;
+        XDBG|_S* _XOr(".apif.DuplicateFile %08x",25,161286557) %args->SourceHandle;
         if ( HOA::R o = handles_.Get(args->SourceHandle) )
         {
             __lockon__(VFS)
             {
                 *args->TargetHandle = handles_.Put(Refe(+o));
                 if ( o->IsValid() )
-                    XLOG|_S* _XOr("<APIF/RGS> duplicate file (%08x) '%s' -> %08x",46,159390592)
+                    XLOG|_S* _XOr("<APIF/RGS> duplicate file (%08x) '%s' -> %08x",46,162728435)
                     %args->SourceHandle
                     %o->ComposePath()
                     %*args->TargetHandle;
@@ -1058,7 +1058,7 @@ struct FileObjectFilter : APIfilter
     APIF_STATUS DoNotifChangeFile(void* _a, unsigned* result)
     {
         NT_NOTIFCHGF_ARGS* args = (NT_NOTIFCHGF_ARGS*)_a;
-        XDBG|_S* _XOr(".apif.NotifChangeFile %08x",27,162536400) %args->FileHandle;
+        XDBG|_S* _XOr(".apif.NotifChangeFile %08x",27,156043725) %args->FileHandle;
         if ( HOA::R o = handles_.Get(args->FileHandle) )
         {
             //__asm int 3;
@@ -1068,7 +1068,7 @@ struct FileObjectFilter : APIfilter
                 if ( o->IsRoot() )
                     newH = VFS->AppFolderHandle();
                 if ( o->IsValid() )
-                    XLOG|_S* _XOr("<APIF/RGS> query changes on (%08x) '%s\\%s' -> %08x",51,156244976)
+                    XLOG|_S* _XOr("<APIF/RGS> query changes on (%08x) '%s\\%s' -> %08x",51,157419810)
                     %args->FileHandle
                     %o->PackageName()
                     %o->ComposePath()

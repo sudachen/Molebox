@@ -126,15 +126,15 @@ extern "C" void* __stdcall AutoIatSpliceProcAddress(char* modname, void** modhan
 
     if ( !(f = GetProcAddressIndirect(*modhandle,AutoIatSpliceProcAddress_b,0)) )
     {
-        if ( !strcmp(AutoIatSpliceProcAddress_b,_XOr("GetModuleBaseNameA",19,419588866)) )
+        if ( !strcmp(AutoIatSpliceProcAddress_b,_XOr("GetModuleBaseNameA",19,450435417)) )
         {
             void* mdh = 0;
-            return AutoIatSpliceProcAddress(_XOr("psapi.dll",10,422079288),&mdh,xxored,xno);
+            return AutoIatSpliceProcAddress(_XOr("psapi.dll",10,451946160),&mdh,xxored,xno);
         }
-        else if ( !strcmp(AutoIatSpliceProcAddress_b,_XOr("GetModuleFileNameW",19,423586599)) )
+        else if ( !strcmp(AutoIatSpliceProcAddress_b,_XOr("GetModuleFileNameW",19,450897568)) )
         {
             void* mdh = 0;
-            return AutoIatSpliceProcAddress(_XOr("psapi.dll",10,449080156),&mdh,xxored,xno);
+            return AutoIatSpliceProcAddress(_XOr("psapi.dll",10,446178968),&mdh,xxored,xno);
         }
         __asm mov ecx,__LINE__;
         __asm int 3;
