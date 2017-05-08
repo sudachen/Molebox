@@ -2,6 +2,7 @@
 Molebox Virtualization Solution under GPL.  
 The first public version released in 2004. Commercial development discontinued in 2014.
 
+MoleBox lets you convert your application into an all-sufficient stand-alone executable, containing everything needed: components, media assets, registry entries. Moleboxed environment is private and secure, which means that all packaged elements are available to your application only.
 
 ## Build Requirements
 1. Visual Studio 2010
