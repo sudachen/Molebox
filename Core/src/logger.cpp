@@ -50,18 +50,18 @@ StringA QueryOsInformation()
     GetVersionEx((OSVERSIONINFO*)&osinfo);
     StringA osname;
     u32_t Maj = osinfo.dwMajorVersion, Min = osinfo.dwMinorVersion;
-    if ( Maj == 5 && Min == 0 ) osname = _XOr("Windows 2000",13,304879084);
-    else if ( Maj == 5 && Min == 1 ) osname = _XOr("Windows XP",11,305862105);
-    else if ( Maj == 5 && Min == 2 ) osname = _XOr("Windows Server 2003",20,307041743);
+    if ( Maj == 5 && Min == 0 ) osname = _XOr("Windows 2000",13,303960582);
+    else if ( Maj == 5 && Min == 1 ) osname = _XOr("Windows XP",11,304615992);
+    else if ( Maj == 5 && Min == 2 ) osname = _XOr("Windows Server 2003",20,305664552);
     else if ( Maj == 6 && Min == 0 )
-        if ( osinfo.wProductType == VER_NT_WORKSTATION ) osname = _XOr("Windows Vista",14,307697077);
-        else osname = _XOr("Windows Server 2008",20,308483489);
+        if ( osinfo.wProductType == VER_NT_WORKSTATION ) osname = _XOr("Windows Vista",14,331485762);
+        else osname = _XOr("Windows Server 2008",20,334238324);
     else if ( Maj == 6 && Min == 1 )
-        if ( osinfo.wProductType == VER_NT_WORKSTATION ) osname = _XOr("Windows 7",10,310908296);
-        else osname = _XOr("Windows Server 2008 R2",23,312284543);
+        if ( osinfo.wProductType == VER_NT_WORKSTATION ) osname = _XOr("Windows 7",10,334828141);
+        else osname = _XOr("Windows Server 2008 R2",23,327839130);
     else
-        osname = _S*_XOr("Unknwon Windows %d.%d",22,312546659)%Maj%Min;
-    osname += _S*_XOr(" build %d",10,315168075)%osinfo.dwBuildNumber;
+        osname = _S*_XOr("Unknwon Windows %d.%d",22,330198454)%Maj%Min;
+    osname += _S*_XOr(" build %d",10,330722734)%osinfo.dwBuildNumber;
     if ( osinfo.szCSDVersion[0] )
         osname += _S*" (%s)"%osinfo.szCSDVersion;
     return osname;
@@ -75,7 +75,7 @@ int StartLog()
     my_log_name = JoinPath(GetDirectoryOfPath(VFS->containerName),GetBasenameOfPath(Hinstance->GetMainModulePath()));
     //Hinstance->GetMainModulePath();
     my_log_name.Replace(L"/",L'\\');
-    my_log_name += _XOr("-up.txt",8,316282174);
+    my_log_name += _XOr("-up.txt",8,323317213);
 
     APIF->AcquireFilterLock();
 
@@ -106,17 +106,17 @@ int StartLog()
     if ( !logcontrol::reopen )
     {
         time_t t = time(0);
-        StringT<char> ob = _S*_XOr("~\r\n~ %s\r\n",10,317592882) %StringT<char,64>(ctime(&t)).Chomp();
-        //ob += _S*_XOr("~ V-Core %d.%d (C) 2002-2010, Alexey Sudachen, DesaNova Ltda.\r\n~ %s %s\r\n~\r\n\r\n",78,318641442)
-        ob += _S*_XOr("~ V-Core %d.%d\r\n~ %s %s\r\n~\r\n\r\n",31,357176526)
+        StringT<char> ob = _S*_XOr("~\r\n~ %s\r\n",10,324562376) %StringT<char,64>(ctime(&t)).Chomp();
+        //ob += _S*_XOr("~ V-Core %d.%d (C) 2002-2010, Alexey Sudachen, DesaNova Ltda.\r\n~ %s %s\r\n~\r\n\r\n",78,325873140)
+        ob += _S*_XOr("~ V-Core %d.%d\r\n~ %s %s\r\n~\r\n\r\n",31,322792741)
               %_MAJOR_VERSION
               %_BUILD_NUMBER
               %QueryOsInformation()
               %QueryCpuInformation();
-        //ob += _XOr("~ Copyright (C) 2002-2009, Alexey Sudachen, http://alexey.sudachen.name\r\n~\r\n",77,359077029);
-        //ob += _S*_XOr("~ Running on %s\r\n~ %s\r\n",24,364254298) %QueryOsInformation()%QueryCpuInformation();
-        //ob += _S*_XOr("~ %s %s",8,366679097) %QueryOsInformation()%QueryCpuInformation();
-        //ob += _XOr("~\r\n",4,367858735);
+        //ob += _XOr("~ Copyright (C) 2002-2009, Alexey Sudachen, http://alexey.sudachen.name\r\n~\r\n",77,349793609);
+        //ob += _S*_XOr("~ Running on %s\r\n~ %s\r\n",24,346647737) %QueryOsInformation()%QueryCpuInformation();
+        //ob += _S*_XOr("~ %s %s",8,340749527) %QueryOsInformation()%QueryCpuInformation();
+        //ob += _XOr("~\r\n",4,341601476);
         unsigned long w;
         WriteFile(logcontrol::handle,+ob,ob.Length(),&w,0);
     }

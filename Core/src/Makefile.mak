@@ -40,14 +40,18 @@ OBJECTS= \
 $(OBJDIR)\xorS.obj : $(OBJDIR)\xorS.S 
 	@echo $(*F).S
 	@$(AS) $(_M64) -o$@ $(OBJDIR)\xorS.S
-$(OBJDIR)\xorS.S:
+$(OBJDIR)\xorS.S: $(SRCDIR)\xorS_processed.txt
 	..\XorS.py $(OBJDIR)\xorS.S
+$(SRCDIR)\xorS_processed.txt:
+	echo 1 > $(SRCDIR)\xorS_processed.txt
 
 $(OBJDIR)\xorC.obj : $(OBJDIR)\xorC.S
 	@echo $(*F).S
 	@$(AS) $(_M64) -o$@ $(OBJDIR)\xorC.S
-$(OBJDIR)\xorC.S:
+$(OBJDIR)\xorC.S: $(SRCDIR)\xorC_processed.txt
 	..\XorC.py $(OBJDIR)\xorC.S
+$(SRCDIR)\xorC_processed.txt:
+	echo 1 > $(SRCDIR)\xorC_processed.txt
 
 {$(BASEDIR)\classes\sources\Z}.c{$(OBJDIR)}.obj:
 	@cl $(CFLAGS) $(INCL) -c -Fo$@ $<

@@ -172,11 +172,11 @@ void ExecuteActivator(STB_INFO* info)
     {
         int (__stdcall *f)(void* base) = 0;
         typedef int (__cdecl *fC)(void*);
-        *(void**)&f = GetProcAddressIndirect(base,_XOr("_Activate@4",12,2884588),0);
-        if ( !f ) *(void**)&f = GetProcAddressIndirect(base,_XOr("Activate@4",11,4064226),0);
-        if ( !f ) *(void**)&f = GetProcAddressIndirect(base,_XOr("Activate",9,3212243),0);
+        *(void**)&f = GetProcAddressIndirect(base,_XOr("_Activate@4",12,1310732),0);
+        if ( !f ) *(void**)&f = GetProcAddressIndirect(base,_XOr("Activate@4",11,2752570),0);
+        if ( !f ) *(void**)&f = GetProcAddressIndirect(base,_XOr("Activate",9,4128807),0);
         if ( f && f(base) ) return;
-        else *(void**)&f = GetProcAddressIndirect(base,_XOr("_activate",10,4522951),0);
+        else *(void**)&f = GetProcAddressIndirect(base,_XOr("_activate",10,30212181),0);
         if ( f && (fC)(base) ) return;
     }
 

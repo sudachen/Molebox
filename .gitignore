@@ -39,3 +39,10 @@
 *.pdb
 *.idb
 *.orig
+
+/Core/cor0S.c
+/MxbPack/Q0.c
+*.BIN
+*.map
+*.zip
+/xternal

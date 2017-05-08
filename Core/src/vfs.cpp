@@ -491,7 +491,7 @@ void _VFS::InitAndLoadInternalCatalog(unsigned search_for_embeddings)
 
     if (root_path_.Last() != '\\') root_path_.Append('\\');
     if (rootS_path_.Last() != '\\') rootS_path_.Append('\\');
-    XLOG | _S* _XOr("<VFS> embedded root '%s'",25,466426447) % root_path_;
+    XLOG | _S* _XOr("<VFS> embedded root '%s'",25,448424618) % root_path_;
 
     path.Remove(0, root_path_.Length());
     while (path.Chop(L'\\')) {}
@@ -509,10 +509,10 @@ void _VFS::InitAndLoadInternalCatalog(unsigned search_for_embeddings)
         appfolder_handle_ = CreateFileW(+containerD, GENERIC_READ | FILE_LIST_DIRECTORY, FILE_SHARE_READ, 0, OPEN_EXISTING,
                                         FILE_FLAG_BACKUP_SEMANTICS, 0);
     if (!appfolder_handle_ || appfolder_handle_ == INVALID_HANDLE_VALUE)
-        XLOG | _XOr("<VFS/ERR> failed to open appfolder",35,468589106);
+        XLOG | _XOr("<VFS/ERR> failed to open appfolder",35,442067657);
 
     if (!catalog_ && search_for_embeddings)
-        XLOG | _S* _XOr("<VFS> failed to open embedded packages catalog: %s",51,436607498) % +sefa;
+        XLOG | _S* _XOr("<VFS> failed to open embedded packages catalog: %s",51,443705874) % +sefa;
 }
 
 extern void REGISTER_LoadRegData(byte_t*, unsigned);
@@ -533,7 +533,7 @@ void _VFS::_AfterMountPackage(svfs::PackagePtr& pkg, pchar_t pkgname, pchar_t in
                     {
                         char error[256];
                         if (!Import_Registry(+register_data, error))
-                            xlog | _S* _XOr("failed to register regfile from stream %d: %s ",47,441392589) % i % error;
+                            xlog | _S* _XOr("failed to register regfile from stream %d: %s ",47,440363559) % i % error;
                     }
                 }
         }
@@ -541,12 +541,12 @@ void _VFS::_AfterMountPackage(svfs::PackagePtr& pkg, pchar_t pkgname, pchar_t in
             REGISTER_LoadRegData(+register_data, register_data.Count());
         if (pkgs_.Count()) pkg->LinkNext(+pkgs_.Last());
         pkgs_.Append(Forget(pkg));
-        XLOG | _S* _XOr("<VFS> package '%s' has been mounted %s",39,444079512)
+        XLOG | _S* _XOr("<VFS> package '%s' has been mounted %s",39,468216440)
         % pkgname
         % intern;
     }
     else
-        XLOG | _S* _XOr("<VFS> failed to mount %s package '%s': %s",42,447618418)
+        XLOG | _S* _XOr("<VFS> failed to mount %s package '%s': %s",42,461464961)
         % intern
         % pkgname
         % +sefa;
@@ -555,14 +555,14 @@ void _VFS::_AfterMountPackage(svfs::PackagePtr& pkg, pchar_t pkgname, pchar_t in
 unsigned _VFS::Mount(pwide_t msk, pchar_t pwd, bool atAppfold)
 {
     byte_t sign[16];
-    svfs::Md5S((pwd && pwd[0]) ? pwd : _XOr("password",9,450764098), sign);
+    svfs::Md5S((pwd && pwd[0]) ? pwd : _XOr("password",9,464938414), sign);
     return MountS(msk, sign, atAppfold);
 }
 
 unsigned _VFS::Mount_At(pwide_t source, pchar_t pwd, i64_t offs)
 {
     byte_t sign[16];
-    svfs::Md5S((pwd && pwd[0]) ? pwd : _XOr("password",9,449846576), sign);
+    svfs::Md5S((pwd && pwd[0]) ? pwd : _XOr("password",9,457926107), sign);
     return MountS_At(+source, +StringA(GetBasenameOfPath(source)), sign, offs);
 }
 
@@ -577,16 +577,16 @@ unsigned _VFS::MountS_At(DataStreamPtr ds, pchar_t pkgname, cbyte_t* pwdsign, i6
         if (!pkg->Open(+ds, offs, pwdsign, pkgname, sefa))
         {
             Unrefe(pkg);
-            XLOG | _S* _XOr("%s: %s",7,451091745) % pkgname % +sefa;
+            XLOG | _S* _XOr("%s: %s",7,459236807) % pkgname % +sefa;
         }
     }
     else
-        XLOG | _S* _XOr("%s: '%s does not exist'",24,452205844) % pkgname % ds->Identifier();
+        XLOG | _S* _XOr("%s: '%s does not exist'",24,458450419) % pkgname % ds->Identifier();
 
     if (pkg)
     {
         ++count;
-        _AfterMountPackage(pkg, pkgname, _XOr("externally",11,488250622), sefa);
+        _AfterMountPackage(pkg, pkgname, _XOr("externally",11,460416273), sefa);
     }
 
     return count;
@@ -615,7 +615,7 @@ unsigned _VFS::MountS(pwide_t mask, cbyte_t* pwdsign, bool atAppfold)
 
     unsigned count = 0;
     StringW pkgmask = mask;
-    XLOG | _S* _XOr("mounting packages by mask %s ...",33,489430252) % pkgmask;
+    XLOG | _S* _XOr("mounting packages by mask %s ...",33,453010688) % pkgmask;
     if (pkgmask)
     {
         if (atAppfold)
@@ -658,7 +658,7 @@ void _VFS::MoundDefaults()
                 StringA pkgname = catalog_->MntMask(i);
                 pkg = catalog_->MountS(i, catalog_->MountPwdsign(i), sefa);
                 if (pkg)
-                    _AfterMountPackage(pkg, +pkgname, _XOr("internally",11,491461833), sefa);
+                    _AfterMountPackage(pkg, +pkgname, _XOr("internally",11,457073958), sefa);
             }
             else
                 MountS(+StringW(catalog_->MntMask(i)), catalog_->MountPwdsign(i), true);
