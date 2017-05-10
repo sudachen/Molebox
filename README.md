@@ -1,4 +1,4 @@
-# Molebox
+# Molebox [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 Molebox Virtualization Solution is under GPL now.  
 The first public version released in 2004. Commercial development discontinued in 2014.
 
