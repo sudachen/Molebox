@@ -312,7 +312,7 @@ Full-Width Styles
   text-shadow: #111 0px 0px 10px;
 }
 
-.by_as_link, .by_as_link:link, .by_as_link:active, .by_as_link:visited {
+#project_tagline .by_as_link, #project_tagline  .by_as_link:link, #project_tagline  .by_as_link:active, .by_as_link:visited {
   color: #fffffb;
   font-size: 24px;
   font-weight: 300;
@@ -322,7 +322,7 @@ Full-Width Styles
   text-shadow: #111 0px 0px 10px;
 }
 
-.by_as_link:hover {
+#project_tagline .by_as_link:hover {
   color: #fffffb;
   font-size: 24px;
   font-weight: 300;
