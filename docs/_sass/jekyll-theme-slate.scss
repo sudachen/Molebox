@@ -60,8 +60,9 @@ body {
 h1, h2, h3, h4, h5, h6 {
   margin: 10px 0;
   font-weight: 700;
-  color:#222222;
-  font-family: 'Lucida Grande', 'Calibri', Helvetica, Arial, sans-serif;
+  color:#0090ff;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  /*font-family: 'Lucida Grande', 'Calibri', Helvetica, Arial, sans-serif;*/
   letter-spacing: -1px;
 }
 
@@ -295,6 +296,15 @@ Full-Width Styles
   padding: 10px 10px 10px 10px;
 }
 
+#header_wrap h1 {
+  color: #fffff8;
+} 
+
+#header_wrap h2 {
+  color: #fffff8;
+  font-family: 'Lucida Grande', 'Calibri', Helvetica, Arial, sans-serif;
+} 
+
 #project_title {
   margin: 0;
   color: #fffff8;
@@ -372,12 +382,6 @@ Full-Width Styles
 
 #footer_wrap {
   background: #fffffb;
-}
-
-
-#main_content h1 {
-  color: #8080ff;
-  font-family: 'Architects Daughter';
 }
 
 
