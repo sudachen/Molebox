@@ -312,6 +312,11 @@ Full-Width Styles
   text-shadow: #111 0px 0px 10px;
 }
 
+#project_tagline a:hover a:link a:active a:visited {
+  color: #fffffb;
+  fonrt: inherit;
+}
+
 #downloads {
   position: absolute;
   width: 210px;
