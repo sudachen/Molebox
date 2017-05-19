@@ -321,6 +321,10 @@ Full-Width Styles
   text-shadow: #111 0px 0px 10px;
 }
 
+.by_as_link:hover {
+  text-decoration: underline;
+}
+
 #downloads {
   position: absolute;
   width: 210px;
