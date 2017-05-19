@@ -322,6 +322,12 @@ Full-Width Styles
 }
 
 .by_as_link:hover {
+  color: #fffffb;
+  font-size: 24px;
+  font-weight: 300;
+  font-style: italic;
+  background: none;
+  text-shadow: #111 0px 0px 10px;
   text-decoration: underline;
 }
 
