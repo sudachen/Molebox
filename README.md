@@ -19,16 +19,16 @@ makeall.cmd
 
 ## User Manual
 
-[Overview](sudachen.github.io/Molebox/#overview)
-[Features](sudachen.github.io/Molebox/#features)
-[System Requirements](sudachen.github.io/Molebox/#system-requirements)
-[How To Package Your Application](sudachen.github.io/Molebox/#how-to-package-your-application)
-[Creating Packages Through GUI](sudachen.github.io/Molebox/#creating-packages-through-gui)
-+ [Setting Package Options](sudachen.github.io/Molebox/#setting-package-options)
-+ [Adding Files](sudachen.github.io/Molebox/#adding-files)
-+ [Important notice on virtual paths](sudachen.github.io/Molebox/#important-notice-on-virtual-paths)
-+ [Compiling the Package](sudachen.github.io/Molebox/#compiling-the-package)
-[Creating Packages Through Command Line](sudachen.github.io/Molebox/#creating-packages-through-command-line)
-[Creating Patches and Updates](sudachen.github.io/Molebox/#creating-patches-and-updates)
++[Overview](sudachen.github.io/Molebox/#overview)
++[Features](sudachen.github.io/Molebox/#features)
++[System Requirements](sudachen.github.io/Molebox/#system-requirements)
++[How To Package Your Application](sudachen.github.io/Molebox/#how-to-package-your-application)
++[Creating Packages Through GUI](sudachen.github.io/Molebox/#creating-packages-through-gui)
+- [Setting Package Options](sudachen.github.io/Molebox/#setting-package-options)
+- [Adding Files](sudachen.github.io/Molebox/#adding-files)
+- [Important notice on virtual paths](sudachen.github.io/Molebox/#important-notice-on-virtual-paths)
+- [Compiling the Package](sudachen.github.io/Molebox/#compiling-the-package)
++ [Creating Packages Through Command Line](sudachen.github.io/Molebox/#creating-packages-through-command-line)
++ [Creating Patches and Updates](sudachen.github.io/Molebox/#creating-patches-and-updates)
 
 
