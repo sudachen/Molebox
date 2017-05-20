@@ -1,6 +1,13 @@
-theme: jekyll-theme-slate
 
+theme: jekyll-theme-slate
 title: Molebox Virtualization Solution
 github:
-  repository_url: https://github.com/sudachen/Molebox
+  - repository_url: https://github.com/sudachen/Molebox
+gems:
+  - jekyll-feed
+  - jekyll-theme-slate
+exclude:
+  - Gemfile
+  - Gemfile.lock
+
 
