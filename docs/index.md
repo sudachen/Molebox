@@ -3,9 +3,9 @@
 
 **MoleBox Virtualization Solution** (_MoleBox VS_) creates application-specific and secure virtual environment for your software applications, isolating them from the underlaying operating system and other software installed and running on the host device. It is achieved by placing the application and all of its elements into managed packages which form the following virtual layers in runtime:
 
->**Virtual file system**: provides the application with transparent access to original files while protecting them from unauthorized use
++ **Virtual file system**: provides the application with transparent access to original files while protecting them from unauthorized use
 
->**Virtual registry**: allows using ActiveX components without registration and overriding existing registry values while protecting the host registry from modifications
++ **Virtual registry**: allows using ActiveX components without registration and overriding existing registry values while protecting the host registry from modifications
 
 **Create virtual environment for your software**
 
