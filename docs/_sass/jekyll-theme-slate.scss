@@ -51,7 +51,7 @@ body {
 */
   color:#212121;
   background: #fffffb;
-  font-size: 16px;
+  font-size: 18px;
   font-family: 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
@@ -63,13 +63,12 @@ h1, h2, h3, h4, h5, h6 {
   color:#0090ff;
   font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
   /*font-family: 'Lucida Grande', 'Calibri', Helvetica, Arial, sans-serif;*/
-  letter-spacing: -1px;
 }
 
 h1 {
   font-size: 36px;
   font-weight: 700;
-  font-family: 'Architects Daughter';
+  letter-spacing: -1px;
 }
 
 h2 {
@@ -96,6 +95,10 @@ h6 {
 
 p {
   margin: 10px 0 15px 0;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a{
+  letter-spacing: 3px;
 }
 
 footer p {
@@ -337,6 +340,36 @@ Full-Width Styles
   right: 0;
   height: 70px;
   background: url('../images/icon_download.png') no-repeat 0% 90%;
+}
+
+img.padding_20 {
+  padding: 5px 20px 5px 20px;
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -ms-box-shadow: none;
+}
+
+img.padding_0 {
+  padding: 5px 0px 5px 0px;
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -ms-box-shadow: none;
+}
+
+img.padding_0_0 {
+  padding: 0px;
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+  -ms-box-shadow: none;
 }
 
 .zip_download_link {
