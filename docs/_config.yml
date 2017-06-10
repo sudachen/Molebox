@@ -1,7 +1,8 @@
 
 theme: jekyll-theme-slate
-title: Molebox Virtualization Solution
+title: Molebox Virtualization
 google_analytics: UA-99577378-1
+repository: sudachen/Molebox
 github:
   repository_url: https://github.com/sudachen/Molebox
 gems:
