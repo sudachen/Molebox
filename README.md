@@ -1,5 +1,5 @@
 # Molebox [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
-Molebox Virtualization Solution is under GPL now.  
+Molebox Virtualization Solution.  
 The first public version released in 2004. Commercial support discontinued in 2014.
 
 MoleBox lets you convert your application into an all-sufficient stand-alone executable, containing everything needed: components, media assets, registry entries. Moleboxed environment is private, which means that all packaged elements are available to your application only.
